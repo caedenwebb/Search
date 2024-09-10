@@ -30,12 +30,10 @@ def main():
             filelist = SearchName.SearchName(sys.argv[1], sys.argv[3])
 
             # Print out file list
-            print('\n\n')
-            print(f'Results ({len(filelist)}):\n')
+            print(f'\nResults ({len(filelist)}):\n')
             for item in filelist:
                 print(item)
-            print('\n\n')
-
+            print('')
         else:
             print(f'Error: No search pattern provided.\n')
 
@@ -47,6 +45,10 @@ def main():
 
     if (sys.argv[2] == 'date-created'):
         exit()
+
+    if (sys.argv[2] == 'date-modified'):
+        exit()
+
 
     print(f'Error: Invalid attribute: \'{sys.argv[2]}\'.')
 
