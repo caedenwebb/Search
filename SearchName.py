@@ -9,8 +9,6 @@ def SearchName(SearchDir, SearchPattern) -> list:
     :return: A list of directories and files whose names match the search term
     '''
 
-    pass
-
     try:
         itemlist = os.listdir(SearchDir)
     except PermissionError:
