@@ -1,6 +1,7 @@
 import os
 import sys
 import SearchName
+import time
 
 def main():
 
@@ -10,7 +11,7 @@ def main():
 
     if (len(sys.argv) < 2):
         print('Usage: search [directory] [attribute] [pattern]')
-        print('Data Attributes to Search:')
+        print('\nData Attributes to Search:')
         print('filename ------------------ returns files and directories containing the given pattern in their filenames')
         print('file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
         print('date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
@@ -27,13 +28,17 @@ def main():
 
     if (sys.argv[2] == 'filename'):
         if (len(sys.argv) > 3 and sys.argv[3] != ''):
+            startTime = time.time_ns()
             filelist = SearchName.SearchName(sys.argv[1], sys.argv[3])
+            endTime = time.time_ns()
+            timeUsed = endTime - startTime
 
             # Print out file list
-            print(f'\nResults ({len(filelist)}):\n')
+            print(f'\nResults ({len(filelist)} results, {timeUsed}ns):\n')
             for item in filelist:
                 print(item)
             print('')
+
         else:
             print(f'Error: No search pattern provided.\n')
 
