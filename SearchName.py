@@ -10,7 +10,11 @@ def SearchName(SearchDir, SearchPattern) -> list:
 
     pass
 
-    itemlist = os.listdir(SearchDir)
+    try:
+        itemlist = os.listdir(SearchDir)
+    except PermissionError:
+        return []
+
     returnList = []
 
     for item in itemlist:
