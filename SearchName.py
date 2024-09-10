@@ -11,19 +11,29 @@ def SearchName(SearchDir, SearchPattern) -> list:
     pass
 
     itemlist = os.listdir(SearchDir)
+    returnList = []
 
     for item in itemlist:
         # If the item is a directory
         if (os.path.isdir(SearchDir + "/" + item)):
-            pass
+            if (SearchString(item, SearchPattern) == True):
+                returnList.append(f'{SearchDir}/{item}')
+                for subitem in SearchName(SearchDir + '/' + item, SearchPattern):
+                    returnList.append(subitem)
+            else:
+                for subitem in SearchName(SearchDir + '/' + item, SearchPattern):
+                    returnList.append(subitem)
         # If the item is a file
         else:
-            pass
+            if (SearchString(item, SearchPattern) == True):
+                returnList.append(f'{SearchDir}/{item}')
+            else:
+                continue
 
-    return []
+    return returnList
 
 
-def SearchString(SearchString, Pattern) -> bool:
+def SearchString(SearchString, PatternString) -> bool:
     '''
     Takes in a string to search for a pattern, and returns whether the string contains the pattern
     :param SearchString: Takes in a string to search for a pattern
@@ -32,19 +42,32 @@ def SearchString(SearchString, Pattern) -> bool:
     '''
 
     SearchStringLen = len(SearchString)
-    PatternStringLen = len(Pattern)
+    PatternStringLen = len(PatternString)
 
     if (PatternStringLen > SearchStringLen):
         return False
     elif (PatternStringLen == SearchStringLen):
-        if (Pattern == SearchString):
+        if (PatternString == SearchString):
             return True
         else:
             return False
     else:
-        IterationValue = PatternStringLen
-        IndexVal = 0  #  start index value
-        while (IterationValue <= SearchStringLen):
-            while (IndexVal <= IndexVal + PatternStringLen):
-                CmpRes = []
-                if (SearchString[IndexVal] == PatternString[IndexVal])
+        offset = 0
+        Index = 0
+        Equal = True
+        while (PatternStringLen + offset <= SearchStringLen):
+            Equal = True
+            for char in PatternString:
+                if (PatternString[Index] == SearchString[Index + offset]):
+                    Index = Index + 1
+                    continue
+                else:
+                    Equal = False
+                    break
+            if (Equal == True):
+                return True
+            else:
+                Index = 0
+                offset = offset + 1
+                continue
+        return False
