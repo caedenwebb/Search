@@ -10,7 +10,7 @@ def main():
     SearchPattern = ''
 
     if (len(sys.argv) < 2):
-        print('Usage: search [directory] [attribute] [pattern]')
+        print('\nUsage: search [directory] [attribute] [pattern]')
         print('\nData Attributes to Search:')
         print('filename ------------------ returns files and directories containing the given pattern in their filenames')
         print('file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
