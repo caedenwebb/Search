@@ -1,1 +1,4 @@
 .venv/
+search.spec
+build/
+dist/
