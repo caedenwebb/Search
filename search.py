@@ -1,6 +1,7 @@
 import os
 import sys
 import SearchName
+import SearchFileSize
 import time
 
 def main():
@@ -16,15 +17,15 @@ def main():
         print('file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
         print('date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
         print('date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
-        exit()
+        sys.exit()
 
     if (os.path.exists(sys.argv[1]) == False or os.path.isdir(sys.argv[1]) == False):
         print(f'Error: Invalid path: \'{sys.argv[1]}\' entered.\n')
-        exit()
+        sys.exit()
 
     if (len(sys.argv) < 3 or sys.argv[2] == ''):
         print('Error: No attribute provided to search.\n')
-        exit()
+        sys.exit()
 
     if (sys.argv[2] == 'filename'):
         if (len(sys.argv) > 3 and sys.argv[3] != ''):
@@ -42,17 +43,39 @@ def main():
         else:
             print(f'Error: No search pattern provided.\n')
 
-        exit()
+        sys.exit()
 
     if (sys.argv[2] == 'file-size'):
-        pass
-        exit()
+        sizeRange = sys.argv[3].split('-')
+        try:
+            minimum = sizeRange[0]
+            maximum = sizeRange[1]
+
+            minVal = int(sizeRange[0])
+            maxVal = int(sizeRange[1])
+
+        except IndexError:
+            print("Error: Input size ranges as follows: [minimum]-[maximum]")
+        except ValueError:
+            print("Error: Search only accepts integer size ranges")
+
+        startTime = time.time_ns()
+        filelist = SearchFileSize.SearchFileSize(sys.argv[1], minVal, maxVal)
+        endTime = time.time_ns()
+        timeUsed = endTime - startTime
+
+        # Print out file list
+        print(f'\nResults ({len(filelist)} results, {timeUsed}ns):\n')
+        for item in filelist:
+            print(item)
+        print('')
+        sys.exit()
 
     if (sys.argv[2] == 'date-created'):
-        exit()
+        sys.exit()
 
     if (sys.argv[2] == 'date-modified'):
-        exit()
+        sys.exit()
 
 
     print(f'Error: Invalid attribute: \'{sys.argv[2]}\'.')
