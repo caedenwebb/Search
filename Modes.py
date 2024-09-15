@@ -122,14 +122,16 @@ def FileContentMode():
             print(f'Skipping \'{file}\' because it does not exist...')
 
     # Parse the pattern
-
-
-
-
-
+    pattern = sys.argv[3]
 
     # Parse the additional flags input by the user
-
+    recursiveFlag = False
+    outputLines = True
+    outputPaths = True
+    if (len(sys.argv) >= 5):
+        currentIndex = 4
+        while (currentIndex < len(sys.argv)):
+            currentIndex = currentIndex + 1
 
 
     # Execute the search
