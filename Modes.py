@@ -8,11 +8,12 @@ def AttributeMode():
 
     # When only the mode is specified
     if (len(sys.argv) < 3):
-        print('\nData Attributes to Search:')
-        print('filename ------------------ returns files and directories containing the given pattern in their filenames')
-        print('file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
-        print('date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
-        print('date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
+        print('\nUsage: search -a [directory] [attribute] [pattern]')
+        print('\n   Data Attributes to Search:\n')
+        print('   filename ------------------ returns files and directories containing the given pattern in their filenames')
+        print('   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
+        print('   date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
+        print('   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
         sys.exit() # For exiting to ensure that the following if statements do not run
 
     # When input is: "search" followed by a space and then an invalid or non-existent path.
@@ -91,14 +92,23 @@ def AttributeMode():
     print(f'Error: Invalid attribute: \'{sys.argv[3]}\'.')
 
 def FileContentMode():
+    # If the user types "search -f"
     if (len(sys.argv) < 3):
-        print('\nUsage: search -f [file/directory] [patterh] [additional flags for File Content Mode]')
+        print('\nUsage: search -f [files/directories] [patterh] [additional flags for File Content Mode]')
+        print('\n  Listing files and directories: Files and directories should be listed in quotes and separated by semicolons')
+        print('       Ex: ')
+        print('          On Windows: "C:/Users/John Doe;C:/testfile.txt"')
+        print('          On Unix: "/home/John Doe;/testfile.txt"')
         print('\n  Flags for File Content Mode:\n')
-        print('     1. \'/r\' (recursive) ------------------ useful for directories only; purpose is to tell search to recursively search the files in any subdirectories of the provided directory')
+        print('     1. \'/r\' (recursive) ------------------ recursively search the files in any subdirectories of the provided directories')
         print('     2. \'/l\' (output-lines) --------------- tells search to output the lines of the file or files containing the pattern')
         print('     3. \'/p\' (output-paths) --------------- tells search to output paths of files matching the pattern')
         print('\n     NOTE: Please note that recursively searching directories may take a long time.')
         print() # Insert newline under final print
+        sys.exit()
+
+
+
 
 def InputMode():
     pass

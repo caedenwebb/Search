@@ -11,9 +11,10 @@ def main():
     if (len(sys.argv) < 2):
         print('\nUsage: search [search mode] [arguments]') # [directory/file] [attribute] [pattern]
         print('\nSearch Modes:')
-        print('-a Attribute mode ---------- Searches the attributes of files and directories within a directory for a specific pattern')
-        print('-f File content mode ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')
-        print('-i Input mode -------------- Searches input text for a given pattern')
+        print('\'-a\' Attribute mode ---------- Searches the attributes of files and directories within a directory for a specific pattern')
+        print('\'-f\' File content mode ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')
+        print('\'-i\' Input mode -------------- Searches input text for a given pattern')
+        print()
         sys.exit()
 
     # Determine the search mode
