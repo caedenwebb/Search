@@ -91,7 +91,14 @@ def AttributeMode():
     print(f'Error: Invalid attribute: \'{sys.argv[3]}\'.')
 
 def FileContentMode():
-    pass
+    if (len(sys.argv) < 3):
+        print('\nUsage: search -f [file/directory] [patterh] [additional flags for File Content Mode]')
+        print('\n  Flags for File Content Mode:\n')
+        print('     1. \'/r\' (recursive) ------------------ useful for directories only; purpose is to tell search to recursively search the files in any subdirectories of the provided directory')
+        print('     2. \'/l\' (output-lines) --------------- tells search to output the lines of the file or files containing the pattern')
+        print('     3. \'/p\' (output-paths) --------------- tells search to output paths of files matching the pattern')
+        print('\n     NOTE: Please note that recursively searching directories may take a long time.')
+        print() # Insert newline under final print
 
 def InputMode():
     pass
