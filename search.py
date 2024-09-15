@@ -15,7 +15,7 @@ def main():
         print('-f File content mode ------- Searches the content of a file for a given pattern')
         print('-d Directory contents mode - Searches the contents of a directory (that is, the contents of its files and directories) for a given pattern')
         print('-i Input mode -------------- Searches input text for a given pattern')
-
+        sys.exit()
     # Determine the search mode
 
     # Attribute Mode
