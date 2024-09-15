@@ -5,6 +5,16 @@ import SearchFileSize
 import time
 
 def AttributeMode():
+
+    # When only the mode is specified
+    if (len(sys.argv) < 3):
+        print('\nData Attributes to Search:')
+        print('filename ------------------ returns files and directories containing the given pattern in their filenames')
+        print('file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
+        print('date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
+        print('date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
+        sys.exit() # For exiting to ensure that the following if statements do not run
+
     # When input is: "search" followed by a space and then an invalid or non-existent path.
     if (os.path.exists(sys.argv[2]) == False or os.path.isdir(sys.argv[2]) == False):
         print(f'Error: Invalid path: \'{sys.argv[2]}\' entered.\n')
