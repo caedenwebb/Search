@@ -94,9 +94,9 @@ def AttributeMode():
 def FileContentMode():
     # If the user types "search -f"
     if (len(sys.argv) < 3):
-        print('\nUsage: search -f [files/directories] [patterh] [additional flags for File Content Mode]')
+        print('\nUsage: search -f [files/directories] [pattern] [additional flags for File Content Mode]')
         print('\n  Listing files and directories: Files and directories should be listed in quotes and separated by semicolons')
-        print('       Ex: ')
+        print('\n       Ex: ')
         print('          On Windows: "C:/Users/John Doe;C:/testfile.txt"')
         print('          On Unix: "/home/John Doe;/testfile.txt"')
         print('\n  Flags for File Content Mode:\n')
@@ -107,8 +107,39 @@ def FileContentMode():
         print() # Insert newline under final print
         sys.exit()
 
+    if (len(sys.argv) < 4):
+        print('Error: No search pattern has been entered.')
+        sys.exit()
+
+    # Parse directories and files input by the user
+    inputFileArgument = sys.argv[2]
+    inputFileList = sys.argv[2].split(';')
+    filteredFileList = []
+    for file in inputFileList:
+        if (os.path.exists(file)):
+            filteredFileList.append(file)
+        else:
+            print(f'Skipping \'{file}\' because it does not exist...')
+
+    # Parse the pattern
 
 
+
+
+
+
+    # Parse the additional flags input by the user
+
+
+
+    # Execute the search
+
+
+    # Print results
+
+
+    # Exit
+    sys.exit()
 
 def InputMode():
     pass
