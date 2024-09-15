@@ -11,7 +11,7 @@ def main():
     SearchPattern = ''
 
     if (len(sys.argv) < 2):
-        print('\nUsage: search [directory] [attribute] [pattern]')
+        print('\nUsage: search [mode] [arguments]') # [directory/file] [attribute] [pattern]
         print('\nData Attributes to Search:')
         print('filename ------------------ returns files and directories containing the given pattern in their filenames')
         print('file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
@@ -56,8 +56,10 @@ def main():
 
         except IndexError:
             print("Error: Input size ranges as follows: [minimum]-[maximum]")
+            sys.exit()
         except ValueError:
             print("Error: Search only accepts integer size ranges")
+            sys.exit()
 
         startTime = time.time_ns()
         filelist = SearchFileSize.SearchFileSize(sys.argv[1], minVal, maxVal)
