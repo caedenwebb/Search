@@ -93,8 +93,5 @@ def AttributeMode():
 def FileContentMode():
     pass
 
-def DirectoryContentMode():
-    pass
-
 def InputMode():
     pass
