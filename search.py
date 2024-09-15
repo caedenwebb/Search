@@ -22,16 +22,24 @@ def main():
         print('-d Directory contents mode - Searches the contents of a directory (that is, the contents of its files and directories) for a given pattern')
         print('-i Input mode -------------- Searches input text for a given pattern')
 
+    # Determine the search mode
+
+    # Attribute Mode
     if (sys.argv[1] == '-a'):
         Modes.AttributeMode()
+    # File Content Mode
     elif (sys.argv[1] == '-f'):
         Modes.FileContentMode()
+    # Directory Content Mode
     elif (sys.argv[1] == '-d'):
         Modes.DirectoryContentMode()
+    # Input Mode
     elif (sys.argv[1] == '-i'):
         Modes.InputMode()
+    # Invalid Mode
+    else:
+        print(f"Error: Invalid mode: '{sys.argv[1]}'")
 
-    sys.exit()
 
 if __name__ == "__main__":
     main()
