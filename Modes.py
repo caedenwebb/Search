@@ -71,13 +71,13 @@ def AttributeMode():
 
         # Execute the search
         startTime = time.time_ns()
-        filelist = SearchFileSize.SearchFileSize(sys.argv[2], minVal, maxVal)
+        res = SearchFileSize.SearchFileSize(sys.argv[2], minVal, maxVal)
         endTime = time.time_ns()
         timeUsed = endTime - startTime
 
         # Print out file list
-        print(f'\nResults ({len(filelist)} results, {timeUsed}ns):\n')
-        for item in filelist:
+        print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
+        for item in res[0]:
             print(item)
         print('')
         sys.exit()  # For exiting to ensure that the following if statements do not run
@@ -133,8 +133,8 @@ def FileContentMode():
         while (currentIndex < len(sys.argv)):
             currentIndex = currentIndex + 1
 
-
     # Execute the search
+
 
 
     # Print results
