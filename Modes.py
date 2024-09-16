@@ -69,6 +69,12 @@ def AttributeMode():
             print("Error: Search only accepts integer size ranges")
             sys.exit()  # For exiting to ensure that the following if statements do not run
 
+
+        # Check if the size range minimum is smaller than or equal to the maximum:
+        if (minVal > maxVal):
+            print(f"\nError: Search minimum '{minVal}' is greater than search maximum '{maxVal}'. Did you mean '{maxVal}-{minVal}?'\n")
+            sys.exit()
+
         # Execute the search
         startTime = time.time_ns()
         res = SearchFileSize.SearchFileSize(sys.argv[2], minVal, maxVal)
@@ -83,6 +89,7 @@ def AttributeMode():
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
     if (sys.argv[3] == 'date-created'):
+
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
     if (sys.argv[3] == 'date-modified'):
