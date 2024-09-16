@@ -151,4 +151,27 @@ def FileContentMode():
     sys.exit()
 
 def InputMode():
-    pass
+    if (len(sys.argv) < 3):
+        print(f'Usage: search -i [files/directories] [pattern]')
+        print('\n  Listing files and directories: Files and directories should be listed in quotes and separated by semicolons')
+        print('\n       Ex: ')
+        print('          On Windows: "C:/Users/John Doe;C:/testfile.txt"')
+        print('          On Unix: "/home/John Doe;/testfile.txt"')
+        print('\n     NOTE: Please note that recursively searching directories may take a long time.')
+        print()  # Insert newline under final print
+        sys.exit()
+
+    pathList = sys.argv[2].split(';')
+    searchList = []
+    print()
+
+    if (len(sys.argv) < 4):
+        print('Error: No search pattern provided.\n')
+        sys.exit()
+
+    for path in pathList:
+        if(os.path.exists(path)):
+            searchList.append(path)
+        else:
+            print(f'\'{path}\' is a non-existent file or directory...Skipping...')
+    print()
