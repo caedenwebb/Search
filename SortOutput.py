@@ -2,17 +2,17 @@ import os
 import sys
 
 
-def Alphabetize(filelist):
+def Alphabetize(filelist: list):
     pass
 
-def SmallestToLargest(filelist):
+def SmallestToLargest(filelist: list):
     pass
 
-def LargestToSmallest(filelist):
+def LargestToSmallest(filelist: list):
     pass
 
-def OldestToNewest(filelist):
+def OldestToNewest(filelist: list):
     pass
 
-def NewestToOldest(filelist):
+def NewestToOldest(filelist: list):
     pass
