@@ -14,6 +14,7 @@ def AttributeMode():
         print('   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
         print('   date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
         print('   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
+
         sys.exit() # For exiting to ensure that the following if statements do not run
 
     # When input is: "search" followed by a space and then an invalid or non-existent path.
@@ -89,6 +90,16 @@ def AttributeMode():
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
     if (sys.argv[3] == 'date-created'):
+        # Check that a search pattern was provided
+        if (len(sys.argv) < 5):
+            print('Error: No search pattern provided.\n')
+            sys.exit()
+
+        # Check that the search pattern is valid
+
+
+
+
 
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
@@ -152,26 +163,11 @@ def FileContentMode():
 
 def InputMode():
     if (len(sys.argv) < 3):
-        print(f'Usage: search -i [files/directories] [pattern]')
-        print('\n  Listing files and directories: Files and directories should be listed in quotes and separated by semicolons')
-        print('\n       Ex: ')
-        print('          On Windows: "C:/Users/John Doe;C:/testfile.txt"')
-        print('          On Unix: "/home/John Doe;/testfile.txt"')
-        print('\n     NOTE: Please note that recursively searching directories may take a long time.')
+        print(f'\nUsage: search -i [text] [pattern] [flags]')
+        print('\n  NOTE: Input text must be put in quotes. Ex: "C:/Users/John Doe"')
+        print('\n  Flags:')
+        print('\n      Output Flags:')
+        print('\n           \'/ret\' (return) ---------------- returns all instances in the text matching the pattern, each on a separate line')
+        print('           \'/bool\' (boolean) -------------- returns true if some instance in text matches the pattern, otherwise returns false')
         print()  # Insert newline under final print
         sys.exit()
-
-    pathList = sys.argv[2].split(';')
-    searchList = []
-    print()
-
-    if (len(sys.argv) < 4):
-        print('Error: No search pattern provided.\n')
-        sys.exit()
-
-    for path in pathList:
-        if(os.path.exists(path)):
-            searchList.append(path)
-        else:
-            print(f'\'{path}\' is a non-existent file or directory...Skipping...')
-    print()
