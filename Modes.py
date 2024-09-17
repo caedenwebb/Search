@@ -1,8 +1,11 @@
+# Python Libraries
 import os
 import sys
+import time
+
+# Internal Project Files
 import SearchName
 import SearchFileSize
-import time
 
 def AttributeMode():
 

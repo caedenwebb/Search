@@ -1,9 +1,15 @@
+# Python Libraries
 import os
 import sys
+import time
+
+# Internal Project Files
 import SearchName
 import SearchFileSize
-import time
 import Modes
+
+# External Libraries
+
 
 def main():
 

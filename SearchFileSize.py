@@ -1,4 +1,9 @@
+# Python Libraries
 import os
+
+# Internal Project Files
+
+# External Libraries
 
 def SearchFileSize(dir, min_bytes, max_bytes) -> list:
     '''

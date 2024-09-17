@@ -1,5 +1,10 @@
+# Python Libraries
 import os
+
+# Internal Project Files
 from utils import SearchString
+
+# External Libraries
 
 def SearchName(SearchDir, SearchPattern) -> list:
     '''

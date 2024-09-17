@@ -1,7 +1,12 @@
+# Python Libraries
 import os
 import sys
+
+# Internal Project Files
 import FileClass
 import utils
+
+# External Libraries
 
 def SearchFile(path, pattern) -> tuple:
     matchesPattern = False
