@@ -6,6 +6,7 @@ import time
 # Internal Project Files
 import SearchName
 import SearchFileSize
+import utils
 
 def AttributeMode():
 
@@ -98,11 +99,14 @@ def AttributeMode():
             print('Error: No search pattern provided.\n')
             sys.exit()
 
-        # Check that the search pattern is valid
-
-
-
-
+        # Check that the search pattern is valid (i.e. that all dates are valid dates; that all date ranges are valid date ranges; and that all sets of dates are separated by semicolons)
+        dateSets = sys.argv[4].split(';')
+        for dateSet in dateSets:
+            sDateSet = dateSet.split('-')
+            firstDate = sDateSet[0]
+            lastDate = sDateSet[1]
+            utils.CheckDate(firstDate)
+            utils.CheckDate(lastDate)
 
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
