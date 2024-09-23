@@ -158,10 +158,15 @@ def DateCreatedSearch():
     dateSets = sys.argv[4].split(';')
     for dateSet in dateSets:
         sDateSet = dateSet.split('-')
+        if (len(sDateSet) == 1):
+            utils.CheckDate(sDateSet[0])
+            continue
         firstDate = sDateSet[0]
         lastDate = sDateSet[1]
         utils.CheckDate(firstDate)
         utils.CheckDate(lastDate)
+
+
 
 def AttributeSearchInstructions(tab=''):
     print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern]')
@@ -189,4 +194,4 @@ def AttributeSearchInstructions(tab=''):
     print(f'{tab}      Examples:')
     print(f'{tab}         1. search -a [directory] date-created "1/2/2015-1/3/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive')
     print(f'{tab}         2. search -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive, \n{tab}{tab} as well as any files created on January 9, 2016')
-    print(f'{tab}         3. search -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016-1/10/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive\n{tab}{tab} as well as all files created on January 9, 2016 or January 10, 2016')
+    print(f'{tab}         3. search -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016-1/10/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive\n{tab}{tab} as well as all files created on January 9, 2016 or January 10, 2016\n')
