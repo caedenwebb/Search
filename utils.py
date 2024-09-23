@@ -105,5 +105,10 @@ def CheckDate(date: str):
         # February
         else:
             pass
-def CheckDateRange(date: str):
-    pass
+def CheckDateRange(firstDate: str, secondDate: str):
+    lFirstDate = secondDate.split('/')
+    lSecondDate = secondDate.split('/')
+
+    if (lSecondDate[2] > lFirstDate[2]):
+        print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'')
+        sys.exit()
