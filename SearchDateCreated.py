@@ -7,5 +7,5 @@ import datetime
 
 # External Libraries
 
-def SearchDateCreated(dir):
+def SearchDateCreated(dir, pattern):
     pass
