@@ -154,7 +154,7 @@ def DateCreatedSearch():
         print('Error: No search pattern provided.\n')
         sys.exit()
 
-    # Check that the search pattern is valid (i.e. that all dates are valid dates; that all date ranges are valid date ranges; and that all sets of dates are separated by semicolons)
+    # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
     for dateSet in dateSets:
         sDateSet = dateSet.split('-')
@@ -166,7 +166,13 @@ def DateCreatedSearch():
         utils.CheckDate(firstDate)
         utils.CheckDate(lastDate)
 
-
+    # Sanity checks on date ranges
+    for dateSet in dateSets:
+        sDateSet = dateSet.split('-')
+        if (len(sDateSet) == 1):
+            continue
+        else:
+            pass
 
 def AttributeSearchInstructions(tab=''):
     print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern]')
