@@ -28,3 +28,9 @@ class File:
 class Directory:
     def __init__(self, path):
         self.path = path
+        self.filename = ''
+        self.size = ''
+        self.date_created = ''
+        self.date_modified = ''
+        self.ReturnData = []
+
