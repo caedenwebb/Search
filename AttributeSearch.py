@@ -172,7 +172,12 @@ def DateCreatedSearch():
         if (len(sDateSet) == 1):
             continue
         else:
-            pass
+            utils.CheckDateRange(sDateSet[0], sDateSet[1])
+
+    # Execute search on date ranges
+
+    # Print results
+
 
 def AttributeSearchInstructions(tab=''):
     print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern]')
