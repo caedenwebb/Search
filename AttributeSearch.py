@@ -68,22 +68,62 @@ def FileSizeSearch():
         print('Error: No size range provided.\n')
         sys.exit()
     '''
-    Size ranges are to be specified by the user as follows: "[minimum]-[maximum]"
+    Size ranges are to be specified by the user as follows: "[minimum]-[maximum][sizeUnit]"
+    
+    Supported size units:
+        1. b ----- bytes
+        2. kb ---- kilobytes
+        3. mb ---- megabytes
+        4. gb ---- gigabytes
+        5. tb ---- terabytes
+    
     '''
-    sizeRange = sys.argv[4].split(
-        '-')  # Take search argument and split it into a list with two members based on the hyphen
+
+    sizeRange = sys.argv[4].split('-')  # Take search argument and split it into a list with two members based on the hyphen
 
     # Attempt to determine the maximum and minimum ranges by obtaining it from the list and converting them to integers
     try:
-        minimum = sizeRange[0]
-        maximum = sizeRange[1]
+        rightValue = sizeRange[1]
 
-        minVal = int(sizeRange[0])
-        maxVal = int(sizeRange[1])
+        maximumValueString = ''
+        curIndex = 0
+        for char in rightValue:
+            if (char.isnumeric()):
+                maximumValueString = maximumValueString + char
+                curIndex = curIndex + 1
+            else:
+                break
+
+        units = rightValue[curIndex:]
+        minVal = 0
+        maxVal = 0
+        if (units == '' or units == 'b'):
+            minVal = int(sizeRange[0])
+            maxVal = int(maximumValueString)
+
+        elif (units == 'kb'):
+            minVal = int(sizeRange[0])*1000
+            maxVal = int(maximumValueString)*1000
+
+        elif (units == 'mb'):
+            minVal = int(sizeRange[0])*1000*1000
+            maxVal = int(maximumValueString)*1000*1000
+
+        elif (units == 'gb'):
+            minVal = int(sizeRange[0])*1000*1000*1000
+            maxVal = int(maximumValueString)*1000*1000*1000
+
+        elif (units == 'tb'):
+            minVal = int(sizeRange[0])*1000*1000*1000*1000
+            maxVal = int(maximumValueString)*1000*1000*1000*1000
+
+        else:
+            print(f'Error: \'{units}\' is not a recognized unit.')
+            sys.exit()
 
     # If the user fails to input a range correctly (e.g. failure to use a hyphen to divide minimum and maximum)
     except IndexError:
-        print("Error: Input size ranges as follows: [minimum]-[maximum]\n")
+        print("Error: Input size ranges as follows: [minimum]-[maximum][sizeUnit]\n")
         sys.exit()
 
     # If the user inputs a range correctly, but specified anything that cannot be converted to an int (e.g. 30-15d)
@@ -93,8 +133,7 @@ def FileSizeSearch():
 
     # Check if the size range minimum is smaller than or equal to the maximum:
     if (minVal > maxVal):
-        print(
-            f"\nError: Search minimum '{minVal}' is greater than search maximum '{maxVal}'. Did you mean '{maxVal}-{minVal}?'\n")
+        print(f"\nError: Search minimum '{minVal}' is greater than search maximum '{maxVal}'. Did you mean '{maxVal}-{minVal}?'\n")
         sys.exit()
 
     # Execute the search
