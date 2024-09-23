@@ -6,7 +6,9 @@ import time
 # Internal Project Files
 import SearchName
 import SearchFileSize
-import Modes
+import AttributeSearch
+import FileContentSearch
+import InputSearch
 
 # External Libraries
 
@@ -26,13 +28,13 @@ def main():
     # Determine the search mode
     # Attribute Mode
     if (sys.argv[1] == '-a'):
-        Modes.AttributeMode()
+        AttributeSearch.AttributeSearch()
     # File Content Mode
     elif (sys.argv[1] == '-f'):
-        Modes.FileContentMode()
+        FileContentSearch.FileContentSearch()
     # Input Mode
     elif (sys.argv[1] == '-i'):
-        Modes.InputMode()
+        InputSearch.InputSearch()
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
