@@ -7,6 +7,7 @@ import time
 import SearchName
 import SearchFileSize
 import utils
+import SearchFileContent
 
 def AttributeMode():
 
@@ -147,6 +148,8 @@ def FileContentMode():
     inputFileList = sys.argv[2].split(';')
     filteredFileList = []
     for file in inputFileList:
+        if (file == ''):
+            continue
         if (os.path.exists(file)):
             filteredFileList.append(file)
         else:
@@ -162,14 +165,32 @@ def FileContentMode():
     if (len(sys.argv) >= 5):
         currentIndex = 4
         while (currentIndex < len(sys.argv)):
-            currentIndex = currentIndex + 1
+            if (sys.argv[currentIndex] == '/r'):
+                recursiveFlag = True
+                currentIndex = currentIndex + 1
+            elif (sys.argv[currentIndex] == '/l'):
+                outputLines = True
+                currentIndex = currentIndex + 1
+            elif (sys.argv[currentIndex] == '/p'):
+                outputPaths = True
+                currentIndex = currentIndex + 1
+            else:
+                currentIndex = currentIndex + 1
+                continue
 
-    # Execute the search
-
-
-
-    # Print results
-
+    # Execute the search and print results
+    dirNum = 1
+    for file in filteredFileList:
+        if (os.path.isdir(file) == True):
+            results = SearchFileContent.SearchDirectory(file, pattern, recursiveFlag)
+        else:
+            results = SearchFileContent.SearchFile(file, pattern)
+            print()
+            print(f'{dirNum}. {results[1].path}:\n')
+            for line in results[1].ReturnData:
+                print(f'\tln {line[0]} -- "{line[1]}"')
+            dirNum = dirNum + 1
+    print('\n')
 
     # Exit
     sys.exit()
