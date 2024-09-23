@@ -106,9 +106,20 @@ def CheckDate(date: str):
         else:
             pass
 def CheckDateRange(firstDate: str, secondDate: str):
-    lFirstDate = secondDate.split('/')
+    lFirstDate = firstDate.split('/')
     lSecondDate = secondDate.split('/')
-
-    if (lSecondDate[2] > lFirstDate[2]):
-        print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'')
+    # If the second year is later than the first year
+    if (int(lSecondDate[2]) < int(lFirstDate[2])):
+        print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
         sys.exit()
+    # If the year is the same
+    if (int(lSecondDate[2]) == int(lFirstDate[2])):
+        # If the second month is later than the first month
+        if (int(lSecondDate[0]) < int(lFirstDate[0])):
+            print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
+            sys.exit()
+        # if the second and first month are the same
+        if (int(lSecondDate[0]) == int(lFirstDate[0])):
+            if (int(lSecondDate[1]) < int(lFirstDate[1])):
+                print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
+                sys.exit()
