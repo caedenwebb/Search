@@ -12,13 +12,7 @@ def AttributeSearch():
 
     # When only the mode is specified
     if (len(sys.argv) < 3):
-        print('\nUsage: search -a [directory] [attribute] [pattern]')
-        print('\n   Data Attributes to Search:\n')
-        print('   filename ------------------ returns files and directories containing the given pattern in their filenames')
-        print('   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
-        print('   date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
-        print('   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
-
+        AttributeSearchInstructions()
         sys.exit() # For exiting to ensure that the following if statements do not run
 
     # When input is: "search" followed by a space and then an invalid or non-existent path.
@@ -129,3 +123,11 @@ def DateCreatedSearch():
         lastDate = sDateSet[1]
         utils.CheckDate(firstDate)
         utils.CheckDate(lastDate)
+
+def AttributeSearchInstructions(tab=''):
+    print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern]')
+    print(f'\n{tab}   Data Attributes to Search:\n')
+    print(f'{tab}   filename ------------------ returns files and directories containing the given pattern in their filenames')
+    print(f'{tab}   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
+    print(f'{tab}   date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
+    print(f'{tab}   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
