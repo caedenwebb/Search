@@ -54,6 +54,7 @@ def FileContentSearch():
 
     # Execute the search and print results
     dirNum = 1
+    print('\nResults:')
     for file in filteredFileList:
         if (os.path.isdir(file) == True):
             results = SearchFileContent.SearchDirectory(file, pattern, recursiveFlag)
