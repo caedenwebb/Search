@@ -60,10 +60,11 @@ def FileContentSearch():
         else:
             results = SearchFileContent.SearchFile(file, pattern)
             print()
-            print(f'{dirNum}. {results[1].path}:\n')
+            if (results[1].ReturnData != []):
+                print(f'{dirNum}. {results[1].path}:\n')
+                dirNum = dirNum + 1
             for line in results[1].ReturnData:
                 print(f'\tln {line[0]} -- "{line[1]}"')
-            dirNum = dirNum + 1
     print('\n')
 
     # Exit
