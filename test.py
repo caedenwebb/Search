@@ -1,5 +1,6 @@
 import unittest
 import utils
+import SearchDateCreated
 
 class MyTestCase(unittest.TestCase):
     def test_SearchString(self):
@@ -16,7 +17,10 @@ class MyTestCase(unittest.TestCase):
 
         print('Test of SearchString() complete!')
 
-
+    def test_SearchDateCreated_TestDateForMatch(self):
+        print('Testing TestDateForMatch()...')
+        self.assertEqual(SearchDateCreated.TestDateForMatch([3, 2, 2015], ['3/2/2015']), True)
+        print('Test of TestDateForMatch() complete!')
 
 if __name__ == '__main__':
     unittest.main()
