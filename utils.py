@@ -87,19 +87,19 @@ def CheckDate(date: str):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of August (1-31)\n.')
                 sys.exit()
         elif (date.split('/')[0] == '9'):
-            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1] >= 31)):
+            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 31):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of September (1-30)\n.')
                 sys.exit()
         elif (date.split('/')[0] == '10'):
-            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1] >= 32)):
+            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of October (1-31)\n.')
                 sys.exit()
         elif (date.split('/')[0] == '11'):
-            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1] >= 31)):
+            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 31):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of November (1-30)\n.')
                 sys.exit()
         elif (date.split('/')[0] == '12'):
-            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1] >= 32)):
+            if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of December (1-31)\n.')
                 sys.exit()
         # February
