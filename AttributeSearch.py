@@ -3,7 +3,7 @@ import os
 import sys
 import time
 
-import SearchDateCreated
+import SearchDate
 # Internal Project Files
 import SearchName
 import SearchFileSize
@@ -40,6 +40,7 @@ def AttributeSearch():
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
     if (sys.argv[3] == 'date-modified'):
+        DateModifiedSearch()
         sys.exit()  # For exiting to ensure that the following if statements do not run
 
     # When an unsupported or invalid attribute is specified
@@ -177,15 +178,54 @@ def DateCreatedSearch():
 
     # Execute search on date ranges
     starttime = time.time_ns()
-    results = SearchDateCreated.SearchDateCreated(sys.argv[2], dateSets, False)
+    results = SearchDate.SearchDateCreated(sys.argv[2], dateSets, False)
     endtime = time.time_ns()
     duration = endtime - starttime
     print()
-    print(f'Results ({len(results)} results, {duration}ns):')
+    print(f'Results ({len(results)} results, {duration}ns):\n')
     # Print results
     for item in results:
         print(item.path)
     print()
+
+def DateModifiedSearch():
+    # Check that a search pattern was provided
+    if (len(sys.argv) < 5):
+        print('Error: No search pattern provided.\n')
+        sys.exit()
+
+    # Prelimary checks that dates are valid dates
+    dateSets = sys.argv[4].split(';')
+    for dateSet in dateSets:
+        sDateSet = dateSet.split('-')
+        if (len(sDateSet) == 1):
+            utils.CheckDate(sDateSet[0])
+            continue
+        firstDate = sDateSet[0]
+        lastDate = sDateSet[1]
+        utils.CheckDate(firstDate)
+        utils.CheckDate(lastDate)
+
+    # Sanity checks on date ranges
+    for dateSet in dateSets:
+        sDateSet = dateSet.split('-')
+        if (len(sDateSet) == 1):
+            continue
+        else:
+            utils.CheckDateRange(sDateSet[0], sDateSet[1])
+
+    # Execute search on date ranges
+    starttime = time.time_ns()
+    results = SearchDate.SearchDateModified(sys.argv[2], dateSets, False)
+    endtime = time.time_ns()
+    duration = endtime - starttime
+    print()
+    print(f'Results ({len(results)} results, {duration}ns):\n')
+    # Print results
+    for item in results:
+        print(item.path)
+    print()
+
 
 
 def AttributeSearchInstructions(tab=''):

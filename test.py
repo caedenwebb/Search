@@ -1,6 +1,6 @@
 import unittest
 import utils
-import SearchDateCreated
+import SearchDate
 
 class MyTestCase(unittest.TestCase):
     def test_SearchString(self):
