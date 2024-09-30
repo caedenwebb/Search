@@ -3,6 +3,7 @@ import os
 import sys
 import time
 
+import SearchDateCreated
 # Internal Project Files
 import SearchName
 import SearchFileSize
@@ -175,8 +176,16 @@ def DateCreatedSearch():
             utils.CheckDateRange(sDateSet[0], sDateSet[1])
 
     # Execute search on date ranges
-
+    starttime = time.time_ns()
+    results = SearchDateCreated.SearchDateCreated(sys.argv[2], dateSets, False)
+    endtime = time.time_ns()
+    duration = endtime - starttime
+    print()
+    print(f'Results ({len(results)} results, {duration}ns):')
     # Print results
+    for item in results:
+        print(item.path)
+    print()
 
 
 def AttributeSearchInstructions(tab=''):
