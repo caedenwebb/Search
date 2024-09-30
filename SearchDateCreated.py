@@ -60,9 +60,9 @@ def TestDateForMatch(date, pattern) -> bool:
             for index in range(len(compDate)):
                 compDate[index] = int(compDate[index])
             if (date == compDate):
-                inDateRange = True  # If dates are in fact the same
+                return True
             else:
-                inDateRange = False  # if dates are not the same
+                continue
         # If there is an actual range to compare
         else:
 
