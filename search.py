@@ -3,7 +3,9 @@ import os
 import sys
 import time
 
+
 # Internal Project Files
+import ScriptSearch
 import SearchName
 import SearchFileSize
 import AttributeSearch
@@ -22,6 +24,7 @@ def main():
         print('    \'-a\' Attribute Search ---------- Searches the attributes of files and directories within a directory for a specific pattern')
         print('    \'-f\' File Content Search ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')
         print('    \'-i\' Input Search -------------- Searches input text for a given pattern')
+        print('    \'-s\' Script Search ------------- Execute a script that filters for files meeting multiple tests in one or more search modes')
         print('')
         print('\tATTRIBUTE SEARCH INSTRUCTIONS:')
         AttributeSearch.AttributeSearchInstructions('\t')
@@ -31,6 +34,9 @@ def main():
         print()
         print('\tINPUT SEARCH INSTRUCTIONS:')
         InputSearch.InputSearchInstructions('\t')
+        print()
+        print('\tSCRIPT SEARCH INSTRUCTIONS:')
+        ScriptSearch.ScriptSearchInstructions('\t')
         print()
         sys.exit()
 
@@ -44,6 +50,8 @@ def main():
     # Input Mode
     elif (sys.argv[1] == '-i'):
         InputSearch.InputSearch()
+    elif (sys.argv[1] == '-s'):
+        ScriptSearch.ScriptSearch()
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
