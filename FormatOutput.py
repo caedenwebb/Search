@@ -1,23 +1,25 @@
 def OutputAttributes(filelist: list, numberResults, time):
     print(f'\nResults ({numberResults} results, {time}ns): \n')
-    print('Filename                         | Path                                                                |  File Size  | Date Created | Date Modified ')
-    print('---------------------------------------------------------------------------------------------------------------------------------------------------')
+    print(f'{'Filename':33}| {'Path':106}| {'Filesize':18} | {'Creation Date':14} | {'Modified Date'}')
+    print('-'*194)
     for item in filelist:
         PrintLine(item)
+    print()
 def PrintLine(file):
     filename = file.filename
     path = file.path
     filesize = file.size
-    CreationDate = file.date_created
-    ModifiedDate = file.date_modified
+    CreationDate = f'{file.date_created[0]}/{file.date_created[1]}/{file.date_created[2]}'
+    ModifiedDate = f'{file.date_modified[0]}/{file.date_modified[1]}/{file.date_modified[2]}'
 
     # Adjust filename size
-    if (len(filename) > 28):
-        filename = filename[:27]
+    if (len(filename) > 31):
+        filename = filename[:30]
         filename = filename + '...'
     # Adjust path size
-    if (len(path) > 64):
-        path = path[:63]
+    if (len(path) > 103):
+        path = path[:102]
         path = path + '...'
 
-    print(f'{filename}|{path}|{filesize} bytes |{CreationDate}|{ModifiedDate}')
+    # String formatting with the help of: https://docs.python.org/3/library/string.html
+    print(f'{filename:32} | {path:105} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}')
