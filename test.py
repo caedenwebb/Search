@@ -1,5 +1,6 @@
 import unittest
 import utils
+import FileClass
 import SearchDate
 
 class MyTestCase(unittest.TestCase):
@@ -17,14 +18,20 @@ class MyTestCase(unittest.TestCase):
 
         print('Test of SearchString() complete!')
 
-    def test_SearchDateCreated_TestDateForMatch(self):
+    def test_SearchDate_TestDateForMatch(self):
         print('Testing TestDateForMatch()...')
-        self.assertEqual(SearchDateCreated.TestDateForMatch([4, 3, 2015], ['4/3/2015-4/5/2017']), True)
-        self.assertEqual(SearchDateCreated.TestDateForMatch([3, 8, 2019], ['1/1/1970-3/9/2019']), True)
-        self.assertEqual(SearchDateCreated.TestDateForMatch([3, 8, 2019], ['4/3/2020-4/18/2025']), False)
-        self.assertEqual(SearchDateCreated.TestDateForMatch([9, 4, 2016], ['9/5/2015-9/5/2016']), True)
-        self.assertEqual(SearchDateCreated.TestDateForMatch([2, 19, 2024], ['3/15/2024-9/30/2024']), False)
+        self.assertEqual(SearchDate.TestDateForMatch([4, 3, 2015], ['4/3/2015-4/5/2017']), True)
+        self.assertEqual(SearchDate.TestDateForMatch([3, 8, 2019], ['1/1/1970-3/9/2019']), True)
+        self.assertEqual(SearchDate.TestDateForMatch([3, 8, 2019], ['4/3/2020-4/18/2025']), False)
+        self.assertEqual(SearchDate.TestDateForMatch([9, 4, 2016], ['9/5/2015-9/5/2016']), True)
+        self.assertEqual(SearchDate.TestDateForMatch([2, 19, 2024], ['3/15/2024-9/30/2024']), False)
         print('Test of TestDateForMatch() complete!')
+
+    def test_FileFilenames(self):
+        path = 'G:/My Drive/College Files/Professor Advice.txt'
+        object = FileClass.File(path)
+        self.assertEqual(object.filename, 'Professor Advice.txt')
+
 
 if __name__ == '__main__':
     unittest.main()
