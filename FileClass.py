@@ -1,4 +1,5 @@
 import os
+import time
 class File:
 
     def __init__(self, path):
@@ -8,10 +9,19 @@ class File:
         splitPath = self.path.split('/')
         self.filename = splitPath[len(splitPath)-1]
 
-        # Determine other attributes
+        # Determine size
         self.size = os.path.getsize(path)
-        self.date_created = ''
-        self.date_modified = ''
+
+
+        # Determine the dates that the files were created and modified
+        rawCreationDate = time.localtime(os.path.getctime(path))
+        rawModifiedDate = time.localtime(os.path.getmtime(path))
+        self.rawCreationTime = os.path.getctime(path)
+        self.rawModifiedTime = os.path.getmtime(path)
+        self.date_created = [rawCreationDate.tm_mon, rawCreationDate.tm_mday, rawCreationDate.tm_year]
+        self.date_modified = [rawModifiedDate.tm_mon, rawModifiedDate.tm_mday, rawModifiedDate.tm_year]
+
+        # Setup other attributes
         self.ReturnData = None
         self.Filestream = None
 
@@ -41,6 +51,10 @@ class Directory:
 
         # Determine other attributes
         self.size = os.path.getsize(path)
-        self.date_created = ''
-        self.date_modified = ''
+        rawCreationDate = time.localtime(os.path.getctime(path))
+        rawModifiedDate = time.localtime(os.path.getmtime(path))
+        self.rawCreationTime = os.path.getctime(path)
+        self.rawModifiedTime = os.path.getmtime(path)
+        self.date_created = [rawCreationDate.tm_mon, rawCreationDate.tm_mday, rawCreationDate.tm_year]
+        self.date_modified = [rawModifiedDate.tm_mon, rawModifiedDate.tm_mday, rawModifiedDate.tm_year]
         self.ReturnData = None
