@@ -7,6 +7,7 @@ import SearchDate
 # Internal Project Files
 import SearchName
 import SearchFileSize
+import SortOutput
 import utils
 
 def AttributeSearch():
@@ -153,6 +154,7 @@ def FileSizeSearch():
     endTime = time.time_ns()
     timeUsed = endTime - startTime
 
+    res[0] = SortOutput.SmallestToLargest(res[0])
     # Print out file list
     print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
     for item in res[0]:

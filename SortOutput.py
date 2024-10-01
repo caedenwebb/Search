@@ -58,7 +58,16 @@ def SmallestToLargest(filelist: list):
 
 def LargestToSmallest(filelist: list):
     '''Sorts the output of files based on their sizes from largest to smallest'''
+    sortedFilelist = SmallestToLargest(filelist)
 
+    # Generate reversed list
+    i = len(filelist)-1
+    finalList = []
+    while (i >= 0):
+        finalList.append(sortedFilelist[i])
+        i = i - 1
+
+    return finalList
 
 def OldestToNewest(filelist: list):
     '''
