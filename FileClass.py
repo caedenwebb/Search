@@ -1,9 +1,15 @@
+import os
 class File:
 
     def __init__(self, path):
         self.path = path
-        self.filename = ''
-        self.size = ''
+
+        # Determine filename
+        splitPath = self.path.split('/')
+        self.filename = splitPath[len(splitPath)-1]
+
+        # Determine other attributes
+        self.size = os.path.getsize(path)
         self.date_created = ''
         self.date_modified = ''
         self.ReturnData = None
@@ -28,9 +34,13 @@ class File:
 class Directory:
     def __init__(self, path):
         self.path = path
-        self.filename = ''
-        self.size = ''
+
+        # Determine filename
+        splitPath = self.path.split('/')
+        self.filename = splitPath[len(splitPath) - 1]
+
+        # Determine other attributes
+        self.size = os.path.getsize(path)
         self.date_created = ''
         self.date_modified = ''
-        self.ReturnData = []
-
+        self.ReturnData = None
