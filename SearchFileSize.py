@@ -1,6 +1,9 @@
 # Python Libraries
 import os
 
+import FileClass
+
+
 # Internal Project Files
 
 # External Libraries
@@ -37,6 +40,15 @@ def SearchFileSize(dir, min_bytes, max_bytes, recursiveFlag=False) -> list:
                 retList = retList + res[0]
                 # Add the returned size of the subdirectory to the size of the present directory
                 dirSize = dirSize + res[1]
+
+                # If the size of the directory input into the function is within the range, insert that directory into the returned file list
+                if (min_bytes <= dirSize <= max_bytes):
+                    # Create Directory Object
+                    directoryObject = FileClass.Directory(dir)
+                    directoryObject.size = dirSize
+                    # Add directory object to list
+                    retList = retList + [directoryObject]
+
             else:
                 continue
         # If the item is a file
@@ -45,16 +57,15 @@ def SearchFileSize(dir, min_bytes, max_bytes, recursiveFlag=False) -> list:
             filesize = os.path.getsize(f'{dir}/{file}')
             # If filesize falls within the range
             if (min_bytes <= filesize <= max_bytes):
-                # Add file to the list of files to return
-                retList.append(f'{dir}/{file}')
+                # Create file object
+                fileObject = FileClass.File(f'{dir}/{file}')
+                fileObject.size = filesize
+                # Add file object to the list of files to return
+                retList.append(fileObject)
                 # Add file size to the size of the directory input into the function
                 dirSize = dirSize + filesize
             # Include files not falling within the range in the size of the parent directory
             else:
                 dirSize = dirSize + filesize
-
-    # If the size of the directory input into the function is within the range, insert that directory into the returned file list
-    if (min_bytes <= dirSize <= max_bytes):
-        retList = retList + [dir]
 
     return [retList, dirSize]

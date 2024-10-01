@@ -156,7 +156,7 @@ def FileSizeSearch():
     # Print out file list
     print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
     for item in res[0]:
-        print(item)
+        print(f'{item.path} | ({item.size} bytes)')
     print('')
 
 def DateCreatedSearch():
