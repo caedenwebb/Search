@@ -12,13 +12,21 @@ def Alphabetize(filelist: list):
     pass
 
 def SmallestToLargest(filelist: list):
-    pass
+    '''Sorts the output of files based on their sizes from smallest to largest'''
 
 def LargestToSmallest(filelist: list):
-    pass
+    '''Sorts the output of files based on their sizes from largest to smallest'''
 
 def OldestToNewest(filelist: list):
-    pass
+    '''
+    Sorts files based on their dates of creation from oldest to newest
+    :param filelist:
+    :return:
+    '''
 
 def NewestToOldest(filelist: list):
-    pass
+    '''
+    Sorts files based on their dates of creation from newest to oldest
+    :param filelist:
+    :return:
+    '''
