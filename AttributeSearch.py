@@ -9,6 +9,7 @@ import SearchName
 import SearchFileSize
 import SortOutput
 import utils
+import FormatOutput
 
 def AttributeSearch():
 
@@ -156,10 +157,13 @@ def FileSizeSearch():
 
     res[0] = SortOutput.SmallestToLargest(res[0])
     # Print out file list
-    print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
+
+    FormatOutput.OutputAttributes(res[0], len(res[0]), timeUsed)
+
+    '''print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
     for item in res[0]:
         print(f'{item.path} | ({item.size} bytes)')
-    print('')
+    print('')'''
 
 def DateCreatedSearch():
     # Check that a search pattern was provided
