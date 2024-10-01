@@ -155,9 +155,10 @@ def FileSizeSearch():
     endTime = time.time_ns()
     timeUsed = endTime - startTime
 
+    # Sort Output
     res[0] = SortOutput.SmallestToLargest(res[0])
-    # Print out file list
 
+    # Print out file list
     FormatOutput.OutputAttributes(res[0], len(res[0]), timeUsed)
 
     '''print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
@@ -173,8 +174,7 @@ def DateCreatedSearch():
 
     # Check for recursion
     recursiveFlag = False
-    if (len(sys.argv) < 6 and sys.argv[5] == '/r'):
-        recursiveFlag = True
+    '''Fix recursion and implement check for recursion'''
 
     # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
@@ -201,12 +201,16 @@ def DateCreatedSearch():
     results = SearchDate.SearchDateCreated(sys.argv[2], dateSets, recursiveFlag)
     endtime = time.time_ns()
     duration = endtime - starttime
-    print()
+
+    sortedResults = SortOutput.NewestToOldest(results)
+    FormatOutput.OutputAttributes(sortedResults, len(sortedResults), duration)
+
+    '''print()
     print(f'Results ({len(results)} results, {duration}ns):\n')
     # Print results
     for item in results:
         print(item.path)
-    print()
+    print()'''
 
 def DateModifiedSearch():
     # Check that a search pattern was provided
@@ -216,8 +220,7 @@ def DateModifiedSearch():
 
     # Check for recursion
     recursiveFlag = False
-    if (len(sys.argv) < 6 and sys.argv[5] == '/r'):
-        recursiveFlag = True
+    '''Fix recursion and implement check for recursion'''
 
     # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
