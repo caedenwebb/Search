@@ -123,3 +123,46 @@ def CheckDateRange(firstDate: str, secondDate: str):
             if (int(lSecondDate[1]) < int(lFirstDate[1])):
                 print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
                 sys.exit()
+
+def NumQuicksort(list):
+
+    # Base Cases
+    if (len(list) == 0):
+        return list
+
+    if (len(list) == 1):
+        return list
+
+    if (len(list) == 2):
+        if (list[0] > list[1]):
+            return [list[1], list[0]]
+        else:
+            return [list[0], list[1]]
+
+    # Find pivot
+    pivot = list[0]
+
+    # Create lists of values less than pivot
+    lesserValues = []
+    equalValues = []
+    greaterValues = []
+
+    for value in list:
+        if (value < pivot):
+            lesserValues.append(value)
+        elif (value == pivot):
+            equalValues.append(value)
+        else:
+            greaterValues.append(value)
+
+    # Create lists of values lesser than the pivot
+    sortedLesserValues = NumQuicksort(lesserValues)
+
+    # Recursively sort values greater than pivot
+    sortedGreaterValues = NumQuicksort(greaterValues)
+
+    # Merge
+    returnList = sortedLesserValues + equalValues + sortedGreaterValues
+
+    return returnList
+
