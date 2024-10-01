@@ -5,7 +5,7 @@ import os
 
 # External Libraries
 
-def SearchFileSize(dir, min_bytes, max_bytes) -> list:
+def SearchFileSize(dir, min_bytes, max_bytes, recursiveFlag=False) -> list:
     '''
     Returns a list of files (and directories?) that are within the range of min_bytes and max_bytes inclusive
     :param dir: Directory to search
@@ -25,7 +25,7 @@ def SearchFileSize(dir, min_bytes, max_bytes) -> list:
         if (os.path.isdir(f'{dir}/{file}')):
             # Recursively search the directory for files that fall in the range of min_bytes and max_bytes
             try:
-                res = SearchFileSize(f'{dir}/{file}', min_bytes, max_bytes)
+                res = SearchFileSize(f'{dir}/{file}', min_bytes, max_bytes, recursiveFlag)
             # Suppress Permission Errors and skip files which raise them
             except PermissionError:
                 continue
