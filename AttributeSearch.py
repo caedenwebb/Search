@@ -47,11 +47,15 @@ def AttributeSearch():
     print(f'Error: Invalid attribute: \'{sys.argv[3]}\'.')
 
 def FileNameSearch():
+    # Check recursion
+    recursiveFlag = False
+    if (len(sys.argv) > 5 and sys.argv[5] == '/r'):
+        recursiveFlag = True
     # If proper input is specified (i.e. a directory, attribute, and pattern)
     if (len(sys.argv) > 4 and sys.argv[4] != ''):
         # Execute the search
         startTime = time.time_ns()
-        filelist = SearchName.SearchName(sys.argv[2], sys.argv[4])
+        filelist = SearchName.SearchName(sys.argv[2], sys.argv[4], recursiveFlag)
         endTime = time.time_ns()
         timeUsed = endTime - startTime
 
@@ -156,6 +160,11 @@ def DateCreatedSearch():
         print('Error: No search pattern provided.\n')
         sys.exit()
 
+    # Check for recursion
+    recursiveFlag = False
+    if (len(sys.argv) < 6 and sys.argv[5] == '/r'):
+        recursiveFlag = True
+
     # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
     for dateSet in dateSets:
@@ -178,7 +187,7 @@ def DateCreatedSearch():
 
     # Execute search on date ranges
     starttime = time.time_ns()
-    results = SearchDate.SearchDateCreated(sys.argv[2], dateSets, False)
+    results = SearchDate.SearchDateCreated(sys.argv[2], dateSets, recursiveFlag)
     endtime = time.time_ns()
     duration = endtime - starttime
     print()
@@ -194,6 +203,11 @@ def DateModifiedSearch():
         print('Error: No search pattern provided.\n')
         sys.exit()
 
+    # Check for recursion
+    recursiveFlag = False
+    if (len(sys.argv) < 6 and sys.argv[5] == '/r'):
+        recursiveFlag = True
+
     # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
     for dateSet in dateSets:
@@ -216,7 +230,7 @@ def DateModifiedSearch():
 
     # Execute search on date ranges
     starttime = time.time_ns()
-    results = SearchDate.SearchDateModified(sys.argv[2], dateSets, False)
+    results = SearchDate.SearchDateModified(sys.argv[2], dateSets, recursiveFlag)
     endtime = time.time_ns()
     duration = endtime - starttime
     print()
@@ -229,14 +243,17 @@ def DateModifiedSearch():
 
 
 def AttributeSearchInstructions(tab=''):
-    print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern]')
+    print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern] [flags]')
     print(f'\n{tab}   Data Attributes to Search:\n')
     print(f'{tab}   filename ------------------ returns files and directories containing the given pattern in their filenames')
     print(f'{tab}   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
     print(f'{tab}   date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
     print(f'{tab}   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
 
-    print(f'{tab}   For File Size Searches:\n')
+    print(f'{tab}   For File Size Searches:')
+    print(f'{tab}       Flags: ')
+    print(f'{tab}          \'/r\' -- recursive, enables recursion through subdirectories of the search directory\n')
+
     print(f'{tab}   Usage: search -a [directory] file-size [minValue]-[maxValue][units: OPTIONAL]')
     print(f'{tab}       Valid Units for File-Size Searches:')
     print(f'{tab}             1. \'b\' (bytes)')
