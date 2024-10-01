@@ -23,19 +23,22 @@ def SearchFileSize(dir, min_bytes, max_bytes, recursiveFlag=False) -> list:
     for file in fileList:
         # If the item is a directory
         if (os.path.isdir(f'{dir}/{file}')):
-            # Recursively search the directory for files that fall in the range of min_bytes and max_bytes
-            try:
-                res = SearchFileSize(f'{dir}/{file}', min_bytes, max_bytes, recursiveFlag)
-            # Suppress Permission Errors and skip files which raise them
-            except PermissionError:
+            if (recursiveFlag == True):
+                # Recursively search the directory for files that fall in the range of min_bytes and max_bytes
+                try:
+                    res = SearchFileSize(f'{dir}/{file}', min_bytes, max_bytes, recursiveFlag)
+                # Suppress Permission Errors and skip files which raise them
+                except PermissionError:
+                    continue
+                # Suppress OSErrors and skip files which raise them
+                except OSError:
+                    continue
+                # Add the returned directories to the list of returned files and directories
+                retList = retList + res[0]
+                # Add the returned size of the subdirectory to the size of the present directory
+                dirSize = dirSize + res[1]
+            else:
                 continue
-            # Suppress OSErrors and skip files which raise them
-            except OSError:
-                continue
-            # Add the returned directories to the list of returned files and directories
-            retList = retList + res[0]
-            # Add the returned size of the subdirectory to the size of the present directory
-            dirSize = dirSize + res[1]
         # If the item is a file
         else:
             # Determine the filesize

@@ -142,9 +142,14 @@ def FileSizeSearch():
         print(f"\nError: Search minimum '{minVal}' is greater than search maximum '{maxVal}'. Did you mean '{maxVal}-{minVal}?'\n")
         sys.exit()
 
+    # Check for recursion
+    recursiveFlag = False
+    if (len(sys.argv) > 5 and sys.argv[5] == '/r'):
+        recursiveFlag = True
+
     # Execute the search
     startTime = time.time_ns()
-    res = SearchFileSize.SearchFileSize(sys.argv[2], minVal, maxVal)
+    res = SearchFileSize.SearchFileSize(sys.argv[2], minVal, maxVal, recursiveFlag)
     endTime = time.time_ns()
     timeUsed = endTime - startTime
 
