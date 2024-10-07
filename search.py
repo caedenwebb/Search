@@ -24,7 +24,7 @@ def main():
         print('    \'-a\' Attribute Search ---------- Searches the attributes of files and directories within a directory for a specific pattern')
         print('    \'-f\' File Content Search ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')
         print('    \'-i\' Input Search -------------- Searches input text for a given pattern')
-        print('    \'-s\' Script Search ------------- Execute a script that filters for files meeting multiple tests in one or more search modes')
+        print('    \'-m\' Multiple Search ----------- Execute multiple types of searches and find the files and directories matching all search patterns')
         print('')
         print('\tATTRIBUTE SEARCH INSTRUCTIONS:')
         AttributeSearch.AttributeSearchInstructions('\t')
