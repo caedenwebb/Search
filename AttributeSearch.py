@@ -51,8 +51,21 @@ def AttributeSearch():
 def FileNameSearch():
     # Check recursion
     recursiveFlag = False
-    if (len(sys.argv) > 5 and sys.argv[5] == '/r'):
-        recursiveFlag = True
+    alphabetize = True
+    if (len(sys.argv) > 5 and sys.argv[5] != ' '):
+        i = 5
+        while (i != len(sys.argv)):
+            if (sys.argv[i] == '/r'):
+                recursiveFlag = True
+            elif (sys.argv[i] == '/a'):
+                alphabetize = True
+            elif (sys.argv[i] == '/ra'):
+                alphabetize = False
+            else:
+                print(f'Error: Flag "{sys.argv[i]}" is not recognized.')
+                sys.exit()
+            i = i + 1
+
     # If proper input is specified (i.e. a directory, attribute, and pattern)
     if (len(sys.argv) > 4 and sys.argv[4] != ''):
         # Execute the search
@@ -61,12 +74,13 @@ def FileNameSearch():
         endTime = time.time_ns()
         timeUsed = endTime - startTime
 
-        # Order Output
-        filelist = SortOutput.OrderAToZ(filelist)
-
+        # Format output
+        if (alphabetize == True):
+            filelist = SortOutput.OrderAToZ(filelist)
+        else:
+            filelist = SortOutput.OrderZToA(filelist)
         # Print out file list
         FormatOutput.OutputAttributes(filelist, len(filelist), timeUsed)
-
     # When the user fails to specify a search pattern
     else:
         print(f'Error: No search pattern provided.\n')
