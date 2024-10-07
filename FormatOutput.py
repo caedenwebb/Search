@@ -5,6 +5,14 @@ def OutputAttributes(filelist: list, numberResults, time):
     for item in filelist:
         PrintLine(item)
     print()
+
+def OutputInputSearch():
+    pass
+
+def OutputFileContentSearch():
+    pass
+
+
 def PrintLine(file):
     filename = file.filename
     path = file.path
