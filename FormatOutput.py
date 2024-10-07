@@ -1,7 +1,7 @@
 def OutputAttributes(filelist: list, numberResults, time):
     print(f'\nResults ({numberResults} results, {time}ns): \n')
-    print(f'{'Filename':33}| {'Path':106}| {'Filesize':18} | {'Creation Date':14} | {'Modified Date'}')
-    print('-'*194)
+    print(f'{'Filename':33} | {'Path':106}| {'Filesize':18} | {'Creation Date':14} | {'Modified Date'}')
+    print('-'*195)
     for item in filelist:
         PrintLine(item)
     print()
@@ -22,4 +22,4 @@ def PrintLine(file):
         path = path + '...'
 
     # String formatting with the help of: https://docs.python.org/3/library/string.html
-    print(f'{filename:32} | {path:105} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}')
+    print(f'{filename:33} | {path:<105} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}')
