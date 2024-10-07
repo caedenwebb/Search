@@ -7,14 +7,6 @@ import sys
 
 # Internal Libraries
 
-
-def Alphabetize(filelist: list):
-    '''
-    Sorts the output of files based on alphabetizing the filenames
-    :param filelist:list of file objects
-    :return:
-    '''
-
 def SmallestToLargest(filelist: list):
     # Base Cases
     if (len(filelist) == 0):
@@ -124,3 +116,49 @@ def NewestToOldest(filelist: list):
         i = i - 1
 
     return finalFileList
+
+def OrderAToZ(filelist):
+    '''
+    Quicksorts the output of files based on alphabetizing the filenames
+    :param filelist:list of file objects
+    :return:
+    '''
+    if (len(filelist) == 0):
+        return filelist
+    elif (len(filelist) == 1):
+        return filelist
+    elif (len(filelist) == 2):
+        if (filelist[0].filename > filelist[1].filename):
+            return [filelist[1], filelist[0]]
+        else:
+            return [filelist[0], filelist[1]]
+    else:
+        # Find pivot
+        pivot = filelist[0]
+
+        # Create lists of values less than pivot
+        lesserValues = []
+        equalValues = []
+        greaterValues = []
+
+        for value in filelist:
+            if (value.filename < pivot.filename):
+                lesserValues.append(value)
+            elif (value.filename == pivot.filename):
+                equalValues.append(value)
+            else:
+                greaterValues.append(value)
+
+        # Create lists of values lesser than the pivot
+        sortedLesserValues = OrderAToZ(lesserValues)
+
+        # Recursively sort values greater than pivot
+        sortedGreaterValues = OrderAToZ(greaterValues)
+
+        # Merge
+        returnList = sortedLesserValues + equalValues + sortedGreaterValues
+
+        return returnList
+
+def OrderZToA(filelist):
+    pass
