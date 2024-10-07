@@ -61,7 +61,7 @@ def LargestToSmallest(filelist: list):
 
     return finalList
 
-def OldestToNewest(filelist: list):
+def DCOldestToNewest(filelist: list):
 
     # Base Cases
     if (len(filelist) == 0):
@@ -93,22 +93,22 @@ def OldestToNewest(filelist: list):
             greaterValues.append(value)
 
     # Create lists of values lesser than the pivot
-    sortedLesserValues = OldestToNewest(lesserValues)
+    sortedLesserValues = DCOldestToNewest(lesserValues)
 
     # Recursively sort values greater than pivot
-    sortedGreaterValues = OldestToNewest(greaterValues)
+    sortedGreaterValues = DCOldestToNewest(greaterValues)
 
     # Merge
     returnList = sortedLesserValues + equalValues + sortedGreaterValues
 
     return returnList
-def NewestToOldest(filelist: list):
+def DCNewestToOldest(filelist: list):
     '''
     Sorts files based on their dates of creation from newest to oldest
     :param filelist:
     :return:
     '''
-    sortedFileList = OldestToNewest(filelist)
+    sortedFileList = DCOldestToNewest(filelist)
     finalFileList = []
     i = len(sortedFileList)-1
     while (i >= 0):
@@ -116,6 +116,63 @@ def NewestToOldest(filelist: list):
         i = i - 1
 
     return finalFileList
+
+def DMOldestToNewest(filelist: list):
+
+    # Base Cases
+    if (len(filelist) == 0):
+        return filelist
+
+    if (len(filelist) == 1):
+        return filelist
+
+    if (len(filelist) == 2):
+        if (filelist[0].rawModifiedTime > filelist[1].rawModifiedTime):
+            return [filelist[1], filelist[0]]
+        else:
+            return [filelist[0], filelist[1]]
+
+    # Find pivot
+    pivot = filelist[0]
+
+    # Create lists of values less than pivot
+    lesserValues = []
+    equalValues = []
+    greaterValues = []
+
+    for value in filelist:
+        if (value.rawModifiedTime < pivot.rawModifiedTime):
+            lesserValues.append(value)
+        elif (value.rawModifiedTime == pivot.rawModifiedTime):
+            equalValues.append(value)
+        else:
+            greaterValues.append(value)
+
+    # Create lists of values lesser than the pivot
+    sortedLesserValues = DMOldestToNewest(lesserValues)
+
+    # Recursively sort values greater than pivot
+    sortedGreaterValues = DMOldestToNewest(greaterValues)
+
+    # Merge
+    returnList = sortedLesserValues + equalValues + sortedGreaterValues
+
+    return returnList
+def DMNewestToOldest(filelist: list):
+    '''
+    Sorts files based on their dates of creation from newest to oldest
+    :param filelist:
+    :return:
+    '''
+    sortedFileList = DMOldestToNewest(filelist)
+    finalFileList = []
+    i = len(sortedFileList)-1
+    while (i >= 0):
+        finalFileList.append(sortedFileList[i])
+        i = i - 1
+
+    return finalFileList
+
 
 def OrderAToZ(filelist):
     '''
