@@ -3,8 +3,8 @@ import os
 import sys
 import time
 
-import SearchDate
 # Internal Project Files
+import SearchDate
 import SearchName
 import SearchFileSize
 import SortOutput
@@ -52,17 +52,70 @@ def FileNameSearch():
     # Check recursion
     recursiveFlag = False
     alphabetize = True
+    size = False
+    smallestFirst = True
+    largestFirst = False
+    earliestFirst = True
+    latestFirst = False
     if (len(sys.argv) > 5 and sys.argv[5] != ' '):
         i = 5
         while (i != len(sys.argv)):
             if (sys.argv[i] == '/r'):
                 recursiveFlag = True
             elif (sys.argv[i] == '/a'):
+                date_created = False
+                date_modified = False
                 alphabetize = True
+                size = False
             elif (sys.argv[i] == '/ra'):
+                date_created = False
+                date_modified = False
                 alphabetize = False
+                size = False
+            elif (sys.argv[i].startswith('/s')):
+                date_created = False
+                date_modified = False
+                alphabetize = False
+                size = True
+                if (sys.argv[i] == '/s=sf'):
+                    smallestFirst = True
+                    largestFirst = False
+                elif (sys.argv[i] == '/s=lf'):
+                    smallestFirst = False
+                    largestFirst = False
+                else:
+                    print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
+                    sys.exit()
+            elif (sys.argv[i].startswith('/dc')):
+                date_created = True
+                date_modified = False
+                alphabetize = False
+                size = False
+                if (sys.argv[i] == '/dc=ef'):
+                    earliestFirst = True
+                    latestFirst = False
+                elif (sys.argv[i] == '/dc=lf'):
+                    latestFirst = True
+                    earliestFirst = False
+                else:
+                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
+                    sys.exit()
+            elif (sys.argv[i].startswith('/dm')):
+                date_created = False
+                date_modified = True
+                alphabetize = False
+                size = False
+                if (sys.argv[i] == '/dm=ef'):
+                    earliestFirst = True
+                    latestFirst = False
+                elif (sys.argv[i] == '/dm=lf'):
+                    latestFirst = True
+                    earliestFirst = False
+                else:
+                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
+                    sys.exit()
             else:
-                print(f'Error: Flag "{sys.argv[i]}" is not recognized.')
+                print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
                 sys.exit()
             i = i + 1
 
@@ -77,6 +130,21 @@ def FileNameSearch():
         # Format output
         if (alphabetize == True):
             filelist = SortOutput.OrderAToZ(filelist)
+        elif (size == True):
+            if (smallestFirst == True):
+                filelist = SortOutput.SmallestToLargest(filelist)
+            else:
+                filelist = SortOutput.LargestToSmallest(filelist)
+        elif (date_created == True):
+            if (earliestFirst == True):
+                filelist = SortOutput.DCOldestToNewest(filelist)
+            else:
+                filelist = SortOutput.DCNewestToOldest(filelist)
+        elif (date_modified == True):
+            if (earliestFirst == True):
+                filelist = SortOutput.DMOldestToNewest(filelist)
+            else:
+                filelist = SortOutput.DMNewestToOldest(filelist)
         else:
             filelist = SortOutput.OrderZToA(filelist)
         # Print out file list
