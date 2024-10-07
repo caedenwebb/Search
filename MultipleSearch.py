@@ -1,13 +1,10 @@
 import os
 import sys
 
-def ScriptSearch():
+def MultipleSearch():
     '''
      '#' -- a comment
     '''
 
-def ScriptSearchInstructions(tab):
+def MultipleSearchInstructions(tab):
     print(f'\n{tab}Usage: search -a [script file]')
-
-def ExecuteSearchScript():
-    pass
