@@ -161,4 +161,11 @@ def OrderAToZ(filelist):
         return returnList
 
 def OrderZToA(filelist):
-    pass
+    sortedFileList = OrderAToZ(filelist)
+    finalFileList = []
+    i = len(sortedFileList)-1
+    while (i >= 0):
+        finalFileList.append(sortedFileList[i])
+        i = i - 1
+
+    return finalFileList
