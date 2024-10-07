@@ -3,6 +3,7 @@ import os
 
 # Internal Project Files
 from utils import SearchString
+import FileClass
 
 # External Libraries
 
@@ -29,7 +30,8 @@ def SearchName(SearchDir, SearchPattern, recursiveFlag) -> list:
         if (os.path.isdir(SearchDir + "/" + item)):
             # If the directory meets the search pattern, add to the returnList, and recurse through the files and directories inside said dir
             if (SearchString(item, SearchPattern) == True):
-                returnList.append(f'{SearchDir}/{item}')
+                DirectoryObject = FileClass.Directory(f'{SearchDir}/{item}')
+                returnList.append(DirectoryObject)
                 if (recursiveFlag == True):
                     for subitem in SearchName(SearchDir + '/' + item, SearchPattern, True):
                         returnList.append(subitem)
@@ -42,7 +44,8 @@ def SearchName(SearchDir, SearchPattern, recursiveFlag) -> list:
         else:
             # If the file meets the search pattern
             if (SearchString(item, SearchPattern) == True):
-                returnList.append(f'{SearchDir}/{item}')
+                FileObject = FileClass.File(f'{SearchDir}/{item}')
+                returnList.append(FileObject)
             # If the file does not meet the search pattern
             else:
                 continue

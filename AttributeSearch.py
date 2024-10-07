@@ -61,11 +61,12 @@ def FileNameSearch():
         endTime = time.time_ns()
         timeUsed = endTime - startTime
 
+        # Order Output
+        filelist = SortOutput.OrderAToZ(filelist)
+
         # Print out file list
-        print(f'\nResults ({len(filelist)} results, {timeUsed}ns):\n')
-        for item in filelist:
-            print(item)
-        print('')
+        FormatOutput.OutputAttributes(filelist, len(filelist), timeUsed)
+
     # When the user fails to specify a search pattern
     else:
         print(f'Error: No search pattern provided.\n')
