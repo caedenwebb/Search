@@ -5,7 +5,7 @@ import time
 
 
 # Internal Project Files
-import ScriptSearch
+import MultipleSearch
 import SearchName
 import SearchFileSize
 import AttributeSearch
@@ -35,8 +35,8 @@ def main():
         print('\tINPUT SEARCH INSTRUCTIONS:')
         InputSearch.InputSearchInstructions('\t')
         print()
-        print('\tSCRIPT SEARCH INSTRUCTIONS:')
-        ScriptSearch.ScriptSearchInstructions('\t')
+        print('\tMULTIPLE SEARCH INSTRUCTIONS:')
+        MultipleSearch.MultipleSearchInstructions('\t')
         print()
         sys.exit()
 
@@ -50,8 +50,8 @@ def main():
     # Input Mode
     elif (sys.argv[1] == '-i'):
         InputSearch.InputSearch()
-    elif (sys.argv[1] == '-s'):
-        ScriptSearch.ScriptSearch()
+    elif (sys.argv[1] == '-m'):
+        MultipleSearch.MultipleSearchInstructions('\t')
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
