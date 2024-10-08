@@ -7,4 +7,4 @@ def MultipleSearch():
     '''
 
 def MultipleSearchInstructions(tab):
-    print(f'\n{tab}Usage: search -a [script file]')
+    print(f'\n{tab}Usage: search -m [search]')
