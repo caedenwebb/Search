@@ -4,6 +4,7 @@ class File:
 
     def __init__(self, path):
         self.path = path
+        self.type = 'FILE'
 
         # Determine filename
         splitPath = self.path.split('/')
@@ -44,6 +45,7 @@ class File:
 class Directory:
     def __init__(self, path):
         self.path = path
+        self.type = 'DIR'
 
         # Determine filename
         splitPath = self.path.split('/')

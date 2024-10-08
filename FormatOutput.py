@@ -12,6 +12,21 @@ def OutputInputSearch():
 def OutputFileContentSearch():
     pass
 
+def OutputToFile(filelist, path):
+    outputFile = open(path, 'w')
+    outputBuffer = []
+    for file in filelist:
+        outputBuffer.append(f'{'{'}TYPE="{file.type}";FILENAME="{file.filename}";PATH="{file.path}";DATE_CREATED="{file.date_created}";DATE_MODIFIED="{file.date_modified}";RAWCREATIONTIME="{file.rawCreationTime}";RAWMODIFIEDTIME="{file.rawModifiedTime}"{'}'}')
+    outputFile.writelines(outputBuffer)
+    outputFile.close()
+
+def SimpleStringOutput(filelist):
+    outputBuffer = ''
+    for file in filelist:
+        outputBuffer = outputBuffer + f'{'{'}TYPE="{file.type}";FILENAME="{file.filename}";PATH="{file.path}";DATE_CREATED="{file.date_created}";DATE_MODIFIED="{file.date_modified}";RAWCREATIONTIME="{file.rawCreationTime}";RAWMODIFIEDTIME="{file.rawModifiedTime}"{'}'}'
+    if (outputBuffer == ''):
+        outputBuffer = '{}'
+    print(outputBuffer)
 
 def PrintLine(file):
     filename = file.filename

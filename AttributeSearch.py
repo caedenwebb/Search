@@ -49,7 +49,7 @@ def AttributeSearch():
     print(f'Error: Invalid attribute: \'{sys.argv[3]}\'.')
 
 def FileNameSearch():
-    # Check recursion
+    # Check flags
     recursiveFlag = False
     alphabetize = True
     size = False
@@ -57,11 +57,34 @@ def FileNameSearch():
     largestFirst = False
     earliestFirst = True
     latestFirst = False
+    outputToFile = False
+    outputFilePath = ''
+    SimpleStringOutput = False
     if (len(sys.argv) > 5 and sys.argv[5] != ' '):
         i = 5
         while (i != len(sys.argv)):
             if (sys.argv[i] == '/r'):
                 recursiveFlag = True
+            elif (sys.argv[i].startswith('/f')):
+                outputToFile = True
+                if (sys.argv[i].startswith('/f=')):
+                    outputFileFlag = sys.argv[i].split('=')
+                    if (outputFileFlag[1] == ''):
+                        print('Error: No output file path, or an invalid output file path, has been provided.')
+                        sys.exit()
+                    else:
+                        try:
+                            fileObject = open(f'{outputFileFlag[1]}', 'w')
+                            fileObject.close()
+                        except:
+                            print('Error: Invalid output file path provided.')
+                            sys.exit()
+                        outputFilePath = outputFileFlag[1]
+                else:
+                    print('Error: No output file path provided.')
+                    sys.exit()
+            elif (sys.argv[i] == '/str'):
+                SimpleStringOutput = True
             elif (sys.argv[i] == '/a'):
                 date_created = False
                 date_modified = False
@@ -72,7 +95,7 @@ def FileNameSearch():
                 date_modified = False
                 alphabetize = False
                 size = False
-            elif (sys.argv[i].startswith('/s')):
+            elif (sys.argv[i].startswith('/s') and sys.argv[i] != '/str'):
                 date_created = False
                 date_modified = False
                 alphabetize = False
@@ -82,7 +105,7 @@ def FileNameSearch():
                     largestFirst = False
                 elif (sys.argv[i] == '/s=lf'):
                     smallestFirst = False
-                    largestFirst = False
+                    largestFirst = True
                 else:
                     print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
                     sys.exit()
@@ -147,13 +170,115 @@ def FileNameSearch():
                 filelist = SortOutput.DMNewestToOldest(filelist)
         else:
             filelist = SortOutput.OrderZToA(filelist)
+
         # Print out file list
-        FormatOutput.OutputAttributes(filelist, len(filelist), timeUsed)
+        if (SimpleStringOutput == False):
+            FormatOutput.OutputAttributes(filelist, len(filelist), timeUsed)
+        else:
+            FormatOutput.SimpleStringOutput(filelist)
+
+        if (outputToFile == True):
+            FormatOutput.OutputToFile(filelist, outputFilePath)
+
     # When the user fails to specify a search pattern
     else:
         print(f'Error: No search pattern provided.\n')
+        sys.exit()
 
 def FileSizeSearch():
+    # Check flags
+    recursiveFlag = False
+    alphabetize = False
+    size = True
+    smallestFirst = True
+    largestFirst = False
+    earliestFirst = True
+    latestFirst = False
+    outputToFile = False
+    SimpleStringOutput = False
+    outputFilePath = ''
+    if (len(sys.argv) > 5 and sys.argv[5] != ' '):
+        i = 5
+        while (i != len(sys.argv)):
+            if (sys.argv[i] == '/r'):
+                recursiveFlag = True
+            elif (sys.argv[i].startswith('/f')):
+                outputToFile = True
+                if (sys.argv[i].startswith('/f=')):
+                    outputFileFlag = sys.argv[i].split('=')
+                    if (outputFileFlag[1] == ''):
+                        print('Error: No output file path, or an invalid output file path, has been provided.')
+                        sys.exit()
+                    else:
+                        try:
+                            fileObject = open(f'{outputFileFlag[1]}', 'w')
+                            fileObject.close()
+                        except:
+                            print('Error: Invalid output file path provided.')
+                            sys.exit()
+                        outputFilePath = outputFileFlag[1]
+                else:
+                    print('Error: No output file path provided.')
+                    sys.exit()
+            elif (sys.argv[i] == '/str'):
+                SimpleStringOutput = True
+            elif (sys.argv[i] == '/a'):
+                date_created = False
+                date_modified = False
+                alphabetize = True
+                size = False
+            elif (sys.argv[i] == '/ra'):
+                date_created = False
+                date_modified = False
+                alphabetize = False
+                size = False
+            elif (sys.argv[i].startswith('/s') and sys.argv[i] != '/str'):
+                date_created = False
+                date_modified = False
+                alphabetize = False
+                size = True
+                if (sys.argv[i] == '/s=sf'):
+                    smallestFirst = True
+                    largestFirst = False
+                elif (sys.argv[i] == '/s=lf'):
+                    smallestFirst = False
+                    largestFirst = True
+                else:
+                    print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
+                    sys.exit()
+            elif (sys.argv[i].startswith('/dc')):
+                date_created = True
+                date_modified = False
+                alphabetize = False
+                size = False
+                if (sys.argv[i] == '/dc=ef'):
+                    earliestFirst = True
+                    latestFirst = False
+                elif (sys.argv[i] == '/dc=lf'):
+                    latestFirst = True
+                    earliestFirst = False
+                else:
+                    print(
+                        'Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
+                    sys.exit()
+            elif (sys.argv[i].startswith('/dm')):
+                date_created = False
+                date_modified = True
+                alphabetize = False
+                size = False
+                if (sys.argv[i] == '/dm=ef'):
+                    earliestFirst = True
+                    latestFirst = False
+                elif (sys.argv[i] == '/dm=lf'):
+                    latestFirst = True
+                    earliestFirst = False
+                else:
+                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
+                    sys.exit()
+            else:
+                print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
+                sys.exit()
+            i = i + 1
     # If the user does not provide a size range
     if (len(sys.argv) < 5):
         print('Error: No size range provided.\n')
@@ -227,11 +352,6 @@ def FileSizeSearch():
         print(f"\nError: Search minimum '{minVal}' is greater than search maximum '{maxVal}'. Did you mean '{maxVal}-{minVal}?'\n")
         sys.exit()
 
-    # Check for recursion
-    recursiveFlag = False
-    if (len(sys.argv) > 5 and sys.argv[5] == '/r'):
-        recursiveFlag = True
-
     # Execute the search
     startTime = time.time_ns()
     res = SearchFileSize.SearchFileSize(sys.argv[2], minVal, maxVal, recursiveFlag)
@@ -239,15 +359,29 @@ def FileSizeSearch():
     timeUsed = endTime - startTime
 
     # Sort Output
-    res[0] = SortOutput.SmallestToLargest(res[0])
+    # Format output
+    if (alphabetize == True):
+        res = SortOutput.OrderAToZ(res)
+    elif (size == True):
+        if (smallestFirst == True):
+            res[0] = SortOutput.SmallestToLargest(res[0])
+        else:
+            res[0] = SortOutput.LargestToSmallest(res[0])
+    elif (date_created == True):
+        if (earliestFirst == True):
+            res[0] = SortOutput.DCOldestToNewest(res[0])
+        else:
+            res[0] = SortOutput.DCNewestToOldest(res[0])
+    elif (date_modified == True):
+        if (earliestFirst == True):
+            res[0] = SortOutput.DMOldestToNewest(res[0])
+        else:
+            res[0] = SortOutput.DMNewestToOldest(res[0])
+    else:
+        res[0] = SortOutput.OrderZToA(res[0])
 
     # Print out file list
     FormatOutput.OutputAttributes(res[0], len(res[0]), timeUsed)
-
-    '''print(f'\nResults ({len(res[0])} results, {timeUsed}ns):\n')
-    for item in res[0]:
-        print(f'{item.path} | ({item.size} bytes)')
-    print('')'''
 
 def DateCreatedSearch():
     # Check that a search pattern was provided
@@ -287,13 +421,6 @@ def DateCreatedSearch():
 
     sortedResults = SortOutput.NewestToOldest(results)
     FormatOutput.OutputAttributes(sortedResults, len(sortedResults), duration)
-
-    '''print()
-    print(f'Results ({len(results)} results, {duration}ns):\n')
-    # Print results
-    for item in results:
-        print(item.path)
-    print()'''
 
 def DateModifiedSearch():
     # Check that a search pattern was provided
