@@ -10,7 +10,6 @@ import SearchName
 import SearchFileSize
 import AttributeSearch
 import FileContentSearch
-import InputSearch
 
 # External Libraries
 
@@ -23,7 +22,6 @@ def main():
         print('\n  Search Types:')
         print('    \'-a\' Attribute Search ---------- Searches the attributes of files and directories within a directory for a specific pattern')
         print('    \'-f\' File Content Search ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')
-        print('    \'-i\' Input Search -------------- Searches input text for a given pattern')
         print('    \'-m\' Multiple Search ----------- Execute multiple types of searches and find the files and directories matching all search patterns')
         print('')
         print('\tATTRIBUTE SEARCH INSTRUCTIONS:')
@@ -31,9 +29,6 @@ def main():
         print()
         print('\tFILE CONTENT SEARCH INSTRUCTIONS:')
         FileContentSearch.FileContentSearchInstructions('\t')
-        print()
-        print('\tINPUT SEARCH INSTRUCTIONS:')
-        InputSearch.InputSearchInstructions('\t')
         print()
         print('\tMULTIPLE SEARCH INSTRUCTIONS:')
         MultipleSearch.MultipleSearchInstructions('\t')
@@ -47,9 +42,7 @@ def main():
     # File Content Mode
     elif (sys.argv[1] == '-f'):
         FileContentSearch.FileContentSearch()
-    # Input Mode
-    elif (sys.argv[1] == '-i'):
-        InputSearch.InputSearch()
+    # Multiple Search mode
     elif (sys.argv[1] == '-m'):
         MultipleSearch.MultipleSearchInstructions('\t')
     # Invalid Mode
