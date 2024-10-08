@@ -3,6 +3,7 @@ import os
 import sys
 import time
 
+import FormatOutput
 # Internal Project Files
 import SearchFileContent
 
@@ -54,7 +55,7 @@ def FileContentSearch():
 
     # Execute the search and print results
     dirNum = 1
-    print('\nResults:')
+    '''print('\nResults:')
     for file in filteredFileList:
         if (os.path.isdir(file) == True):
             results = SearchFileContent.SearchDirectory(file, pattern, recursiveFlag)
@@ -66,7 +67,9 @@ def FileContentSearch():
                 dirNum = dirNum + 1
             for line in results[1].ReturnData:
                 print(f'\tln {line[0]} -- "{line[1]}"')
-    print('\n')
+    print('\n')'''
+
+    FormatOutput.OutputFileContentSearch(filteredFileList)
 
     # Exit
     sys.exit()

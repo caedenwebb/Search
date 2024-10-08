@@ -9,9 +9,6 @@ def OutputAttributes(filelist: list, numberResults, time):
 def OutputInputSearch():
     pass
 
-def OutputFileContentSearch():
-    pass
-
 def OutputToFile(filelist, path):
     outputFile = open(path, 'w')
     outputBuffer = []
@@ -46,3 +43,7 @@ def PrintLine(file):
 
     # String formatting with the help of: https://docs.python.org/3/library/string.html
     print(f'{filename:33} | {path:<105} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}')
+
+def OutputFileContentSearch(filelist):
+    print(f'{'Filename':33} | {'Path':53} | Content')
+    print(f'-'*173)
