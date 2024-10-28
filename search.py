@@ -5,7 +5,6 @@ import time
 
 
 # Internal Project Files
-import MultipleSearch
 import SearchName
 import SearchFileSize
 import AttributeSearch
@@ -22,16 +21,12 @@ def main():
         print('\n  Search Types:')
         print('    \'-a\' Attribute Search ---------- Searches the attributes of files and directories within a directory for a specific pattern')
         print('    \'-f\' File Content Search ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')
-        print('    \'-m\' Multiple Search ----------- Execute multiple types of searches and find the files and directories matching all search patterns')
         print('')
         print('\tATTRIBUTE SEARCH INSTRUCTIONS:')
         AttributeSearch.AttributeSearchInstructions('\t')
         print()
         print('\tFILE CONTENT SEARCH INSTRUCTIONS:')
         FileContentSearch.FileContentSearchInstructions('\t')
-        print()
-        print('\tMULTIPLE SEARCH INSTRUCTIONS:')
-        MultipleSearch.MultipleSearchInstructions('\t')
         print()
         sys.exit()
 
@@ -42,9 +37,6 @@ def main():
     # File Content Mode
     elif (sys.argv[1] == '-f'):
         FileContentSearch.FileContentSearch()
-    # Multiple Search mode
-    elif (sys.argv[1] == '-m'):
-        MultipleSearch.MultipleSearchInstructions('\t')
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
