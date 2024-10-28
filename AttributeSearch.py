@@ -630,8 +630,7 @@ def DateModifiedSearch():
                     latestFirst = True
                     earliestFirst = False
                 else:
-                    print(
-                        'Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
+                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
                     sys.exit()
             else:
                 print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
