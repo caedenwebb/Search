@@ -1,3 +1,1 @@
 1. Caching of file and directory objects in files in order to enable quicker searches
-2. Formatting of File Content Searches
-3. Implementation of regular expressions in search patterns of files and filenames
