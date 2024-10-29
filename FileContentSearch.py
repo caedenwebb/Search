@@ -64,7 +64,10 @@ def ExecuteSearch(filelist, patternType, pattern) -> list:
     ReturnData = [] # List for returning a list of file objects matching the search pattern
     for file in filelist:
         fileHandler = open(file, 'r') # Object to hold the file handler for file I/O
-        fileContents = fileHandler.readlines() # list to contain the lines of the file
+        try:
+            fileContents = fileHandler.readlines() # list to contain the lines of the file
+        except:
+            continue
         fileReturnObject = None # Null ptr to a fileReturnObject for the file in the event that the file matches the pattern
         lineNum = 1 # Value to store the current line number
 
@@ -83,6 +86,7 @@ def ExecuteSearch(filelist, patternType, pattern) -> list:
                 else:
                     lineNum = lineNum + 1
                     continue
+
         # If the pattern type is a regular expression
         elif (patternType == 'regex'):
             for line in fileContents:
@@ -98,6 +102,7 @@ def ExecuteSearch(filelist, patternType, pattern) -> list:
                 else:
                     lineNum = lineNum + 1
                     continue
+
         # if the pattern type is not recognized
         else:
             print(f'Error: Pattern type {pattern} not recognized.')
