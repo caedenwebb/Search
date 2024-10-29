@@ -6,9 +6,6 @@ def OutputAttributes(filelist: list, numberResults, time):
         PrintLine(item)
     print()
 
-def OutputInputSearch():
-    pass
-
 def OutputToFile(filelist, path):
     outputFile = open(path, 'w')
     outputBuffer = []

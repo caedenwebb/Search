@@ -1,11 +1,8 @@
-# Python Libraries
+import re
 import os
 import sys
-import time
-
-import FormatOutput
-# Internal Project Files
-import SearchFileContent
+import utils
+import FileClass
 
 
 def FileContentSearch():
@@ -15,74 +12,83 @@ def FileContentSearch():
         sys.exit()
 
     if (len(sys.argv) < 4):
+        print('Error: No search pattern type specified.')
+        sys.exit()
+
+    if (sys.argv[3] != 'str' and sys.argv[3] != 'regex'):
+        print(f'Error: Search pattern type "{sys.argv[3]}" not recognized.')
+        sys.exit()
+
+    # if the user fails to provide a search pattern
+    if (len(sys.argv) < 5):
         print('Error: No search pattern has been entered.')
         sys.exit()
 
-    # Parse directories and files input by the user
-    inputFileArgument = sys.argv[2]
-    inputFileList = sys.argv[2].split(';')
-    filteredFileList = []
-    for file in inputFileList:
-        if (file == ''):
-            continue
-        if (os.path.exists(file)):
-            filteredFileList.append(file)
-        else:
-            print(f'Skipping \'{file}\' because it does not exist...')
+    # If the user fails to provide a list of files to search
+    if (len(sys.argv) < 6):
+        print('Error: No files have been entered. To enter files, surround the files in quotations marks and separate them by a semi-colon.')
+        sys.exit()
 
-    # Parse the pattern
-    pattern = sys.argv[3]
+    # Check files for compatibility
+    filelist = sys.argv[4].split(';')
+    for index in range(len(filelist)):
+        try:
+            fileHandler = open(filelist[index], 'r')
+        except FileNotFoundError:
+            print(f'Error: "{filelist[index]}" not found.')
+            filelist.pop(index)
+        except OSError:
+            print(f'Error: "{filelist[index]}" is not supported.')
+            filelist.pop(index)
 
-    # Parse the additional flags input by the user
-    recursiveFlag = False
-    outputLines = True
-    outputPaths = True
-    if (len(sys.argv) >= 5):
-        currentIndex = 4
-        while (currentIndex < len(sys.argv)):
-            if (sys.argv[currentIndex] == '/r'):
-                recursiveFlag = True
-                currentIndex = currentIndex + 1
-            elif (sys.argv[currentIndex] == '/l'):
-                outputLines = True
-                currentIndex = currentIndex + 1
-            elif (sys.argv[currentIndex] == '/p'):
-                outputPaths = True
-                currentIndex = currentIndex + 1
-            else:
-                currentIndex = currentIndex + 1
-                continue
+    # Execute search on valid files
+    results = ExecuteSearch(filelist, sys.argv[3], sys.argv[5])
 
-    # Execute the search and print results
-    dirNum = 1
-    print('\nResults:')
-    for file in filteredFileList:
-        if (os.path.isdir(file) == True):
-            results = SearchFileContent.SearchDirectory(file, pattern, recursiveFlag)
-        else:
-            results = SearchFileContent.SearchFile(file, pattern)
-            print()
-            if (results[1].ReturnData != []):
-                print(f'{dirNum}. {results[1].path}:\n')
-                dirNum = dirNum + 1
-            for line in results[1].ReturnData:
-                print(f'\tln {line[0]} -- "{line[1]}"')
-    print('\n')
-
-    #FormatOutput.OutputFileContentSearch(filteredFileList)
-
-    # Exit
-    sys.exit()
+    # Output Results
 
 def FileContentSearchInstructions(tab=''):
-    print(f'\n{tab}Usage: search -f [files/directories] [pattern] [additional flags for File Content Mode]')
-    print(f'\n{tab}  Listing files and directories: Files and directories should be listed in quotes and separated by semicolons')
-    print(f'\n{tab}       Ex: ')
-    print(f'{tab}          On Windows: "C:/Users/John Doe;C:/testfile.txt"')
-    print(f'{tab}          On Unix: "/home/John Doe;/testfile.txt"')
-    print(f'\n{tab}  Flags for File Content Mode:\n')
-    print(f'{tab}     1. \'/r\' (recursive) ------------------ recursively search the files in any subdirectories of the provided directories')
-    print(f'{tab}     2. \'/l\' (output-lines) --------------- tells search to output the lines of the file or files containing the pattern')
-    print(f'{tab}     3. \'/p\' (output-paths) --------------- tells search to output paths of files matching the pattern')
-    print(f'\n{tab}     NOTE: Please note that recursively searching directories may take a long time.')
+    print(f'\n{tab}Usage: search -f [pattern type] [pattern] [files] [flags]')
+    print(f'\n{tab*2}Pattern type:')
+    print(f'{tab*3}\'regex\' ---------- regular expression (searches files for a string of characters matching a regular expression)')
+    print(f'{tab*3}\'literal\' -------- string literal (searches files for a string literal)')
+    print(f'\n{tab*2}How to input files: ')
+    print(f'{tab*3}EX 1: "C:/Users/John Doe.txt;G:/Files/file.txt" -- searhces the files "C:/Users/John Doe.txt" and "G:/Files/file.txt"')
+    print(f'{tab*3}EX 2: "C:/Users/Caeden/item.txt" -- searches the file "C:/Users/Caeden/item.txt"')
+    print(f'\n{tab*2}Flags:')
     print()  # Insert newline under final print
+
+def ExecuteSearch(filelist, patternType, pattern) -> list:
+    ReturnData = [] # List for returning a list of file objects matching the search pattern
+    for file in filelist:
+        fileHandler = open(file, 'r') # Object to hold the file handler for file I/O
+        fileContents = fileHandler.readlines() # list to contain the lines of the file
+        fileReturnObject = None # Null ptr to a fileReturnObject for the file in the event that the file matches the pattern
+        lineNum = 1 # Value to store the current line number
+
+        # If the pattern type is a string literal
+        if (patternType == 'str'):
+            for line in fileContents:
+                line = line.strip('\n')
+                if (utils.SearchString(line, pattern) == True):
+                    if (fileReturnObject == None):
+                        fileReturnObject = FileClass.File(file)
+                        fileReturnObject.ReturnData = [[lineNum, line]]
+                        lineNum = lineNum + 1
+                    else:
+                        fileReturnObject.ReturnData.append([lineNum, line])
+                        lineNum = lineNum + 1
+                else:
+                    continue
+        # If the pattern type is a regular expression
+        elif (patternType == 'regex'):
+            for line in fileContents:
+                pass
+        # if the pattern type is not recognized
+        else:
+            print('Error: Pattern type not recognized.')
+            sys.exit()
+
+        if (fileReturnObject != None):
+            ReturnData.append(fileReturnObject)
+
+    return ReturnData
