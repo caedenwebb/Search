@@ -2,7 +2,9 @@ import re
 import os
 import sys
 import utils
+import time
 import FileClass
+from FormatOutput import OutputFileContentSearch
 
 
 def FileContentSearch():
@@ -11,21 +13,17 @@ def FileContentSearch():
         FileContentSearchInstructions()
         sys.exit()
 
-    if (len(sys.argv) < 4):
-        print('Error: No search pattern type specified.')
-        sys.exit()
-
-    if (sys.argv[3] != 'str' and sys.argv[3] != 'regex'):
+    if (sys.argv[2] != 'str' and sys.argv[2] != 'regex'):
         print(f'Error: Search pattern type "{sys.argv[3]}" not recognized.')
         sys.exit()
 
     # if the user fails to provide a search pattern
-    if (len(sys.argv) < 5):
+    if (len(sys.argv) < 4):
         print('Error: No search pattern has been entered.')
         sys.exit()
 
     # If the user fails to provide a list of files to search
-    if (len(sys.argv) < 6):
+    if (len(sys.argv) < 5):
         print('Error: No files have been entered. To enter files, surround the files in quotations marks and separate them by a semi-colon.')
         sys.exit()
 
@@ -42,9 +40,14 @@ def FileContentSearch():
             filelist.pop(index)
 
     # Execute search on valid files
-    results = ExecuteSearch(filelist, sys.argv[3], sys.argv[5])
+    start_time = time.time_ns()
+    results = ExecuteSearch(filelist, sys.argv[2], sys.argv[3])
+    end_time = time.time_ns()
+    duration = end_time - start_time
+
 
     # Output Results
+    OutputFileContentSearch(results, duration)
 
 def FileContentSearchInstructions(tab=''):
     print(f'\n{tab}Usage: search -f [pattern type] [pattern] [files] [flags]')
@@ -78,14 +81,26 @@ def ExecuteSearch(filelist, patternType, pattern) -> list:
                         fileReturnObject.ReturnData.append([lineNum, line])
                         lineNum = lineNum + 1
                 else:
+                    lineNum = lineNum + 1
                     continue
         # If the pattern type is a regular expression
         elif (patternType == 'regex'):
             for line in fileContents:
-                pass
+                line = line.strip('\n')
+                if (re.match(pattern, line)):
+                    if (fileReturnObject == None):
+                        fileReturnObject = FileClass.File(file)
+                        fileReturnObject.ReturnData = [[lineNum, line]]
+                        lineNum = lineNum + 1
+                    else:
+                        fileReturnObject.ReturnData.append([lineNum, line])
+                        lineNum = lineNum + 1
+                else:
+                    lineNum = lineNum + 1
+                    continue
         # if the pattern type is not recognized
         else:
-            print('Error: Pattern type not recognized.')
+            print(f'Error: Pattern type {pattern} not recognized.')
             sys.exit()
 
         if (fileReturnObject != None):
