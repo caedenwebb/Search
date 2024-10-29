@@ -1,5 +1,7 @@
 # Python Libraries
 import os
+import re
+import sys
 
 # Internal Project Files
 from utils import SearchString
@@ -7,48 +9,96 @@ import FileClass
 
 # External Libraries
 
-def SearchName(SearchDir, SearchPattern, recursiveFlag) -> list:
+def SearchName(SearchDir, patternType, SearchPattern, recursiveFlag) -> list:
     '''
     Implements functionality of the application which searches for a list of files and directories containing a string in the name
     :param SearchDir: Takes in the directory to search
+    :param patternType: Takes in a string representing either string literals or regular expressions
     :param SearchPattern: Takes in the pattern to search for
     :param recursiveFlag: Whether to recurse or not
     :return: A list of directories and files whose names match the search term
     '''
+    if (patternType == 'str'):
+        # Attempt to list the directory
+        try:
+            itemlist = os.listdir(SearchDir)
+        # If obtaining a list of files and directories in a directory fails because of a lack of permission, return empty list
+        except PermissionError:
+            return []
 
-    # Attempt to list the directory
-    try:
-        itemlist = os.listdir(SearchDir)
-    # If obtaining a list of files and directories in a directory fails because of a lack of permission, return empty list
-    except PermissionError:
-        return []
+        returnList = [] # List to contain files and directories meeting the search pattern
 
-    returnList = [] # List to contain files and directories meeting the search pattern
-    # Recursively search through files and directories to check if their filenames meet the search pattern
-    for item in itemlist:
-        # If the item is a directory
-        if (os.path.isdir(SearchDir + "/" + item)):
-            # If the directory meets the search pattern, add to the returnList, and recurse through the files and directories inside said dir
-            if (SearchString(item, SearchPattern) == True):
-                DirectoryObject = FileClass.Directory(f'{SearchDir}/{item}')
-                returnList.append(DirectoryObject)
-                if (recursiveFlag == True):
-                    for subitem in SearchName(SearchDir + '/' + item, SearchPattern, True):
-                        returnList.append(subitem)
-            # If the directory does not meet the search pattern, recurse through the files and directories inside directory
+        # Recursively search through files and directories to check if their filenames meet the search pattern
+        for item in itemlist:
+            # If the item is a directory
+            if (os.path.isdir(SearchDir + "/" + item)):
+                # If the directory meets the search pattern, add to the returnList, and recurse through the files and directories inside said dir
+                if (SearchString(item, SearchPattern) == True):
+                    DirectoryObject = FileClass.Directory(f'{SearchDir}/{item}')
+                    returnList.append(DirectoryObject)
+                    if (recursiveFlag == True):
+                        for subitem in SearchName(SearchDir + '/' + item, patternType, SearchPattern, True):
+                            returnList.append(subitem)
+                # If the directory does not meet the search pattern, recurse through the files and directories inside directory
+                else:
+                    if (recursiveFlag == True):
+                        for subitem in SearchName(SearchDir + '/' + item, patternType, SearchPattern, True):
+                            returnList.append(subitem)
+            # If the item is a file
             else:
-                if (recursiveFlag == True):
-                    for subitem in SearchName(SearchDir + '/' + item, SearchPattern, True):
-                        returnList.append(subitem)
-        # If the item is a file
-        else:
-            # If the file meets the search pattern
-            if (SearchString(item, SearchPattern) == True):
-                FileObject = FileClass.File(f'{SearchDir}/{item}')
-                returnList.append(FileObject)
-            # If the file does not meet the search pattern
-            else:
-                continue
+                # If the file meets the search pattern
+                if (SearchString(item, SearchPattern) == True):
+                    FileObject = FileClass.File(f'{SearchDir}/{item}')
+                    returnList.append(FileObject)
+                # If the file does not meet the search pattern
+                else:
+                    continue
 
-    # Return the list of files and dirs meeting search pattern
-    return returnList
+        # Return the list of files and dirs meeting search pattern
+        return returnList
+    elif (patternType == 'regex'):
+        # Attempt to list the directory
+        try:
+            itemlist = os.listdir(SearchDir)
+        # If obtaining a list of files and directories in a directory fails because of a lack of permission, return empty list
+        except PermissionError:
+            return []
+
+        returnList = []  # List to contain files and directories meeting the search pattern
+
+        # Recursively search through files and directories to check if their filenames meet the search pattern
+        for item in itemlist:
+            # If the item is a directory
+            if (os.path.isdir(SearchDir + "/" + item)):
+                # If the directory meets the search pattern, add to the returnList, and recurse through the files and directories inside said dir
+                try:
+                    if (re.match(SearchPattern, item)):
+                        DirectoryObject = FileClass.Directory(f'{SearchDir}/{item}')
+                        returnList.append(DirectoryObject)
+                        if (recursiveFlag == True):
+                            for subitem in SearchName(SearchDir + '/' + item, patternType, SearchPattern, True):
+                                returnList.append(subitem)
+                # If the directory does not meet the search pattern, recurse through the files and directories inside directory
+                    else:
+                        if (recursiveFlag == True):
+                            for subitem in SearchName(SearchDir + '/' + item, patternType, SearchPattern, True):
+                                returnList.append(subitem)
+                except:
+                    print('Error: Regular expression is invalid.')
+                    sys.exit()
+            # If the item is a file
+            else:
+                # If the file meets the search pattern
+                try:
+                    if (re.match(SearchPattern, item)):
+                        FileObject = FileClass.File(f'{SearchDir}/{item}')
+                        returnList.append(FileObject)
+                except:
+                    print('Error: Regular expression is invalid.')
+                    sys.exit()
+                # If the file does not meet the search pattern
+                else:
+                    continue
+
+        # Return the list of files and dirs meeting search pattern
+        return returnList

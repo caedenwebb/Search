@@ -60,8 +60,8 @@ def FileNameSearch():
     outputToFile = False
     outputFilePath = ''
     SimpleStringOutput = False
-    if (len(sys.argv) > 5 and sys.argv[5] != ' '):
-        i = 5
+    if (len(sys.argv) > 6 and sys.argv[6] != ' '):
+        i = 6
         while (i != len(sys.argv)):
             if (sys.argv[i] == '/r'):
                 recursiveFlag = True
@@ -143,10 +143,10 @@ def FileNameSearch():
             i = i + 1
 
     # If proper input is specified (i.e. a directory, attribute, and pattern)
-    if (len(sys.argv) > 4 and sys.argv[4] != ''):
+    if (len(sys.argv) > 5 and (sys.argv[4] == 'str' or sys.argv[4] == 'regex')):
         # Execute the search
         startTime = time.time_ns()
-        filelist = SearchName.SearchName(sys.argv[2], sys.argv[4], recursiveFlag)
+        filelist = SearchName.SearchName(sys.argv[2], sys.argv[4], sys.argv[5], recursiveFlag)
         endTime = time.time_ns()
         timeUsed = endTime - startTime
 
@@ -181,9 +181,10 @@ def FileNameSearch():
             FormatOutput.OutputToFile(filelist, outputFilePath)
 
     # When the user fails to specify a search pattern
-    else:
-        print(f'Error: No search pattern provided.\n')
+    if (len(sys.argv) == 5 and sys.argv[4] != 'regex' and sys.argv[4] != 'str'):
+        print(f'Error: \'{sys.argv[4]}\' is not a recognized pattern type.')
         sys.exit()
+
 
 def FileSizeSearch():
     # Check flags
@@ -702,6 +703,12 @@ def AttributeSearchInstructions(tab=''):
     print(f'{tab}   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
     print(f'{tab}   date-created --------------- returns files and directories matching the date range provided in the pattern for their creation dates')
     print(f'{tab}   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
+
+    print(f'{tab}   For filename searches:')
+    print(f'{tab}     Special Usage: search -a [directory] [attribute] [pattern type] [pattern] [flags]')
+    print(f'{tab}       Filename Search Pattern Types: ')
+    print(f'{tab}          \'str\' ------------------ searches for files and directories having a filename matching a string literal pattern')
+    print(f'{tab}          \'regex\' ---------------- searches for files and directories having a filename matching a regular expression pattern\n')
 
     print(f'{tab}   For File Size Searches:')
     print(f'{tab}       Flags: ')
