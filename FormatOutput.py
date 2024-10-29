@@ -12,7 +12,7 @@ def OutputToFile(filelist, path):
     outputFile = open(path, 'w')
     outputBuffer = []
     for file in filelist:
-        outputBuffer.append(f'{'{'}TYPE="{file.type}";FILENAME="{file.filename}";PATH="{file.path}";DATE_CREATED="{file.date_created}";DATE_MODIFIED="{file.date_modified}";RAWCREATIONTIME="{file.rawCreationTime}";RAWMODIFIEDTIME="{file.rawModifiedTime}"{'}'}')
+        outputBuffer.append(f'{'{'}TYPE="{file.type}";FILENAME="{file.filename}";PATH="{file.path}";DATE_CREATED="{file.date_created}";DATE_MODIFIED="{file.date_modified}";RAWCREATIONTIME="{file.rawCreationTime}";RAWMODIFIEDTIME="{file.rawModifiedTime}";{file.ReturnData}{'}'}')
     outputFile.writelines(outputBuffer)
     outputFile.close()
 
@@ -35,6 +35,7 @@ def PrintLine(file):
     if (len(filename) > 31):
         filename = filename[:30]
         filename = filename + '...'
+
     # Adjust path size
     if (len(path) > 103):
         path = path[:102]
