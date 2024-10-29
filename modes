@@ -2,8 +2,6 @@ Search modes:
 
     1. Attribute mode (Search attributes of files and directories in a given directory)
     2. File content mode (Search contents of a given file)
-    3. Directory contents mode (Search the contents of a files in a given directory)
-    4. Input mode (Search input text for given pattern)
 
 Operation modes:
     1. Graphics mode (gfxsearch)

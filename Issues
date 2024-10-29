@@ -2,4 +2,3 @@
 2. Recursive searches are very slow
 3. The table only prints properly in the PyCharm console, but not in the Microsoft Terminal
 4. File Content Searches do not properly handle non text files (eg. word, pdf, etc)
-5. File content searches do not properly handle

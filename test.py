@@ -2,6 +2,7 @@ import unittest
 import utils
 import FileClass
 import SearchDate
+import FileContentSearch
 
 class MyTestCase(unittest.TestCase):
     def test_SearchString(self):
@@ -31,6 +32,7 @@ class MyTestCase(unittest.TestCase):
         path = 'G:/My Drive/College Files/Professor Advice.txt'
         object = FileClass.File(path)
         self.assertEqual(object.filename, 'Professor Advice.txt')
+
 
 
 if __name__ == '__main__':
