@@ -8,10 +8,10 @@ def OutputAttributes(filelist: list, numberResults, time):
         PrintLine(item)
     print()
 
-def OutputToFile(filelist, path):
+def OutputToFile(results, path):
     outputFile = open(path, 'w')
     outputBuffer = []
-    for file in filelist:
+    for file in results:
         outputBuffer.append(f'{'{'}TYPE="{file.type}";FILENAME="{file.filename}";PATH="{file.path}";DATE_CREATED="{file.date_created}";DATE_MODIFIED="{file.date_modified}";RAWCREATIONTIME="{file.rawCreationTime}";RAWMODIFIEDTIME="{file.rawModifiedTime}";{file.ReturnData}{'}'}')
     outputFile.writelines(outputBuffer)
     outputFile.close()
