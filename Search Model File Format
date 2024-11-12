@@ -1,0 +1,10 @@
+File extension: .sm
+
+
+Example File:
+
+SearchModelType: {Describes the Search Type for the Model}
+DirectoryModeled: {Contains the path to the directory that is modeled by the file}
+---------------------------------------------------------------------------------------------------------------------
+Content:
+{Contains the Binary Search Tree or Hash Table which represents the Directory}

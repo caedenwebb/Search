@@ -5,3 +5,4 @@ dist/
 .idea/
 __pycache__/
 example search for date-created.txt
+testdatafiles/
