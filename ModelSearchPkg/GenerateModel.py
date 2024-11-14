@@ -1,9 +1,25 @@
 import sys
 import os
+import BST
+import FileClass
+
 
 def GenerateFileSizeModel(dir) -> []:
     """This function generates a binary search tree search model for use in file-size searches and saves to a file"""
-    pass
+    dirlist = os.listdir(dir)
+    results = []
+    for item in dirlist:
+        try:
+            if os.path.isdir(dir + '/' + item):
+                results.append(FileClass.Directory(dir + '/' + item))
+                results.append(GenerateFileSizeModel(dir + '/' + item))
+            else:
+                results.append(FileClass.File(dir + '/' + item))
+        except PermissionError:
+            print(f'Skipping {dir + '/' + item}')
+            continue
+    return results
+
 
 
 def GenerateModel():
