@@ -8,7 +8,7 @@ import SearchName
 import SearchFileSize
 import AttributeSearch
 import FileContentSearch
-from ModelSearch import ModelSearch
+from ModelSearchPkg import ModelSearch
 
 # External Libraries
 
@@ -42,6 +42,9 @@ def main():
     # File Content Mode
     elif (sys.argv[1] == '-f'):
         FileContentSearch.FileContentSearch()
+    # Model Mode
+    elif (sys.argv[1] == '-m'):
+        ModelSearch.ModelSearch()
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
