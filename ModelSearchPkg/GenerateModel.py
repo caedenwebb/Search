@@ -3,23 +3,56 @@ import os
 import BST
 import FileClass
 
-
-def GenerateFileSizeModel(dir) -> []:
-    """This function generates a binary search tree search model for use in file-size searches and saves to a file"""
-    dirlist = os.listdir(dir)
-    results = []
-    for item in dirlist:
+def GetFilesForSizeModel(directory, files={}):
+    dirlist = os.listdir(directory)
+    for file in dirlist:
         try:
-            if os.path.isdir(dir + '/' + item):
-                results.append(FileClass.Directory(dir + '/' + item))
-                results.append(GenerateFileSizeModel(dir + '/' + item))
+            if os.path.isdir(directory + '/' + file):
+                dirObject = FileClass.Directory(directory + '/' + file)
+                if not (dirObject.size in files.keys()):
+                    files[dirObject.size] = [dirObject]
+                else:
+                    files[dirObject.size].append(dirObject)
+                print(f'Including {directory}/{file}...')
+                print(f'Search {directory}/{file}...')
+                GetFilesForSizeModel(directory + '/' + file, files)
             else:
-                results.append(FileClass.File(dir + '/' + item))
-        except PermissionError:
-            print(f'Skipping {dir + '/' + item}')
-            continue
-    return results
+                fileObject = FileClass.File(directory + '/' + file)
+                if not (fileObject.size in files.keys()):
+                    files[fileObject.size] = [fileObject]
+                else:
+                    files[fileObject.size].append(fileObject)
+                print(f'Including {directory}/{file}')
+        except:
+            print(f'Skipping {directory}/{file} due to exception...')
 
+    return files
+
+def GetFilesForFilenameModel(dir):
+    dirlist = os.listdir(dir)
+    files = []
+    for file in dirlist:
+        try:
+            if os.path.isdir(dir + '/' + file):
+                dirObject = FileClass.Directory(dir + '/' + file)
+                files.append(dirObject)
+                print(f'Including {dir}/{file}...')
+                print(f'Search {dir}/{file}...')
+                results = GetFilesForFilenameModel(dir + '/' + file)
+                files = files + results
+            else:
+                fileObject = FileClass.File(dir + '/' + file)
+                files.append(fileObject)
+                print(f'Including {dir}/{file}')
+        except:
+            print(f'Skipping {dir}/{file} due to exception...')
+
+    return files
+
+def GenerateFileSizeModel(directory):
+    files = GetFilesForSizeModel(directory)
+    tree = BST.BST()
+    pass
 
 
 def GenerateModel():
