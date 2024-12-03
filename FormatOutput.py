@@ -1,5 +1,7 @@
 import sys
 
+#print(f'{'Filename':25}| {'Path':32}| {'Filesize':15}| {'Creation Date':15}| {'Modified Date':15}|')
+
 def OutputAttributes(filelist: list, numberResults, time):
     print(f'\nResults ({numberResults} results, {time}ns): \n')
     print(f'{'Filename':33} | {'Path':106}| {'Filesize':18} | {'Creation Date':14} | {'Modified Date'}')
