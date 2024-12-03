@@ -1,59 +1,9 @@
 import sys
 import os
-import BST
+import datetime
+from ModelSearchPkg.FilesizeModel import BST
 import FileClass
-
-def GetFilesForSizeModel(directory, files={}):
-    dirlist = os.listdir(directory)
-    for file in dirlist:
-        try:
-            if os.path.isdir(directory + '/' + file):
-                dirObject = FileClass.Directory(directory + '/' + file)
-                if not (dirObject.size in files.keys()):
-                    files[dirObject.size] = [dirObject]
-                else:
-                    files[dirObject.size].append(dirObject)
-                print(f'Including {directory}/{file}...')
-                print(f'Search {directory}/{file}...')
-                GetFilesForSizeModel(directory + '/' + file, files)
-            else:
-                fileObject = FileClass.File(directory + '/' + file)
-                if not (fileObject.size in files.keys()):
-                    files[fileObject.size] = [fileObject]
-                else:
-                    files[fileObject.size].append(fileObject)
-                print(f'Including {directory}/{file}')
-        except:
-            print(f'Skipping {directory}/{file} due to exception...')
-
-    return files
-
-def GetFilesForFilenameModel(dir):
-    dirlist = os.listdir(dir)
-    files = []
-    for file in dirlist:
-        try:
-            if os.path.isdir(dir + '/' + file):
-                dirObject = FileClass.Directory(dir + '/' + file)
-                files.append(dirObject)
-                print(f'Including {dir}/{file}...')
-                print(f'Search {dir}/{file}...')
-                results = GetFilesForFilenameModel(dir + '/' + file)
-                files = files + results
-            else:
-                fileObject = FileClass.File(dir + '/' + file)
-                files.append(fileObject)
-                print(f'Including {dir}/{file}')
-        except:
-            print(f'Skipping {dir}/{file} due to exception...')
-
-    return files
-
-def GenerateFileSizeModel(directory):
-    files = GetFilesForSizeModel(directory)
-    tree = BST.BST()
-    pass
-
+from ModelSearchPkg import SearchModel
 
 def GenerateModel():
     """This function implements functionality to determine which model to generate, and where to save the model"""
@@ -105,6 +55,67 @@ def GenerateModel():
         GenerateFileSizeModel(sys.argv[4])
 
 
+def GetFilesForSizeModel(directory, files={}):
+    """Returns a dictionary of filesizes where each filesize is the key, and the value is a list of file objects"""
+    dirlist = os.listdir(directory)
+    for file in dirlist:
+        try:
+            if os.path.isdir(directory + '/' + file):
+                dirObject = FileClass.Directory(directory + '/' + file)
+                if not (dirObject.size in files.keys()):
+                    files[dirObject.size] = [dirObject]
+                else:
+                    files[dirObject.size].append(dirObject)
+                print(f'Including {directory}/{file}...')
+                print(f'Search {directory}/{file}...')
+                GetFilesForSizeModel(directory + '/' + file, files)
+            else:
+                fileObject = FileClass.File(directory + '/' + file)
+                if not (fileObject.size in files.keys()):
+                    files[fileObject.size] = [fileObject]
+                else:
+                    files[fileObject.size].append(fileObject)
+                print(f'Including {directory}/{file}')
+        except:
+            print(f'Skipping {directory}/{file} due to exception...')
+
+    return files
+
+def GetFilesForFilenameModel(dir):
+    """Returns a list of file objects"""
+    dirlist = os.listdir(dir)
+    files = []
+    for file in dirlist:
+        try:
+            if os.path.isdir(dir + '/' + file):
+                dirObject = FileClass.Directory(dir + '/' + file)
+                files.append(dirObject)
+                print(f'Including {dir}/{file}...')
+                print(f'Search {dir}/{file}...')
+                results = GetFilesForFilenameModel(dir + '/' + file)
+                files = files + results
+            else:
+                fileObject = FileClass.File(dir + '/' + file)
+                files.append(fileObject)
+                print(f'Including {dir}/{file}')
+        except:
+            print(f'Skipping {dir}/{file} due to exception...')
+
+    return files
+
+def GenerateFileSizeModel(directory):
+    """Generates a file size model"""
+    files = GetFilesForSizeModel(directory)
+
+    sModel = SearchModel.SearchModel()
+    sModel.ModelType = sys.argv[3]
+    sModel.ModelDirectory = directory
+    rawDate = str(datetime.date.today()).split('-')
+    sModel.ModelDateCreated = f'{rawDate[1]}-{rawDate[2]}-{rawDate[0]}'
+    sModel.Model = BST.BST()
+
+    for size in files.keys():
+        sModel.Model.add(size, files[size])
 
 def GenerateFilenameModel():
     pass
