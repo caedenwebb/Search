@@ -2,7 +2,6 @@ from AVL import avl
 import SearchFileSize
 import os
 import FileClass
-from AVL import avl
 
 def GetFilesForSizeModel(directory, files={}):
     """Returns a dictionary of filesizes where each filesize is the key, and the value is a list of file objects"""
@@ -30,6 +29,12 @@ def GetFilesForSizeModel(directory, files={}):
 
     return files
 
-def CreateModel(files):
-    for index in files.keys():
+tree = avl.AVL()
+files = GetFilesForSizeModel('G:/My Drive/College Files/2024-2025/Microeconomics')
+
+while(True):
+    userInput = input('search>')
+    if (userInput == 'q'):
+        break
+    else:
         pass
