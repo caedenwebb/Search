@@ -1,3 +1,0 @@
-1. Alphabetize sorting does not correctly alphabetize sort 100% of the time??
-2. The table only prints properly in the PyCharm console, but not in the Microsoft Terminal
-3. File Content Searches do not properly handle non text files (eg. word, pdf, etc)

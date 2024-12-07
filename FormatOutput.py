@@ -1,9 +1,12 @@
 import sys
 
+#print(f'{'Filename':25}| {'Path':32}| {'Filesize':15}| {'Creation Date':15}| {'Modified Date':15}|')
+
 def OutputAttributes(filelist: list, numberResults, time):
     print(f'\nResults ({numberResults} results, {time}ns): \n')
+    #print(f'{'Filename':25}| {'Path':32}| {'Filesize':15}| {'Creation Date':15}| {'Modified Date':15}|')
     print(f'{'Filename':33} | {'Path':106}| {'Filesize':18} | {'Creation Date':14} | {'Modified Date'}')
-    print('-'*195)
+    print('-'*192)
     for item in filelist:
         PrintLine(item)
     print()
@@ -42,6 +45,7 @@ def PrintLine(file):
         path = path + '...'
 
     # String formatting with the help of: https://docs.python.org/3/library/string.html
+    #print(f'{filename:25}| {path:32}| {filesize:15}| {CreationDate:15}| {ModifiedDate:15}|')
     print(f'{filename:33} | {path:<105} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}')
 
 def OutputFileContentSearch(filelist, duration):

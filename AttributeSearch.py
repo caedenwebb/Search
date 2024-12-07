@@ -695,7 +695,7 @@ def DateModifiedSearch():
 
 
 def AttributeSearchInstructions(tab=''):
-    print(f'\n{tab}Usage: search -a [directory] [attribute] [pattern] [flags]')
+    print(f'\n{tab}Usage: {sys.argv[0]} -a [directory] [attribute] [pattern] [flags]')
     print(f'\n{tab}   Data Attributes to Search:\n')
     print(f'{tab}   filename ------------------ returns files and directories containing the given pattern in their filenames')
     print(f'{tab}   file-size ------------------ returns files and directories matching the size range provided in the pattern for their filesize')
@@ -703,7 +703,7 @@ def AttributeSearchInstructions(tab=''):
     print(f'{tab}   date-modified -------------- returns files and directories matching the date range provided in the pattern for their modification dates\n')
 
     print(f'{tab}   For filename searches:')
-    print(f'{tab}     Special Usage: search -a [directory] [attribute] [pattern type] [pattern] [flags]')
+    print(f'{tab}     Special Usage: {sys.argv[0]} -a [directory] [attribute] [pattern type] [pattern] [flags]')
     print(f'{tab}       Filename Search Pattern Types: ')
     print(f'{tab}          \'str\' ------------------ searches for files and directories having a filename matching a string literal pattern')
     print(f'{tab}          \'regex\' ---------------- searches for files and directories having a filename matching a regular expression pattern\n')
@@ -712,7 +712,7 @@ def AttributeSearchInstructions(tab=''):
     print(f'{tab}       Flags: ')
     print(f'{tab}          \'/r\' -- recursive, enables recursion through subdirectories of the search directory\n')
 
-    print(f'{tab}   Usage: search -a [directory] file-size [minValue]-[maxValue][units: OPTIONAL]')
+    print(f'{tab}   Usage: {sys.argv[0]} -a [directory] file-size [minValue]-[maxValue][units: OPTIONAL]')
     print(f'{tab}       Valid Units for File-Size Searches:')
     print(f'{tab}             1. \'b\' (bytes)')
     print(f'{tab}             2. \'kb\' (kilobytes)')
@@ -721,12 +721,12 @@ def AttributeSearchInstructions(tab=''):
     print(f'{tab}             5. \'tb\' (terabytes)')
 
     print(f'\n{tab}   For Date Created Searches:\n')
-    print(f'{tab}   Usage: search -a [directory] date-created [datesList]')
+    print(f'{tab}   Usage: {sys.argv[0]} -a [directory] date-created [datesList]')
     print(f'{tab}      How to enter dates:')
     print(f'{tab}         1. Enter all sets of date ranges separated by semi-colons')
     print(f'{tab}         2. Enter date ranges with the first date covered by the range on the left, and the last date on the right, separated by a \'-\'')
     print()
     print(f'{tab}      Examples:')
-    print(f'{tab}         1. search -a [directory] date-created "1/2/2015-1/3/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive')
-    print(f'{tab}         2. search -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive, \n{tab}{tab} as well as any files created on January 9, 2016')
-    print(f'{tab}         3. search -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016-1/10/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive\n{tab}{tab} as well as all files created on January 9, 2016 or January 10, 2016\n')
+    print(f'{tab}         1. {sys.argv[0]} -a [directory] date-created "1/2/2015-1/3/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive')
+    print(f'{tab}         2. {sys.argv[0]} -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive, \n{tab}{tab} as well as any files created on January 9, 2016')
+    print(f'{tab}         3. {sys.argv[0]} -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016-1/10/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive\n{tab}{tab} as well as all files created on January 9, 2016 or January 10, 2016\n')

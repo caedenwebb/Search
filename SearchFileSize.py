@@ -1,10 +1,8 @@
 # Python Libraries
 import os
 
-import FileClass
-
-
 # Internal Project Files
+import FileClass
 
 # External Libraries
 
