@@ -1,5 +1,5 @@
 
-from node import Node
+from AVL.node import Node
 
 """
 The AVL class. It will have one member variable, root, 
