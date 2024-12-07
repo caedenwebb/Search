@@ -50,7 +50,7 @@ def FileContentSearch():
     OutputFileContentSearch(results, duration)
 
 def FileContentSearchInstructions(tab=''):
-    print(f'\n{tab}Usage: search -f [pattern type] [pattern] [files] [flags]')
+    print(f'\n{tab}Usage: {sys.argv[0]} -f [pattern type] [pattern] [files] [flags]')
     print(f'\n{tab*2}Pattern type:')
     print(f'{tab*3}\'regex\' ---------- regular expression (searches files for a string of characters matching a regular expression)')
     print(f'{tab*3}\'literal\' -------- string literal (searches files for a string literal)')
