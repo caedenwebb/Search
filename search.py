@@ -13,11 +13,12 @@ def main():
 
     # When input is either: "search" or "python search.py"
     if (len(sys.argv) < 2):
-        print(f'\nUsage: {sys.argv[0]} [search type] [arguments]') # [directory/file] [attribute] [pattern]
-        print('\n  Search Types:')
-        print('    \'-a\' Attribute Search ---------- Searches the attributes of files and directories within a directory for a specific pattern')
+        print(f'\nUsage: {sys.argv[0]} [mode] [arguments]') # [directory/file] [attribute] [pattern]
+        print('\n  Modes:')
+        print('    \'-a\' Attribute search mode ---------- Searches the attributes of files and directories within a directory for a specific pattern')
+        print('    \'-s\' Search session mode ------------ Opens a search session which can be used to search through a model of a directory based on file-size, date-created, and date-modified')
         print('')
-        print('\tATTRIBUTE SEARCH INSTRUCTIONS:')
+        print('\tATTRIBUTE SEARCHES MODE:')
         AttributeSearch.AttributeSearchInstructions('\t')
         print()
         sys.exit()
