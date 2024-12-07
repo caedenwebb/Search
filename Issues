@@ -1,3 +1,0 @@
-1. Alphabetize sorting does not correctly alphabetize sort 100% of the time
-2. Recursive searches are very slow
-3. The table only prints properly in the PyCharm console, but not in the Microsoft Terminal)

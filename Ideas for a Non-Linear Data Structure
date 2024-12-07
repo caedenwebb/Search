@@ -1,7 +1,0 @@
-Add a feature which the user can tell the computer to generate a model of a directory in order to permit more
-efficient searches. (The user could type for instance search -g "C:/Users/Caeden" to get a generated search model of
-C:/Users/Caeden on which to do more efficient and quick searches on data that changes rarely but must be searched
-with efficiency.
-
-For filename searches: Hash Table
-For Date-Created, Date-Modified, and Filesize Searches: Binary Search Tree
