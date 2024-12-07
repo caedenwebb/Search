@@ -1,7 +1,6 @@
 import sys
 import os
 import datetime
-from ModelSearchPkg.FilesizeModel import BST
 import FileClass
 from ModelSearchPkg import SearchModel
 
@@ -112,7 +111,6 @@ def GenerateFileSizeModel(directory):
     sModel.ModelDirectory = directory
     rawDate = str(datetime.date.today()).split('-')
     sModel.ModelDateCreated = f'{rawDate[1]}-{rawDate[2]}-{rawDate[0]}'
-    sModel.Model = BST.BST()
 
     for size in files.keys():
         sModel.Model.add(size, files[size])

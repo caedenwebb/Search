@@ -18,7 +18,7 @@ def main():
 
     # When input is either: "search" or "python search.py"
     if (len(sys.argv) < 2):
-        print('\nUsage: search [search type] [arguments]') # [directory/file] [attribute] [pattern]
+        print(f'\nUsage: {sys.argv[0]} [search type] [arguments]') # [directory/file] [attribute] [pattern]
         print('\n  Search Types:')
         print('    \'-a\' Attribute Search ---------- Searches the attributes of files and directories within a directory for a specific pattern')
         print('    \'-f\' File Content Search ------- Searches the content of a file for a given pattern, or the files in a directory for a given pattern')

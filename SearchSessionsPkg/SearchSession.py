@@ -4,9 +4,6 @@ import sys
 
 def SearchSessionMain():
 
-    # Create search model of a directory to search
-
-
     # Mainloop
     while(True):
         # Get userinput
@@ -28,9 +25,9 @@ def SearchSessionMain():
             print(f'Error: \'{userInput.split(' ')[0]}\' is not a recognized command.')
 
 def HelpMenu():
-    print('Search Session Commands:')
+    print('\nSearch Session Commands:')
     print('   \'help\' (\'h\') ------------------------------------- Help menu')
     print('   \'exit\' (\'e\', \'quit\', \'q\') -------------------- Quit')
     print('   \'search\' ------------------------------------------- Execute a search query')
     print('   \'regenerate\' --------------------------------------- Regenerate the search model')
-    print('   \'clear\' -------------------------------------------- Clear screen')
+    print('   \'clear\' -------------------------------------------- Clear screen\n')
