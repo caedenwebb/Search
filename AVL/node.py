@@ -9,11 +9,11 @@ Note that this starter code is identical to that of the Node class in the BST pr
 """
 
 class Node:
-    def __init__(self, value):
+    def __init__(self, value, nodeContents):
         self.value = value  # The value at this node
         self.left = None  # A link (if any) to a node with a lesser value
         self.right = None  # A link (if any) to a node with a greater value
-        self.nodeContents = []
+        self.nodeContents = nodeContents
 
     def shiftLeft(self):
         """Shifts all nodes to the left (for instance, head node becomes left node of head, right node becomes head
@@ -23,10 +23,10 @@ class Node:
             self.right.shiftRight()
         # Regular rotation
         if self.left == None:
-            self.left = Node(self.value)
+            self.left = Node(self.value, self.nodeContents)
         else:
             leftNodePtr = self.left
-            self.left = Node(self.value)
+            self.left = Node(self.value, self.nodeContents)
             self.left.left = leftNodePtr
             self.left.right = self.right.left
             self.right.left = None
@@ -36,6 +36,7 @@ class Node:
     def pullLeft(self):
         if (self.right != None):
             self.value = self.right.value
+            self.nodeContents = self.right.nodeContents
             '''Attempt to fix code with respect to line 59 of tests'''
             if self.left == None:
                 if self.right.left != None:
@@ -57,10 +58,10 @@ class Node:
             self.left.shiftLeft()
         # Regular rotation
         if self.right == None:
-            self.right = Node(self.value)
+            self.right = Node(self.value, self.nodeContents)
         else:
             rightPtr = self.right
-            self.right = Node(self.value)
+            self.right = Node(self.value, self.nodeContents)
             self.right.right = rightPtr
             self.right.left = self.left.right
             self.left.right = None
@@ -70,6 +71,7 @@ class Node:
     def pullRight(self):
         if (self.left != None):
             self.value = self.left.value
+            self.nodeContents = self.left.nodeContents
             '''Attempt to fix code with respect to line 59 of tests'''
             if self.right == None:
                 if self.left.right != None:
@@ -84,17 +86,17 @@ class Node:
         else:
             return True
 
-    def add(self, value):
+    def add(self, value, nodeContents):
         if (value < self.value):
             if (self.left == None):
-                self.left = Node(value)
+                self.left = Node(value, nodeContents)
             else:
-                self.left.add(value)
+                self.left.add(value, nodeContents)
         else:
             if (self.right == None):
-                self.right = Node(value)
+                self.right = Node(value, nodeContents)
             else:
-                self.right.add(value)
+                self.right.add(value, nodeContents)
 
         balanceFactor = self.getBalance()
         # Right heavy, shift left
@@ -166,81 +168,11 @@ class Node:
         else:
             return 1 + self.right.height()
 
-    def remove(self, value):
-        # If value of node is the same as the value passed in
-        if (self.value == value):
-            # If node has no child nodes:
-            if (self.left == None and self.right == None):
-                return 'DELETE'
-            # if node has left node but not right node
-            elif (self.left != None and self.right == None):
-                return 'SETTOLEFT'
-            # If node has right node but not left node
-            elif (self.right != None and self.left == None):
-                return 'SETTORIGHT'
-            # If node has both left and right nodes
-            else:
-                return 'MOVERIGHTTOEND'
-        else:
-            # Recurse left node
-            if (self.left != None):
-                ret = self.left.remove(value)
-                if (ret == 'DELETE'):
-                    self.left = None
-                elif (ret == 'SETTOLEFT'):
-                    self.left = self.left.left
-                elif (ret == 'SETTORIGHT'):
-                    self.left = self.left.right
-                elif (ret == 'MOVERIGHTTOEND'):
-                    rightNode = self.left.right
-                    self.left = self.left.left
-                    self.left.moveEnd(rightNode)
-                else:
-                    pass
-            # Recurse right node
-            if (self.right != None):
-                ret = self.right.remove(value)
-                if (ret == 'DELETE'):
-                    self.right = None
-                elif (ret == 'SETTOLEFT'):
-                    self.right = self.right.left
-                elif (ret == 'SETTORIGHT'):
-                    self.right = self.right.right
-                elif (ret == 'MOVERIGHTTOEND'):
-                    rightNode = self.right.right
-                    self.right = self.right.left
-                    self.right.moveEnd(rightNode)
-                else:
-                    pass
+    def search(self, min, max):
+        contents = []
 
-            self.recbal()
 
-    def moveEnd(self, rightNode):
-        if (self.right == None):
-            self.right = rightNode
-        else:
-            self.right.moveEnd(rightNode)
+        return contents
 
-    def recbal(self):
-        if (self.left != None):
-            self.left.recbal()
-        if (self.right != None):
-            self.right.recbal()
-        balanceFactor = self.getBalance()
-        # Right heavy, shift left
-        if (balanceFactor > 1):
-            self.shiftLeft()
-            if (self.right != None and self.right.left != None):
-                if (self.right.left.value < self.value):
-                    self.left.right = self.right.left
-                    self.right.left = None
-        # Left heavy, shift right
-        elif (balanceFactor < -1):
-            self.shiftRight()
-            if (self.right != None and self.left.right != None):
-                if (self.left.right.value > self.value):
-                    self.right.left = self.left.right
-                    self.left.right = None
-        # Balanced
-        else:
-            pass
+    def getContents(self, node):
+        pass

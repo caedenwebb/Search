@@ -25,35 +25,11 @@ class AVL:
     def __init__(self):
         self.head = None
 
-    def add(self, value):
+    def add(self, value, nodeContents):
         if (self.head == None):
-            self.head = Node(value)
+            self.head = Node(value, nodeContents)
         else:
-            self.head.add(value)
-        return self
-
-    def remove(self, value):
-        # If tree is empty
-        if (self.head == None):
-            return self
-        else:
-            ret = self.head.remove(value)
-            if (ret == 'DELETE'):
-                self.head = None
-            elif (ret == 'SETTOLEFT'):
-                self.head = self.head.left
-                self.head.recbal()
-            elif (ret == 'SETTORIGHT'):
-                self.head = self.head.right
-                self.head.recbal()
-            elif (ret == 'MOVERIGHTTOEND'):
-                rightNode = self.head.right
-                self.head = self.head.left
-                self.head.moveEnd(rightNode)
-                self.head.recbal()
-            else:
-                pass
-
+            self.head.add(value, nodeContents)
         return self
 
     def contains(self, value):
@@ -76,12 +52,8 @@ class AVL:
             returnList = self.head.as_list()
             return returnList
 
-
     def height(self):
         if self.head == None:
             return 0
         else:
             return self.head.height()
-
-    def printExt(self):
-        printExt.printExt(self)
