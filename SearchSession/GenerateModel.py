@@ -2,6 +2,7 @@ from AVL import avl
 import SearchFileSize
 import os
 import FileClass
+import time
 
 def GetFilesForSizeModel(directory, files={}):
     """Returns a dictionary of filesizes where each filesize is the key, and the value is a list of file objects"""
@@ -29,12 +30,26 @@ def GetFilesForSizeModel(directory, files={}):
 
     return files
 
-tree = avl.AVL()
-files = GetFilesForSizeModel('G:/My Drive/College Files/2024-2025/Microeconomics')
+def GenerateModelFileSize(directory):
+    """Generates and returns a AVL tree for searching a directory based on the file-size"""
+    tree = avl.AVL()
+    files = GetFilesForSizeModel(directory)
+    for index in files.keys():
+        tree.add(index, files[index])
+    return tree
 
-while(True):
+model = GenerateModelFileSize('G:/My Drive/College Files/2024-2025')
+while (True):
     userInput = input('search>')
     if (userInput == 'q'):
         break
     else:
-        pass
+        userInput = userInput.split('-')
+        start_time = time.time_ns()
+        results = model.rangeSearch(int(userInput[0]), int(userInput[1]))
+        end_time = time.time_ns()
+
+        print(f'Results ({len(results)}, {end_time - start_time}ns):')
+
+        for file in results:
+            print(file.filename)
