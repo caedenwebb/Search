@@ -168,11 +168,43 @@ class Node:
         else:
             return 1 + self.right.height()
 
-    def search(self, min, max):
+    def rangeSearch(self, min, max):
         contents = []
 
+        if (self.value > min and self.value < max):
+            contents = contents + self.nodeContents
+            if (self.left != None):
+                contents = contents + self.left.rangeSearch(min, max)
+            if (self.right != None):
+                contents = contents + self.right.rangeSearch(min, max)
+        elif (self.value == min):
+            contents = contents + self.nodeContents
+            if (self.right != None):
+                contents = contents + self.right.rangeSearch(min, max)
+        elif (self.value == max):
+            contents = contents + self.nodeContents
+            if (self.left != None):
+                contents = contents + self.left.rangeSearch(min, max)
+        elif (self.value > max):
+            contents = contents + self.left.rangeSearch(min, max)
+        elif (self.value < min):
+            contents = contents + self.right.rangeSearch(min, max)
+        else:
+            pass
 
         return contents
 
-    def getContents(self, node):
-        pass
+    def search(self, value):
+        if (self.value == value):
+            return self.nodeContents
+        elif (value < self.value):
+            if (self.left != None):
+                return self.left.search(value)
+            else:
+                return []
+        else:
+            if (self.right != None):
+                return self.right.search(value)
+            else:
+                return []
+

@@ -25,6 +25,13 @@ class AVL:
     def __init__(self):
         self.head = None
 
+    def search(self, value):
+        return self.head.search(value)
+
+    def rangeSearch(self, min, max):
+        contents = self.head.rangeSearch(min, max)
+        return contents
+
     def add(self, value, nodeContents):
         if (self.head == None):
             self.head = Node(value, nodeContents)
