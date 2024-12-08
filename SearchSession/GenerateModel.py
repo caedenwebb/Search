@@ -38,7 +38,7 @@ def GenerateModelFileSize(directory):
         tree.add(index, files[index])
     return tree
 
-model = GenerateModelFileSize('G:/My Drive/College Files/2024-2025')
+'''model = GenerateModelFileSize('G:/My Drive/College Files/2024-2025')
 while (True):
     userInput = input('search>')
     if (userInput == 'q'):
@@ -52,4 +52,4 @@ while (True):
         print(f'Results ({len(results)}, {end_time - start_time}ns):')
 
         for file in results:
-            print(file.filename)
+            print(file.filename)'''
