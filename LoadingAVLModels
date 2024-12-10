@@ -1,0 +1,7 @@
+Make first node in list head node
+For all nodes {n0, n1, ..., nN}
+    For any node n0 and n1, while (n0.value > n1.value):
+        Make n1 the left node n0
+    When n1.value > n0.value:
+        Make n1 the right node of the parent of n0
+    Then for the next node, recursively go up the tree to insert the right branch (unfinished description)
