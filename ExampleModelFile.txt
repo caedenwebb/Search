@@ -1,0 +1,9 @@
+.metadata:
+ModelType=
+.endmetadata
+.model:
+filesize:[filelist]
+filesize:[filelist]
+filesize:[filelist]
+filesize:[filelist]
+.endmodel
