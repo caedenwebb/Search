@@ -4,6 +4,58 @@ import os
 import FileClass
 import time
 
+def GetFilesForDateCreatedModel(directory, files={}):
+    dirlist = os.listdir(directory)
+    for file in dirlist:
+        try:
+            if os.path.isdir(directory + '/' + file):
+                dirObject = FileClass.Directory(directory + '/' + file)
+                if not (dirObject.size in files.keys()):
+                    files[dirObject.date_created] = [dirObject]
+                else:
+                    files[dirObject.date_created].append(dirObject)
+                print(f'Including {directory}/{file}...')
+                print(f'Search {directory}/{file}...')
+                GetFilesForSizeModel(directory + '/' + file, files)
+            else:
+                fileObject = FileClass.File(directory + '/' + file)
+                if not (fileObject.size in files.keys()):
+                    files[fileObject.date_created] = [fileObject]
+                else:
+                    files[fileObject.date_created].append(fileObject)
+                print(f'Including {directory}/{file}')
+        except:
+            print(f'Skipping {directory}/{file} due to exception...')
+
+    return files
+
+def GetFilesForDateModifiedModel(directory, files={}):
+    dirlist = os.listdir(directory)
+    for file in dirlist:
+        try:
+            if os.path.isdir(directory + '/' + file):
+                dirObject = FileClass.Directory(directory + '/' + file)
+                if not (dirObject.size in files.keys()):
+                    files[dirObject.date_modified] = [dirObject]
+                else:
+                    files[dirObject.date_modified].append(dirObject)
+                print(f'Including {directory}/{file}...')
+                print(f'Search {directory}/{file}...')
+                GetFilesForSizeModel(directory + '/' + file, files)
+            else:
+                fileObject = FileClass.File(directory + '/' + file)
+                if not (fileObject.size in files.keys()):
+                    files[fileObject.date_modified] = [fileObject]
+                else:
+                    files[fileObject.date_modified].append(fileObject)
+                print(f'Including {directory}/{file}')
+        except:
+            print(f'Skipping {directory}/{file} due to exception...')
+
+    return files
+
+
+
 def GetFilesForSizeModel(directory, files={}):
     """Returns a dictionary of filesizes where each filesize is the key, and the value is a list of file objects"""
     dirlist = os.listdir(directory)
@@ -34,6 +86,20 @@ def GenerateModelFileSize(directory):
     """Generates and returns a AVL tree for searching a directory based on the file-size"""
     tree = avl.AVL()
     files = GetFilesForSizeModel(directory)
+    for index in files.keys():
+        tree.add(index, files[index])
+    return tree
+
+def GenerateModelDateCreated(directory):
+    tree = avl.AVL()
+    files = GetFilesForDateCreatedModel()
+    for index in files.keys():
+        tree.add(index, files[index])
+    return tree
+
+def GenerateModelDateModified(directory):
+    tree - avl.AVL()
+    files = GetFilesForDateModifiedModel()
     for index in files.keys():
         tree.add(index, files[index])
     return tree
