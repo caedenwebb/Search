@@ -26,6 +26,9 @@ class File:
         self.ReturnData = None
         self.Filestream = None
 
+    def __str__(self):
+        return f'{self.path}'
+
     def ReadMode(self):
         if (self.Filestream != None):
             self.Filestream.close()
@@ -60,3 +63,6 @@ class Directory:
         self.date_created = [rawCreationDate.tm_mon, rawCreationDate.tm_mday, rawCreationDate.tm_year]
         self.date_modified = [rawModifiedDate.tm_mon, rawModifiedDate.tm_mday, rawModifiedDate.tm_year]
         self.ReturnData = None
+
+    def __str__(self):
+        return f'{self.path}'
