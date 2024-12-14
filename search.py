@@ -7,6 +7,7 @@ import time
 import SearchName
 import SearchFileSize
 import AttributeSearch
+from SearchSession import Session
 
 
 def main():
@@ -27,6 +28,8 @@ def main():
     # Attribute Mode
     if (sys.argv[1] == '-a'):
         AttributeSearch.AttributeSearch()
+    elif (sys.argv[1] == '-s'):
+        SearchSession.Session.SessionMain()
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
