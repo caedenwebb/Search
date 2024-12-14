@@ -38,18 +38,52 @@ def GenerateModelFileSize(directory):
         tree.add(index, files[index])
     return tree
 
-'''model = GenerateModelFileSize('G:/My Drive/College Files/2024-2025')
-while (True):
-    userInput = input('search>')
-    if (userInput == 'q'):
-        break
-    else:
-        userInput = userInput.split('-')
-        start_time = time.time_ns()
-        results = model.rangeSearch(int(userInput[0]), int(userInput[1]))
-        end_time = time.time_ns()
+def LoadModelFileSize(file):
+    """Loads AVL tree model from file"""
+    fileObject = open(file, 'r')
+    rawModel = fileObject.readlines()
+    fileObject.close()
+    tree = avl.AVL()
+    i = 0
+    while (rawModel[i] != '.model\n'):
+        i = i + 1
+    i = i + 1
 
-        print(f'Results ({len(results)}, {end_time - start_time}ns):')
+    while (rawModel[i] != '.endmodel\n'):
+        extractedNode = rawModel[i].strip('\n')
+        extractedNode = extractedNode.split('|')
+        value = int(extractedNode[0])
+        pathlist = generateList(extractedNode[1])
+        nodeContents = []
+        for path in pathlist:
+            if (os.path.isdir(path)):
+                try:
+                    nodeContents.append(FileClass.Directory(path))
+                except:
+                    print(f'Skipping invalid path: {path}')
+            else:
+                try:
+                    nodeContents.append(FileClass.File(path))
+                except:
+                    print(f'Skipping invalid path: {path}')
+        tree.add(value, nodeContents)
+        i = i + 1
 
-        for file in results:
-            print(file.filename)'''
+    return tree
+
+def SaveModelFileSize(model, file):
+    fileObject = open(file, 'w')
+    modelNodeList = model.as_list()
+    modelFile = ['.metadata\n', 'ModelType=file-size\n', '.endmetadata\n', '.model\n']
+    for node in modelNodeList:
+        modelFile.append(node + '\n')
+    modelFile.append('.endmodel\n')
+    fileObject.writelines(modelFile)
+    fileObject.close()
+
+def generateList(stringList):
+    stringList = stringList.strip('[')
+    stringList = stringList.strip(']')
+    stringList = stringList.replace('\'', '')
+    stringList = stringList.split(', ')
+    return stringList
