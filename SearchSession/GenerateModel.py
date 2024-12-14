@@ -7,27 +7,26 @@ import datetime
 
 def GetFilesForDateCreatedModel(directory, files={}):
     dirlist = os.listdir(directory)
-
     for file in dirlist:
-        if os.path.isdir(directory + '/' + file):
-            dirObject = FileClass.Directory(directory + '/' + file)
-            if not (dirObject.size in files.keys()):
-                files[dirObject.unixTimeCreated] = [dirObject]
+        try:
+            if os.path.isdir(directory + '/' + file):
+                dirObject = FileClass.Directory(directory + '/' + file)
+                if not (dirObject.size in files.keys()):
+                    files[dirObject.unixTimeCreated] = [dirObject]
+                else:
+                    files[dirObject.unixTimeCreated].append(dirObject)
+                print(f'Including {directory}/{file}...')
+                print(f'Search {directory}/{file}...')
+                GetFilesForDateCreatedModel(directory + '/' + file, files)
             else:
-                files[dirObject.unixTimeCreated].append(dirObject)
-            print(f'Including {directory}/{file}...')
-            print(f'Search {directory}/{file}...')
-            GetFilesForDateCreatedModel(directory + '/' + file, files)
-        else:
-            fileObject = FileClass.File(directory + '/' + file)
-            if not (fileObject.size in files.keys()):
-                files[fileObject.unixTimeCreated] = [fileObject]
-            else:
-                files[fileObject.unixTimeCreated].append(fileObject)
-            print(f'Including {directory}/{file}')
-
-        '''except:
-            print(f'Skipping {directory}/{file} due to exception...')'''
+                fileObject = FileClass.File(directory + '/' + file)
+                if not (fileObject.size in files.keys()):
+                    files[fileObject.unixTimeCreated] = [fileObject]
+                else:
+                    files[fileObject.unixTimeCreated].append(fileObject)
+                print(f'Including {directory}/{file}')
+        except:
+            print(f'Skipping {directory}/{file} due to exception...')
 
     return files
 
