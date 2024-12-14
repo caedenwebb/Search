@@ -1,10 +1,18 @@
 import os
 import sys
 import time
+import datetime
 
-import GenerateModel
+if __name__ != "__main__":
+    from SearchSession import GenerateModel
+if __name__ == "__main__":
+    import GenerateModel
 import FormatOutput
+import utils
 
+
+# I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
+#How to find timestamp: int(datetime.datetime(year, month, day).timestamp())
 
 def SessionMain():
     print('Welcome to Search v. 1.0.')
@@ -53,19 +61,26 @@ def SessionMain():
             if not(arguments[2] in validModelTypes):
                 print(f'Error: \'{arguments[2]}\' is not a valid model type.')
 
-
             # Generate Model
             if (modelType == 'file-size'):
                 print('Generating Model...')
                 model = GenerateModel.GenerateModelFileSize(directory)
+            elif (modelType == 'date-created'):
+                print('Generating Model...')
+                model = GenerateModel.GenerateModelDateCreated(directory)
+            elif (modelType == 'date-modified'):
+                print('Generating Model...')
+                model = GenerateModel.GenerateModelDateModified(directory)
             path = modelPath
 
             # Save Model to File
             if (modelType == 'file-size'):
                 #GenerateModel.SaveModelFileSize(model, modelPath)
                 pass
-        elif (user_input.startswith('load')):
-            arguments = parseArguments(user_input)
+            elif (modelType == 'date-created'):
+                pass
+            elif (modelType == 'date-modified'):
+                pass
 
         elif (user_input.startswith('search')):
             arguments = parseArguments(user_input)
@@ -148,10 +163,43 @@ def SessionMain():
                     if (arguments == []):
                         print('Error: No pattern provided.')
                         continue
+                    dateRange = arguments[0]
+                    dateSet = dateRange.split('-')
+                    firstDate = dateSet[0].split('/')
+                    secondDate = dateSet[1].split('/')
+
+                    # I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
+                    firstDateUnix = int(datetime.datetime(int(firstDate[2]), int(firstDate[0]), int(firstDate[1])).timestamp())
+                    secondDateUnix = int(datetime.datetime(int(secondDate[2]), int(secondDate[0]), int(secondDate[1])).timestamp())
+
+                    start_time = time.time_ns()
+                    results = model.rangeSearch(firstDateUnix, secondDateUnix)
+                    end_time = time.time_ns()
+                    duration = end_time - start_time
+
+                    FormatOutput.OutputAttributes(results, len(results), duration)
+
                 elif (modelType == 'date-modified'):
                     if (arguments == []):
                         print('Error: No pattern provided.')
                         continue
+                    dateRange = arguments[0]
+                    dateSet = dateRange.split('-')
+                    firstDate = dateSet[0].split('/')
+                    secondDate = dateSet[1].split('/')
+
+                    # I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
+                    firstDateUnix = int(
+                        datetime.datetime(int(firstDate[2]), int(firstDate[0]), int(firstDate[1])).timestamp())
+                    secondDateUnix = int(
+                        datetime.datetime(int(secondDate[2]), int(secondDate[0]), int(secondDate[1])).timestamp())
+
+                    start_time = time.time_ns()
+                    results = model.rangeSearch(firstDateUnix, secondDateUnix)
+                    end_time = time.time_ns()
+                    duration = end_time - start_time
+
+                    FormatOutput.OutputAttributes(results, len(results), duration)
         else:
             print(f'Error: "{user_input}" is an unrecognized command.')
             print()
@@ -161,7 +209,6 @@ def HelpMenu():
     print('quit (q) --- exit the search session and close the search application')
     print('help (h) --- prints this help menu')
     print('generate [directory to model] [path to model file] [model type] --- generate a search model and load the model for use in searches')
-    print('load [model] --- load a model from the filesystem to use for searches')
     print('search [pattern] [flags] --- run a search')
 
 def parseArguments(command) -> list:
@@ -198,5 +245,3 @@ def parseArguments(command) -> list:
                 index = index + 1
 
     return arguments
-
-SessionMain()

@@ -3,29 +3,31 @@ import SearchFileSize
 import os
 import FileClass
 import time
+import datetime
 
 def GetFilesForDateCreatedModel(directory, files={}):
     dirlist = os.listdir(directory)
+
     for file in dirlist:
-        try:
-            if os.path.isdir(directory + '/' + file):
-                dirObject = FileClass.Directory(directory + '/' + file)
-                if not (dirObject.size in files.keys()):
-                    files[dirObject.date_created] = [dirObject]
-                else:
-                    files[dirObject.date_created].append(dirObject)
-                print(f'Including {directory}/{file}...')
-                print(f'Search {directory}/{file}...')
-                GetFilesForSizeModel(directory + '/' + file, files)
+        if os.path.isdir(directory + '/' + file):
+            dirObject = FileClass.Directory(directory + '/' + file)
+            if not (dirObject.size in files.keys()):
+                files[dirObject.unixTimeCreated] = [dirObject]
             else:
-                fileObject = FileClass.File(directory + '/' + file)
-                if not (fileObject.size in files.keys()):
-                    files[fileObject.date_created] = [fileObject]
-                else:
-                    files[fileObject.date_created].append(fileObject)
-                print(f'Including {directory}/{file}')
-        except:
-            print(f'Skipping {directory}/{file} due to exception...')
+                files[dirObject.unixTimeCreated].append(dirObject)
+            print(f'Including {directory}/{file}...')
+            print(f'Search {directory}/{file}...')
+            GetFilesForDateCreatedModel(directory + '/' + file, files)
+        else:
+            fileObject = FileClass.File(directory + '/' + file)
+            if not (fileObject.size in files.keys()):
+                files[fileObject.unixTimeCreated] = [fileObject]
+            else:
+                files[fileObject.unixTimeCreated].append(fileObject)
+            print(f'Including {directory}/{file}')
+
+        '''except:
+            print(f'Skipping {directory}/{file} due to exception...')'''
 
     return files
 
@@ -36,18 +38,18 @@ def GetFilesForDateModifiedModel(directory, files={}):
             if os.path.isdir(directory + '/' + file):
                 dirObject = FileClass.Directory(directory + '/' + file)
                 if not (dirObject.size in files.keys()):
-                    files[dirObject.date_modified] = [dirObject]
+                    files[dirObject.unixTimeModified] = [dirObject]
                 else:
-                    files[dirObject.date_modified].append(dirObject)
+                    files[dirObject.unixTimeModified].append(dirObject)
                 print(f'Including {directory}/{file}...')
                 print(f'Search {directory}/{file}...')
-                GetFilesForSizeModel(directory + '/' + file, files)
+                GetFilesForDateModifiedModel(directory + '/' + file, files)
             else:
                 fileObject = FileClass.File(directory + '/' + file)
                 if not (fileObject.size in files.keys()):
-                    files[fileObject.date_modified] = [fileObject]
+                    files[fileObject.unixTimeModified] = [fileObject]
                 else:
-                    files[fileObject.date_modified].append(fileObject)
+                    files[fileObject.unixTimeModified].append(fileObject)
                 print(f'Including {directory}/{file}')
         except:
             print(f'Skipping {directory}/{file} due to exception...')
@@ -92,14 +94,14 @@ def GenerateModelFileSize(directory):
 
 def GenerateModelDateCreated(directory):
     tree = avl.AVL()
-    files = GetFilesForDateCreatedModel()
+    files = GetFilesForDateCreatedModel(directory)
     for index in files.keys():
         tree.add(index, files[index])
     return tree
 
 def GenerateModelDateModified(directory):
-    tree - avl.AVL()
-    files = GetFilesForDateModifiedModel()
+    tree = avl.AVL()
+    files = GetFilesForDateModifiedModel(directory)
     for index in files.keys():
         tree.add(index, files[index])
     return tree
