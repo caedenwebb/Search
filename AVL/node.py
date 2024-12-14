@@ -134,13 +134,21 @@ class Node:
                 return self.right.contains(value)
 
     def as_list(self):
-        returnList = [self.value]
+        NodeString = f'{self.value}|{self.convertNodeContentsForStorage()}'
+        returnList = [NodeString]
         if (self.left != None):
             returnList = returnList + self.left.as_list()
         if (self.right != None):
             returnList = returnList + self.right.as_list()
 
         return returnList
+
+    def convertNodeContentsForStorage(self):
+        returnList = []
+        for file in self.nodeContents:
+            returnList.append(str(file))
+        return returnList
+
 
     def size(self):
         if (self.left == None and self.right == None):
@@ -171,26 +179,10 @@ class Node:
     def rangeSearch(self, min, max):
         contents = []
 
-        if (self.value > min and self.value < max):
-            contents = contents + self.nodeContents
-            if (self.left != None):
-                contents = contents + self.left.rangeSearch(min, max)
-            if (self.right != None):
-                contents = contents + self.right.rangeSearch(min, max)
-        elif (self.value == min):
-            contents = contents + self.nodeContents
-            if (self.right != None):
-                contents = contents + self.right.rangeSearch(min, max)
-        elif (self.value == max):
-            contents = contents + self.nodeContents
-            if (self.left != None):
-                contents = contents + self.left.rangeSearch(min, max)
-        elif (self.value > max):
-            contents = contents + self.left.rangeSearch(min, max)
-        elif (self.value < min):
-            contents = contents + self.right.rangeSearch(min, max)
-        else:
-            pass
+        i = min
+        while (i <= max):
+            contents = contents + self.search(i)
+            i = i + 1
 
         return contents
 
