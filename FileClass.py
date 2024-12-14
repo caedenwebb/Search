@@ -17,6 +17,8 @@ class File:
         # Determine the dates that the files were created and modified
         rawCreationDate = time.localtime(os.path.getctime(path))
         rawModifiedDate = time.localtime(os.path.getmtime(path))
+        self.unixTimeCreated = int(os.path.getctime(path))
+        self.unixTimeModified = int(os.path.getmtime(path))
         self.rawCreationTime = os.path.getctime(path)
         self.rawModifiedTime = os.path.getmtime(path)
         self.date_created = [rawCreationDate.tm_mon, rawCreationDate.tm_mday, rawCreationDate.tm_year]
@@ -56,6 +58,8 @@ class Directory:
 
         # Determine other attributes
         self.size = os.path.getsize(path)
+        self.unixTimeCreated = int(os.path.getctime(path))
+        self.unixTimeModified = int(os.path.getmtime(path))
         rawCreationDate = time.localtime(os.path.getctime(path))
         rawModifiedDate = time.localtime(os.path.getmtime(path))
         self.rawCreationTime = os.path.getctime(path)
