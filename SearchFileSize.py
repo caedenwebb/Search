@@ -36,8 +36,6 @@ def SearchFileSize(dir, min_bytes, max_bytes, recursiveFlag=False) -> list:
                     continue
                 # Add the returned directories to the list of returned files and directories
                 retList = retList + res[0]
-                # Add the returned size of the subdirectory to the size of the present directory
-                dirSize = dirSize + res[1]
 
                 # If the size of the directory input into the function is within the range, insert that directory into the returned file list
                 if (min_bytes <= dirSize <= max_bytes):
@@ -60,10 +58,5 @@ def SearchFileSize(dir, min_bytes, max_bytes, recursiveFlag=False) -> list:
                 fileObject.size = filesize
                 # Add file object to the list of files to return
                 retList.append(fileObject)
-                # Add file size to the size of the directory input into the function
-                dirSize = dirSize + filesize
-            # Include files not falling within the range in the size of the parent directory
-            else:
-                dirSize = dirSize + filesize
 
     return [retList, dirSize]
