@@ -389,14 +389,6 @@ def FileSizeSearch():
 def DateCreatedSearch():
     # Check flags
     recursiveFlag = False
-    alphabetize = False
-    size = False
-    smallestFirst = True
-    largestFirst = False
-    earliestFirst = True
-    date_created = True
-    date_modified = False
-    latestFirst = False
     outputToFile = False
     SimpleStringOutput = False
     outputFilePath = ''
@@ -425,71 +417,11 @@ def DateCreatedSearch():
                     sys.exit()
             elif (sys.argv[i] == '/str'):
                 SimpleStringOutput = True
-            elif (sys.argv[i] == '/a'):
-                date_created = False
-                date_modified = False
-                alphabetize = True
-                size = False
-            elif (sys.argv[i] == '/ra'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = False
-            elif (sys.argv[i].startswith('/s') and sys.argv[i] != '/str'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = True
-                if (sys.argv[i] == '/s=sf'):
-                    smallestFirst = True
-                    largestFirst = False
-                elif (sys.argv[i] == '/s=lf'):
-                    smallestFirst = False
-                    largestFirst = True
-                else:
-                    print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dc')):
-                date_created = True
-                date_modified = False
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dc=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dc=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print(
-                        'Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dm')):
-                date_created = False
-                date_modified = True
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dm=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dm=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
-            else:
-                print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
-                sys.exit()
             i = i + 1
     # Check that a search pattern was provided
     if (len(sys.argv) < 5):
         print('Error: No search pattern provided.\n')
         sys.exit()
-
-    # Check for recursion
-    recursiveFlag = False
-    '''Fix recursion and implement check for recursion'''
 
     # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
@@ -518,28 +450,14 @@ def DateCreatedSearch():
     duration = endtime - starttime
     sortedResults = []
 
-    if (alphabetize == True):
-        sortedResults = SortOutput.OrderAToZ(results)
-    elif (size == True):
-        if (smallestFirst == True):
-            sortedResults = SortOutput.SmallestToLargest(results)
-        else:
-            sortedResults = SortOutput.LargestToSmallest(results)
-    elif (date_created == True):
-        if (earliestFirst == True):
-            sortedResults = SortOutput.DCOldestToNewest(results)
-        else:
-            sortedResults = SortOutput.DCNewestToOldest(results)
-    elif (date_modified == True):
-        if (earliestFirst == True):
-            sortedResults = SortOutput.DMOldestToNewest(results)
-        else:
-            sortedResults = SortOutput.DMNewestToOldest(results)
-    else:
-        sortedResults = SortOutput.OrderZToA(results)
-
-    FormatOutput.OutputAttributes(sortedResults, len(sortedResults), duration)
-
+    if (outputToFile == False and SimpleStringOutput == False):
+        FormatOutput.OutputAttributes(results, len(sortedResults), duration)
+    elif (SimpleStringOutput == True):
+        for item in results:
+            print(item.filename)
+        print(len(results))
+    elif (outputToFile == True):
+        FormatOutput.OutputToFileTable(results, outputFilePath)
 def DateModifiedSearch():
     # Check flags
     recursiveFlag = False
@@ -554,7 +472,7 @@ def DateModifiedSearch():
     outputToFile = False
     SimpleStringOutput = False
     outputFilePath = ''
-    if (len(sys.argv) > 5 and sys.argv[5] != ' '):
+    if (len(sys.argv) > 5):
         i = 5
         while (i != len(sys.argv)):
             if (sys.argv[i] == '/r'):
@@ -639,10 +557,6 @@ def DateModifiedSearch():
     if (len(sys.argv) < 5):
         print('Error: No search pattern provided.\n')
         sys.exit()
-
-    # Check for recursion
-    recursiveFlag = False
-    '''Fix recursion and implement check for recursion'''
 
     # Prelimary checks that dates are valid dates
     dateSets = sys.argv[4].split(';')
