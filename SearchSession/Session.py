@@ -160,6 +160,7 @@ def SessionMain():
 
                     FormatOutput.OutputAttributes(results, len(results), duration)
 
+
                 elif (modelType == 'date-modified'):
                     if (arguments == []):
                         print('Error: No pattern provided.')

@@ -450,11 +450,12 @@ def DateCreatedSearch():
     duration = endtime - starttime
 
     if (outputToFile == False and SimpleStringOutput == False):
-        FormatOutput.OutputAttributes(results, results, duration)
+        FormatOutput.OutputAttributes(results, len(results), duration)
+        print(len(results))
+        print(duration)
     elif (SimpleStringOutput == True):
         for item in results:
             print(item.filename)
-        print(len(results))
     elif (outputToFile == True):
         FormatOutput.OutputToFileTable(results, outputFilePath)
 def DateModifiedSearch():
@@ -582,29 +583,16 @@ def DateModifiedSearch():
     results = SearchDate.SearchDateModified(sys.argv[2], dateSets, recursiveFlag)
     endtime = time.time_ns()
     duration = endtime - starttime
-    sortedResults = []
 
-    if (alphabetize == True):
-        sortedResults = SortOutput.OrderAToZ(results)
-    elif (size == True):
-        if (smallestFirst == True):
-            sortedResults = SortOutput.SmallestToLargest(results)
-        else:
-            sortedResults = SortOutput.LargestToSmallest(results)
-    elif (date_created == True):
-        if (earliestFirst == True):
-            sortedResults = SortOutput.DCOldestToNewest(results)
-        else:
-            sortedResults = SortOutput.DCNewestToOldest(results)
-    elif (date_modified == True):
-        if (earliestFirst == True):
-            sortedResults = SortOutput.DMOldestToNewest(results)
-        else:
-            sortedResults = SortOutput.DMNewestToOldest(results)
-    else:
-        sortedResults = SortOutput.OrderZToA(results)
-
-    FormatOutput.OutputAttributes(sortedResults, len(sortedResults), duration)
+    if (outputToFile == False and SimpleStringOutput == False):
+        FormatOutput.OutputAttributes(results, len(results), duration)
+        print(len(results))
+        print(duration)
+    elif (SimpleStringOutput == True):
+        for item in results:
+            print(item.filename)
+    elif (outputToFile == True):
+        FormatOutput.OutputToFileTable(results, outputFilePath)
 
 
 def AttributeSearchInstructions(tab=''):
