@@ -11,7 +11,7 @@ def GetFilesForDateCreatedModel(directory, files={}):
         try:
             if os.path.isdir(directory + '/' + file):
                 dirObject = FileClass.Directory(directory + '/' + file)
-                if not (dirObject.size in files.keys()):
+                if not (dirObject.unixTimeCreated in files.keys()):
                     files[dirObject.unixTimeCreated] = [dirObject]
                 else:
                     files[dirObject.unixTimeCreated].append(dirObject)
@@ -20,7 +20,7 @@ def GetFilesForDateCreatedModel(directory, files={}):
                 GetFilesForDateCreatedModel(directory + '/' + file, files)
             else:
                 fileObject = FileClass.File(directory + '/' + file)
-                if not (fileObject.size in files.keys()):
+                if not (fileObject.unixTimeCreated in files.keys()):
                     files[fileObject.unixTimeCreated] = [fileObject]
                 else:
                     files[fileObject.unixTimeCreated].append(fileObject)
@@ -36,7 +36,7 @@ def GetFilesForDateModifiedModel(directory, files={}):
         try:
             if os.path.isdir(directory + '/' + file):
                 dirObject = FileClass.Directory(directory + '/' + file)
-                if not (dirObject.size in files.keys()):
+                if not (dirObject.unixTimeModified in files.keys()):
                     files[dirObject.unixTimeModified] = [dirObject]
                 else:
                     files[dirObject.unixTimeModified].append(dirObject)
@@ -45,7 +45,7 @@ def GetFilesForDateModifiedModel(directory, files={}):
                 GetFilesForDateModifiedModel(directory + '/' + file, files)
             else:
                 fileObject = FileClass.File(directory + '/' + file)
-                if not (fileObject.size in files.keys()):
+                if not (fileObject.unixTimeModified in files.keys()):
                     files[fileObject.unixTimeModified] = [fileObject]
                 else:
                     files[fileObject.unixTimeModified].append(fileObject)

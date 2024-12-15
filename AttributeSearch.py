@@ -448,10 +448,9 @@ def DateCreatedSearch():
     results = SearchDate.SearchDateCreated(sys.argv[2], dateSets, recursiveFlag)
     endtime = time.time_ns()
     duration = endtime - starttime
-    sortedResults = []
 
     if (outputToFile == False and SimpleStringOutput == False):
-        FormatOutput.OutputAttributes(results, len(sortedResults), duration)
+        FormatOutput.OutputAttributes(results, results, duration)
     elif (SimpleStringOutput == True):
         for item in results:
             print(item.filename)
