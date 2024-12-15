@@ -17,7 +17,7 @@ def SearchDateCreated(path, pattern, recursiveFlag=False) -> list:
         dirlist = os.listdir(path)
         # Test if directory meets criteria
         if (TestDateForMatch(creationDate, pattern)):
-            returnList.append(FileClass.File(path))
+            returnList.append(FileClass.Directory(path))
         # Search files in directory
         for item in dirlist:
             # If item is a directory and recursive flag is true
