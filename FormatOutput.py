@@ -19,6 +19,36 @@ def OutputToFile(results, path):
     outputFile.writelines(outputBuffer)
     outputFile.close()
 
+def OutputToFileTable(results, path):
+    outputFile = open(path, 'w')
+    outputBuffer = []
+    outputBuffer.append(f'{'Filename':33} | {'Path':106}| {'Filesize':18} | {'Creation Date':14} | {'Modified Date'}\n')
+    outputBuffer.append('-' * 192)
+    outputBuffer.append('\n')
+    for file in results:
+        filename = file.filename
+        path = file.path
+        filesize = file.size
+        CreationDate = f'{file.date_created[0]}/{file.date_created[1]}/{file.date_created[2]}'
+        ModifiedDate = f'{file.date_modified[0]}/{file.date_modified[1]}/{file.date_modified[2]}'
+
+        # Adjust filename size
+        if (len(filename) > 31):
+            filename = filename[:30]
+            filename = filename + '...'
+
+        # Adjust path size
+        if (len(path) > 103):
+            path = path[:102]
+            path = path + '...'
+
+        # String formatting with the help of: https://docs.python.org/3/library/string.html
+        # print(f'{filename:25}| {path:32}| {filesize:15}| {CreationDate:15}| {ModifiedDate:15}|')
+        outputBuffer.append(f'{filename:33} | {path} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}\n')
+
+    outputFile.writelines(outputBuffer)
+    outputFile.close()
+
 def SimpleStringOutput(filelist):
     outputBuffer = ''
     for file in filelist:
