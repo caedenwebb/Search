@@ -28,8 +28,9 @@ def main():
     # Attribute Mode
     if (sys.argv[1] == '-a'):
         AttributeSearch.AttributeSearch()
+    # Session Mode
     elif (sys.argv[1] == '-s'):
-        SearchSession.Session.SessionMain()
+        Session.SessionMain()
     # Invalid Mode
     else:
         print(f"Error: Invalid mode: '{sys.argv[1]}'")
