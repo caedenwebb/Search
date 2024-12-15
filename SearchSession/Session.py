@@ -34,32 +34,21 @@ def SessionMain():
         elif (user_input.startswith('generate')):
             arguments = parseArguments(user_input)
             if (arguments == ['']):
-                print('Error: No arguments provided.')
+                print('Error: No directory to model provided.')
                 continue
             if (len(arguments) == 1):
-                print('Error: No path to save the model file provided.')
-                continue
-            if (len(arguments) == 2):
                 print('Error: No model type provided.')
                 continue
+
             directory = arguments[0]
-            modelPath = arguments[1]
-            modelType = arguments[2]
+            modelType = arguments[1]
+
             if (os.path.exists(directory) == False or os.path.isdir(directory) == False):
                 print(f'Error: The path \'{directory}\' is either not a valid path or not a directory.')
                 continue
-            if (os.path.exists(modelPath) == True):
-                print(f'Error: \'{modelPath}\' already exists.')
-                continue
-            try:
-                file = open(f'{modelPath}', 'w')
-                file.close()
-            except:
-                print('Error: \'{modelPath}\' is not a valid path.')
-                continue
-            os.remove(modelPath)
-            if not(arguments[2] in validModelTypes):
+            if not(arguments[1] in validModelTypes):
                 print(f'Error: \'{arguments[2]}\' is not a valid model type.')
+                continue
 
             # Generate Model
             if (modelType == 'file-size'):
@@ -71,16 +60,8 @@ def SessionMain():
             elif (modelType == 'date-modified'):
                 print('Generating Model...')
                 model = GenerateModel.GenerateModelDateModified(directory)
-            path = modelPath
+            path = directory
 
-            # Save Model to File
-            if (modelType == 'file-size'):
-                #GenerateModel.SaveModelFileSize(model, modelPath)
-                pass
-            elif (modelType == 'date-created'):
-                pass
-            elif (modelType == 'date-modified'):
-                pass
 
         elif (user_input.startswith('search')):
             arguments = parseArguments(user_input)
@@ -208,7 +189,7 @@ def HelpMenu():
     print('Commands:')
     print('quit (q) --- exit the search session and close the search application')
     print('help (h) --- prints this help menu')
-    print('generate [directory to model] [path to model file] [model type] --- generate a search model and load the model for use in searches')
+    print('generate [directory to model] [model type] --- generate a search model and load the model for use in searches')
     print('search [pattern] [flags] --- run a search')
 
 def parseArguments(command) -> list:
