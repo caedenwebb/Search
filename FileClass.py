@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 class File:
 
     def __init__(self, path):
@@ -17,8 +18,8 @@ class File:
         # Determine the dates that the files were created and modified
         rawCreationDate = time.localtime(os.path.getctime(path))
         rawModifiedDate = time.localtime(os.path.getmtime(path))
-        self.unixTimeCreated = int(os.path.getctime(path))
-        self.unixTimeModified = int(os.path.getmtime(path))
+        self.unixTimeCreated = int(datetime.datetime(rawCreationDate.tm_year, rawCreationDate.tm_mon, rawCreationDate.tm_mday).timestamp())
+        self.unixTimeModified = int(datetime.datetime(rawModifiedDate.tm_year, rawModifiedDate.tm_mon, rawModifiedDate.tm_mday).timestamp())
         self.rawCreationTime = os.path.getctime(path)
         self.rawModifiedTime = os.path.getmtime(path)
         self.date_created = [rawCreationDate.tm_mon, rawCreationDate.tm_mday, rawCreationDate.tm_year]
@@ -54,14 +55,14 @@ class Directory:
 
         # Determine filename
         splitPath = self.path.split('/')
-        self.filename = splitPath[len(splitPath) - 1]
+        self.filename = '/' + splitPath[len(splitPath) - 1]
 
         # Determine other attributes
         self.size = os.path.getsize(path)
-        self.unixTimeCreated = int(os.path.getctime(path))
-        self.unixTimeModified = int(os.path.getmtime(path))
         rawCreationDate = time.localtime(os.path.getctime(path))
         rawModifiedDate = time.localtime(os.path.getmtime(path))
+        self.unixTimeCreated = int(datetime.datetime(rawCreationDate.tm_year, rawCreationDate.tm_mon, rawCreationDate.tm_mday).timestamp())
+        self.unixTimeModified = int(datetime.datetime(rawModifiedDate.tm_year, rawModifiedDate.tm_mon, rawModifiedDate.tm_mday).timestamp())
         self.rawCreationTime = os.path.getctime(path)
         self.rawModifiedTime = os.path.getmtime(path)
         self.date_created = [rawCreationDate.tm_mon, rawCreationDate.tm_mday, rawCreationDate.tm_year]
