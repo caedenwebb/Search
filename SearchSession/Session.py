@@ -27,7 +27,7 @@ def SessionMain():
         print()
         user_input = input(f'{path}:search> ')
         if (user_input == 'quit' or user_input == 'q'):
-            exit()
+            sys.exit()
         elif (user_input == 'help' or user_input == 'h'):
             print()
             HelpMenu()
