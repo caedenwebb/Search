@@ -138,16 +138,6 @@ def LoadModelFileSize(file):
 
     return tree
 
-def SaveModelFileSize(model, file):
-    fileObject = open(file, 'w')
-    modelNodeList = model.as_list()
-    modelFile = ['.metadata\n', 'ModelType=file-size\n', '.endmetadata\n', '.model\n']
-    for node in modelNodeList:
-        modelFile.append(node + '\n')
-    modelFile.append('.endmodel\n')
-    fileObject.writelines(modelFile)
-    fileObject.close()
-
 def generateList(stringList):
     stringList = stringList.strip('[')
     stringList = stringList.strip(']')
