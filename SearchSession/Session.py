@@ -191,7 +191,7 @@ def HelpMenu():
     print('quit (q) --- exit the search session and close the search application')
     print('help (h) --- prints this help menu')
     print('generate [directory to model] [model type] --- generate a search model and load the model for use in searches')
-    print('search [pattern] [flags] --- run a search')
+    print('search [pattern] --- run a search')
 
 def parseArguments(command) -> list:
     """Returns a list of arguments for a command"""
