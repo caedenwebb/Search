@@ -8,6 +8,9 @@ in Node while other keep the recursive functions in AVL.
 Note that this starter code is identical to that of the Node class in the BST project.
 """
 
+# I used https://www.youtube.com/watch?v=2ldaQMa_o74 to help understand the AVL tree data structure
+# Also, this node class is a modified form of the AVL tree assignment.
+
 class Node:
     def __init__(self, value, nodeContents):
         self.value = value  # The value at this node

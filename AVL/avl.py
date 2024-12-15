@@ -19,7 +19,7 @@ Then you will want to add the functionality that decides how to rotate nodes (or
 """
 
 # I used https://www.youtube.com/watch?v=2ldaQMa_o74 to help understand the AVL tree data structure
-
+# Also, this AVL class is a modified form of the AVL tree assignment.
 
 class AVL:
     def __init__(self):
