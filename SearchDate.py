@@ -7,7 +7,7 @@ import FileClass
 
 # External Libraries
 
-def SearchDateCreated(path, pattern, recursiveFlag=False) -> list:
+def SearchDateCreated(path, pattern, recursiveFlag=False, recDepth=0) -> list:
     rawCreationTime = time.localtime(os.path.getctime(path))
     creationDate = [rawCreationTime.tm_mon, rawCreationTime.tm_mday, rawCreationTime.tm_year]
     returnList = []
@@ -16,13 +16,13 @@ def SearchDateCreated(path, pattern, recursiveFlag=False) -> list:
     if (os.path.isdir(path)):
         dirlist = os.listdir(path)
         # Test if directory meets criteria
-        if (TestDateForMatch(creationDate, pattern)):
+        if (TestDateForMatch(creationDate, pattern) and recDepth != 0):
             returnList.append(FileClass.Directory(path))
         # Search files in directory
         for item in dirlist:
             # If item is a directory and recursive flag is true
             if (os.path.isdir(f'{path}/{item}') == True and recursiveFlag == True):
-                returnList = returnList + SearchDateCreated(f'{path}/{item}', pattern, recursiveFlag)
+                returnList = returnList + SearchDateCreated(f'{path}/{item}', pattern, recursiveFlag, recDepth+1)
             # If the item is a directory and recursiveFlag is false
             elif (os.path.isdir(f'{path}/{item}') == True):
                 subdirRawCreationTime = time.localtime(os.path.getctime(f'{path}/{item}'))
@@ -31,7 +31,7 @@ def SearchDateCreated(path, pattern, recursiveFlag=False) -> list:
                     returnList.append(FileClass.Directory(f'{path}/{item}'))
             # If the item is a file within the directory
             else:
-                returnList = returnList + SearchDateCreated(f'{path}/{item}', pattern, recursiveFlag)
+                returnList = returnList + SearchDateCreated(f'{path}/{item}', pattern, recursiveFlag, recDepth+1)
     # If file is a file
     else:
         if (TestDateForMatch(creationDate, pattern) == True):
@@ -42,7 +42,7 @@ def SearchDateCreated(path, pattern, recursiveFlag=False) -> list:
 
     return returnList # Necessary return statement
 
-def SearchDateModified(path, pattern, recursiveFlag=False) -> list:
+def SearchDateModified(path, pattern, recursiveFlag=False, recDepth=0) -> list:
     rawModifiedTime = time.localtime(os.path.getmtime(path))
     modifiedTime = [rawModifiedTime.tm_mon, rawModifiedTime.tm_mday, rawModifiedTime.tm_year]
     returnList = []
@@ -51,13 +51,13 @@ def SearchDateModified(path, pattern, recursiveFlag=False) -> list:
     if (os.path.isdir(path)):
         dirlist = os.listdir(path)
         # Test if directory meets criteria
-        if (TestDateForMatch(modifiedTime, pattern)):
+        if (TestDateForMatch(modifiedTime, pattern) and recDepth != 0):
             returnList.append(FileClass.Directory(path))
         # Search files in directory
         for item in dirlist:
             # If item is a directory and recursive flag is true
             if (os.path.isdir(f'{path}/{item}') == True and recursiveFlag == True):
-                returnList = returnList + SearchDateModified(f'{path}/{item}', pattern, recursiveFlag)
+                returnList = returnList + SearchDateModified(f'{path}/{item}', pattern, recursiveFlag, recDepth+1)
             # If the item is a directory and recursiveFlag is false
             elif (os.path.isdir(f'{path}/{item}') == True):
                 subdirRawModifiedTime = time.localtime(os.path.getmtime(f'{path}/{item}'))
@@ -66,7 +66,7 @@ def SearchDateModified(path, pattern, recursiveFlag=False) -> list:
                     returnList.append(FileClass.Directory(f'{path}/{item}'))
             # If the item is a file within the directory
             else:
-                returnList = returnList + SearchDateModified(f'{path}/{item}', pattern, recursiveFlag)
+                returnList = returnList + SearchDateModified(f'{path}/{item}', pattern, recursiveFlag, recDepth+1)
     # If file is a file
     else:
         if (TestDateForMatch(modifiedTime, pattern) == True):
