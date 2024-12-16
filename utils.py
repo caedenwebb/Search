@@ -52,77 +52,77 @@ def CheckDate(date: str):
 
     if (int(date.split('/')[2]) <= 1969):
         print(f'\nError: \'{date}\' is invalid because Search does not support dates prior to 1/1/1970.')
-        sys.exit()
+        return False
     elif (int(date.split('/')[0]) <= 0 or int(date.split('/')[0]) >= 13):
         print(f'\nError: \'{date}\' is not a valid date.')
-        sys.exit()
+        return False
     else:
         # Months other than February
         if (date.split('/')[0] == '1'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of January (1-31).\n')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '3'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of March (1-31).\n')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '4'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 31):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of April (1-30).\n')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '5'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of May (1-31).\n')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '6'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 31):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of June (1-30).\n')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '7'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of July (1-31).\n')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '8'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of August (1-31)\n.')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '9'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 31):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of September (1-30)\n.')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '10'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of October (1-31)\n.')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '11'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 31):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of November (1-30)\n.')
-                sys.exit()
+                return False
         elif (date.split('/')[0] == '12'):
             if (int(date.split('/')[1]) <= 0 or int(date.split('/')[1]) >= 32):
                 print(f'\nError: \'{date}\' is not a valid date because \'{date.split('/')[1]}\' is not in the range of days in the month of December (1-31)\n.')
-                sys.exit()
-        # February
-        else:
-            pass
+                return False
+    return True
+
 def CheckDateRange(firstDate: str, secondDate: str):
     lFirstDate = firstDate.split('/')
     lSecondDate = secondDate.split('/')
     # If the second year is later than the first year
     if (int(lSecondDate[2]) < int(lFirstDate[2])):
         print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
-        sys.exit()
+        return False
     # If the year is the same
     if (int(lSecondDate[2]) == int(lFirstDate[2])):
         # If the second month is later than the first month
         if (int(lSecondDate[0]) < int(lFirstDate[0])):
             print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
-            sys.exit()
+            return False
         # if the second and first month are the same
         if (int(lSecondDate[0]) == int(lFirstDate[0])):
             if (int(lSecondDate[1]) < int(lFirstDate[1])):
                 print(f'\nError: \'{firstDate}-{secondDate}\' is not a valid date-range because \'{secondDate}\' is later than \'{firstDate}\'\n')
-                sys.exit()
+                return False
+    return True
 
 def NumQuicksort(list):
 
