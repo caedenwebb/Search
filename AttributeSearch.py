@@ -92,13 +92,14 @@ def FileNameSearch():
         timeUsed = endTime - startTime
 
         # Print out file list
-        if (SimpleStringOutput == False):
-            FormatOutput.OutputAttributes(filelist, len(filelist), timeUsed)
-        else:
+        if (SimpleStringOutput == True):
             FormatOutput.SimpleStringOutput(filelist)
 
         if (outputToFile == True):
-            FormatOutput.OutputToFile(filelist, outputFilePath)
+            FormatOutput.OutputToFileTable(filelist, outputFilePath)
+
+        if (SimpleStringOutput == False):
+            FormatOutput.OutputAttributes(filelist, len(filelist), timeUsed)
 
     # When the user fails to specify a search pattern
     if (len(sys.argv) == 5 and sys.argv[4] != 'regex' and sys.argv[4] != 'str'):
@@ -219,13 +220,15 @@ def FileSizeSearch():
     timeUsed = endTime - startTime
 
     # Print out file list
+    if (SimpleStringOutput == True):
+        FormatOutput.SimpleStringOutput(res[0])
+    if (outputToFile == True):
+        FormatOutput.OutputToFileTable(res[0], outputFilePath)
+
     if (SimpleStringOutput == False):
         FormatOutput.OutputAttributes(res[0], len(res[0]), timeUsed)
-    else:
-        FormatOutput.SimpleStringOutput(res[0])
 
-    if (outputToFile == True):
-        FormatOutput.OutputToFile(res[0], outputFilePath)
+
 
 def DateCreatedSearch():
     # Check flags
@@ -295,25 +298,16 @@ def DateCreatedSearch():
     duration = endtime - starttime
 
     # Print results
+    if (SimpleStringOutput == True):
+        FormatOutput.SimpleStringOutput(results)
+    if (outputToFile == True):
+        FormatOutput.OutputToFileTable(results, outputFilePath)
     if (SimpleStringOutput == False):
         FormatOutput.OutputAttributes(results, len(results), duration)
-    else:
-        FormatOutput.SimpleStringOutput(results)
-
-    if (outputToFile == True):
-        FormatOutput.OutputToFile(results, outputFilePath)
 
 def DateModifiedSearch():
     # Check flags
     recursiveFlag = False
-    alphabetize = False
-    size = False
-    smallestFirst = True
-    largestFirst = False
-    earliestFirst = True
-    date_created = False
-    date_modified = True
-    latestFirst = False
     outputToFile = False
     SimpleStringOutput = False
     outputFilePath = ''
@@ -342,58 +336,6 @@ def DateModifiedSearch():
                     sys.exit()
             elif (sys.argv[i] == '/str'):
                 SimpleStringOutput = True
-            elif (sys.argv[i] == '/a'):
-                date_created = False
-                date_modified = False
-                alphabetize = True
-                size = False
-            elif (sys.argv[i] == '/ra'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = False
-            elif (sys.argv[i].startswith('/s') and sys.argv[i] != '/str'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = True
-                if (sys.argv[i] == '/s=sf'):
-                    smallestFirst = True
-                    largestFirst = False
-                elif (sys.argv[i] == '/s=lf'):
-                    smallestFirst = False
-                    largestFirst = True
-                else:
-                    print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dc')):
-                date_created = True
-                date_modified = False
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dc=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dc=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dm')):
-                date_created = False
-                date_modified = True
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dm=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dm=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
             else:
                 print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
                 sys.exit()
@@ -436,11 +378,10 @@ def DateModifiedSearch():
     # Print results
     if (SimpleStringOutput == False):
         FormatOutput.OutputAttributes(results, len(results), duration)
-    else:
+    if (SimpleStringOutput == True):
         FormatOutput.SimpleStringOutput(results)
-
     if (outputToFile == True):
-        FormatOutput.OutputToFile(results, outputFilePath)
+        FormatOutput.OutputToFileTable(results, outputFilePath)
 
 
 def AttributeSearchInstructions(tab=''):
@@ -459,7 +400,9 @@ def AttributeSearchInstructions(tab=''):
 
     print(f'{tab}   For File Size Searches:')
     print(f'{tab}       Flags: ')
-    print(f'{tab}          \'/r\' -- recursive, enables recursion through subdirectories of the search directory\n')
+    print(f'{tab}          \'/r\' -- recursive, enables recursion through subdirectories of the search directory')
+    print(f'{tab}          \'/str\' -- Simple String Output')
+    print(f'{tab}          \'/f=[file path]\' -- Output to file where [file path] is replaced by a path to a file\n')
 
     print(f'{tab}   Usage: {sys.argv[0]} -a [directory] file-size [minValue]-[maxValue][units: OPTIONAL]')
     print(f'{tab}       Valid Units for File-Size Searches:')
@@ -475,7 +418,3 @@ def AttributeSearchInstructions(tab=''):
     print(f'{tab}         1. Enter all sets of date ranges separated by semi-colons')
     print(f'{tab}         2. Enter date ranges with the first date covered by the range on the left, and the last date on the right, separated by a \'-\'')
     print()
-    print(f'{tab}      Examples:')
-    print(f'{tab}         1. {sys.argv[0]} -a [directory] date-created "1/2/2015-1/3/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive')
-    print(f'{tab}         2. {sys.argv[0]} -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive, \n{tab}{tab} as well as any files created on January 9, 2016')
-    print(f'{tab}         3. {sys.argv[0]} -a [directory] date-created "1/2/2015-1/3/2016;1/9/2016-1/10/2016" -- identifies all files created between January 2, 2015 and January 3, 2016, inclusive\n{tab}{tab} as well as all files created on January 9, 2016 or January 10, 2016\n')

@@ -44,7 +44,7 @@ def OutputToFileTable(results, path):
 
         # String formatting with the help of: https://docs.python.org/3/library/string.html
         # print(f'{filename:25}| {path:32}| {filesize:15}| {CreationDate:15}| {ModifiedDate:15}|')
-        outputBuffer.append(f'{filename:33} | {path} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}\n')
+        outputBuffer.append(f'{filename:33} | {path:105} | {filesize:<12} bytes | {CreationDate:<14} | {ModifiedDate:<15}\n')
 
     outputFile.writelines(outputBuffer)
     outputFile.close()
