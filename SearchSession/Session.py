@@ -144,14 +144,25 @@ def SessionMain():
                     if (arguments == []):
                         print('Error: No pattern provided.')
                         continue
-                    dateRange = arguments[0]
-                    dateSet = dateRange.split('-')
-                    firstDate = dateSet[0].split('/')
-                    secondDate = dateSet[1].split('/')
+                    try:
+                        dateRange = arguments[0]
+                        dateSet = dateRange.split('-')
+                        firstDate = dateSet[0].split('/')
+                        secondDate = dateSet[1].split('/')
+                        if (utils.CheckDate(dateSet[0]) == False):
+                            continue
+                        if (utils.CheckDate(dateSet[1]) == False):
+                            continue
+                        if (utils.CheckDateRange(dateSet[0], dateSet[1]) == False):
+                            continue
 
-                    # I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
-                    firstDateUnix = int(datetime.datetime(int(firstDate[2]), int(firstDate[0]), int(firstDate[1])).timestamp())
-                    secondDateUnix = int(datetime.datetime(int(secondDate[2]), int(secondDate[0]), int(secondDate[1])).timestamp())
+                        # I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
+                        firstDateUnix = int(datetime.datetime(int(firstDate[2]), int(firstDate[0]), int(firstDate[1])).timestamp())
+                        secondDateUnix = int(datetime.datetime(int(secondDate[2]), int(secondDate[0]), int(secondDate[1])).timestamp())
+
+                    except:
+                        print('Error: Unrecognized error caused exception. Did you type in your arguments in the correct format.')
+                        continue
 
                     start_time = time.time_ns()
                     results = model.rangeSearch(firstDateUnix, secondDateUnix)
@@ -165,16 +176,25 @@ def SessionMain():
                     if (arguments == []):
                         print('Error: No pattern provided.')
                         continue
-                    dateRange = arguments[0]
-                    dateSet = dateRange.split('-')
-                    firstDate = dateSet[0].split('/')
-                    secondDate = dateSet[1].split('/')
+                    try:
+                        dateRange = arguments[0]
+                        dateSet = dateRange.split('-')
+                        firstDate = dateSet[0].split('/')
+                        secondDate = dateSet[1].split('/')
+                        if (utils.CheckDate(dateSet[0]) == False):
+                            continue
+                        if (utils.CheckDate(dateSet[1]) == False):
+                            continue
+                        if (utils.CheckDateRange(dateSet[0], dateSet[1]) == False):
+                            continue
 
-                    # I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
-                    firstDateUnix = int(
-                        datetime.datetime(int(firstDate[2]), int(firstDate[0]), int(firstDate[1])).timestamp())
-                    secondDateUnix = int(
-                        datetime.datetime(int(secondDate[2]), int(secondDate[0]), int(secondDate[1])).timestamp())
+                        # I used this page for help converting times to unixtime: https://docs.python.org/3.12/library/datetime.html#datetime.timestamp
+                        firstDateUnix = int(datetime.datetime(int(firstDate[2]), int(firstDate[0]), int(firstDate[1])).timestamp())
+                        secondDateUnix = int(datetime.datetime(int(secondDate[2]), int(secondDate[0]), int(secondDate[1])).timestamp())
+
+                    except:
+                        print('Error: Unrecognized error caused exception. Did you type in your arguments in the correct format.')
+                        continue
 
                     start_time = time.time_ns()
                     results = model.rangeSearch(firstDateUnix, secondDateUnix)
