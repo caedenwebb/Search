@@ -51,12 +51,6 @@ def AttributeSearch():
 def FileNameSearch():
     # Check flags
     recursiveFlag = False
-    alphabetize = True
-    size = False
-    smallestFirst = True
-    largestFirst = False
-    earliestFirst = True
-    latestFirst = False
     outputToFile = False
     outputFilePath = ''
     SimpleStringOutput = False
@@ -85,58 +79,6 @@ def FileNameSearch():
                     sys.exit()
             elif (sys.argv[i] == '/str'):
                 SimpleStringOutput = True
-            elif (sys.argv[i] == '/a'):
-                date_created = False
-                date_modified = False
-                alphabetize = True
-                size = False
-            elif (sys.argv[i] == '/ra'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = False
-            elif (sys.argv[i].startswith('/s') and sys.argv[i] != '/str'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = True
-                if (sys.argv[i] == '/s=sf'):
-                    smallestFirst = True
-                    largestFirst = False
-                elif (sys.argv[i] == '/s=lf'):
-                    smallestFirst = False
-                    largestFirst = True
-                else:
-                    print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dc')):
-                date_created = True
-                date_modified = False
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dc=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dc=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dm')):
-                date_created = False
-                date_modified = True
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dm=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dm=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
             else:
                 print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
                 sys.exit()
@@ -149,27 +91,6 @@ def FileNameSearch():
         filelist = SearchName.SearchName(sys.argv[2], sys.argv[4], sys.argv[5], recursiveFlag)
         endTime = time.time_ns()
         timeUsed = endTime - startTime
-
-        # Format output
-        if (alphabetize == True):
-            filelist = SortOutput.OrderAToZ(filelist)
-        elif (size == True):
-            if (smallestFirst == True):
-                filelist = SortOutput.SmallestToLargest(filelist)
-            else:
-                filelist = SortOutput.LargestToSmallest(filelist)
-        elif (date_created == True):
-            if (earliestFirst == True):
-                filelist = SortOutput.DCOldestToNewest(filelist)
-            else:
-                filelist = SortOutput.DCNewestToOldest(filelist)
-        elif (date_modified == True):
-            if (earliestFirst == True):
-                filelist = SortOutput.DMOldestToNewest(filelist)
-            else:
-                filelist = SortOutput.DMNewestToOldest(filelist)
-        else:
-            filelist = SortOutput.OrderZToA(filelist)
 
         # Print out file list
         if (SimpleStringOutput == False):
@@ -428,12 +349,15 @@ def DateCreatedSearch():
     for dateSet in dateSets:
         sDateSet = dateSet.split('-')
         if (len(sDateSet) == 1):
-            utils.CheckDate(sDateSet[0])
+            if (utils.CheckDate(sDateSet[0]) == False):
+                sys.exit()
             continue
         firstDate = sDateSet[0]
         lastDate = sDateSet[1]
-        utils.CheckDate(firstDate)
-        utils.CheckDate(lastDate)
+        if (utils.CheckDate(firstDate) == False):
+            sys.exit()
+        if (utils.CheckDate(lastDate) == False):
+            sys.exit()
 
     # Sanity checks on date ranges
     for dateSet in dateSets:
@@ -441,7 +365,8 @@ def DateCreatedSearch():
         if (len(sDateSet) == 1):
             continue
         else:
-            utils.CheckDateRange(sDateSet[0], sDateSet[1])
+            if utils.CheckDateRange(sDateSet[0], sDateSet[1]) == False:
+                sys.exit()
 
     # Execute search on date ranges
     starttime = time.time_ns()
@@ -451,8 +376,6 @@ def DateCreatedSearch():
 
     if (outputToFile == False and SimpleStringOutput == False):
         FormatOutput.OutputAttributes(results, len(results), duration)
-        print(len(results))
-        print(duration)
     elif (SimpleStringOutput == True):
         for item in results:
             print(item.filename)
@@ -563,12 +486,15 @@ def DateModifiedSearch():
     for dateSet in dateSets:
         sDateSet = dateSet.split('-')
         if (len(sDateSet) == 1):
-            utils.CheckDate(sDateSet[0])
+            if (utils.CheckDate(sDateSet[0]) == False):
+                sys.exit()
             continue
         firstDate = sDateSet[0]
         lastDate = sDateSet[1]
-        utils.CheckDate(firstDate)
-        utils.CheckDate(lastDate)
+        if (utils.CheckDate(firstDate) == False):
+            sys.exit()
+        if (utils.CheckDate(lastDate) == False):
+            sys.exit()
 
     # Sanity checks on date ranges
     for dateSet in dateSets:
@@ -576,7 +502,8 @@ def DateModifiedSearch():
         if (len(sDateSet) == 1):
             continue
         else:
-            utils.CheckDateRange(sDateSet[0], sDateSet[1])
+            if (utils.CheckDateRange(sDateSet[0], sDateSet[1]) == False):
+                sys.exit()
 
     # Execute search on date ranges
     starttime = time.time_ns()
@@ -586,8 +513,6 @@ def DateModifiedSearch():
 
     if (outputToFile == False and SimpleStringOutput == False):
         FormatOutput.OutputAttributes(results, len(results), duration)
-        print(len(results))
-        print(duration)
     elif (SimpleStringOutput == True):
         for item in results:
             print(item.filename)
