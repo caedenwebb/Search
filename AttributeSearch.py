@@ -7,7 +7,6 @@ import time
 import SearchDate
 import SearchName
 import SearchFileSize
-import SortOutput
 import utils
 import FormatOutput
 
@@ -110,14 +109,6 @@ def FileNameSearch():
 def FileSizeSearch():
     # Check flags
     recursiveFlag = False
-    alphabetize = False
-    size = True
-    smallestFirst = True
-    largestFirst = False
-    earliestFirst = True
-    latestFirst = False
-    date_created = False
-    date_modified = False
     outputToFile = False
     SimpleStringOutput = False
     outputFilePath = ''
@@ -143,61 +134,6 @@ def FileSizeSearch():
                         outputFilePath = outputFileFlag[1]
                 else:
                     print('Error: No output file path provided.')
-                    sys.exit()
-            elif (sys.argv[i] == '/str'):
-                SimpleStringOutput = True
-            elif (sys.argv[i] == '/a'):
-                date_created = False
-                date_modified = False
-                alphabetize = True
-                size = False
-            elif (sys.argv[i] == '/ra'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = False
-            elif (sys.argv[i].startswith('/s') and sys.argv[i] != '/str'):
-                date_created = False
-                date_modified = False
-                alphabetize = False
-                size = True
-                if (sys.argv[i] == '/s=sf'):
-                    smallestFirst = True
-                    largestFirst = False
-                elif (sys.argv[i] == '/s=lf'):
-                    smallestFirst = False
-                    largestFirst = True
-                else:
-                    print('Error: Failure to specify order (smallest to largest or largest to smallest). Should be specified as follows: /s=sf or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dc')):
-                date_created = True
-                date_modified = False
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dc=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dc=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print(
-                        'Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
-                    sys.exit()
-            elif (sys.argv[i].startswith('/dm')):
-                date_created = False
-                date_modified = True
-                alphabetize = False
-                size = False
-                if (sys.argv[i] == '/dm=ef'):
-                    earliestFirst = True
-                    latestFirst = False
-                elif (sys.argv[i] == '/dm=lf'):
-                    latestFirst = True
-                    earliestFirst = False
-                else:
-                    print('Error: Failure to specify order (earliest first or latest first). Should be specified as follows: /s=ef or /s=lf')
                     sys.exit()
             else:
                 print(f'Error: Flag \'{sys.argv[i]}\' is not recognized.')
@@ -282,30 +218,14 @@ def FileSizeSearch():
     endTime = time.time_ns()
     timeUsed = endTime - startTime
 
-    # Sort Output
-    # Format output
-    if (alphabetize == True):
-        res = SortOutput.OrderAToZ(res)
-    elif (size == True):
-        if (smallestFirst == True):
-            res[0] = SortOutput.SmallestToLargest(res[0])
-        else:
-            res[0] = SortOutput.LargestToSmallest(res[0])
-    elif (date_created == True):
-        if (earliestFirst == True):
-            res[0] = SortOutput.DCOldestToNewest(res[0])
-        else:
-            res[0] = SortOutput.DCNewestToOldest(res[0])
-    elif (date_modified == True):
-        if (earliestFirst == True):
-            res[0] = SortOutput.DMOldestToNewest(res[0])
-        else:
-            res[0] = SortOutput.DMNewestToOldest(res[0])
-    else:
-        res[0] = SortOutput.OrderZToA(res[0])
-
     # Print out file list
-    FormatOutput.OutputAttributes(res[0], len(res[0]), timeUsed)
+    if (SimpleStringOutput == False):
+        FormatOutput.OutputAttributes(res[0], len(res[0]), timeUsed)
+    else:
+        FormatOutput.SimpleStringOutput(res[0])
+
+    if (outputToFile == True):
+        FormatOutput.OutputToFile(res[0], outputFilePath)
 
 def DateCreatedSearch():
     # Check flags
@@ -374,13 +294,15 @@ def DateCreatedSearch():
     endtime = time.time_ns()
     duration = endtime - starttime
 
-    if (outputToFile == False and SimpleStringOutput == False):
+    # Print results
+    if (SimpleStringOutput == False):
         FormatOutput.OutputAttributes(results, len(results), duration)
-    elif (SimpleStringOutput == True):
-        for item in results:
-            print(item.filename)
-    elif (outputToFile == True):
-        FormatOutput.OutputToFileTable(results, outputFilePath)
+    else:
+        FormatOutput.SimpleStringOutput(results)
+
+    if (outputToFile == True):
+        FormatOutput.OutputToFile(results, outputFilePath)
+
 def DateModifiedSearch():
     # Check flags
     recursiveFlag = False
@@ -511,13 +433,14 @@ def DateModifiedSearch():
     endtime = time.time_ns()
     duration = endtime - starttime
 
-    if (outputToFile == False and SimpleStringOutput == False):
+    # Print results
+    if (SimpleStringOutput == False):
         FormatOutput.OutputAttributes(results, len(results), duration)
-    elif (SimpleStringOutput == True):
-        for item in results:
-            print(item.filename)
-    elif (outputToFile == True):
-        FormatOutput.OutputToFileTable(results, outputFilePath)
+    else:
+        FormatOutput.SimpleStringOutput(results)
+
+    if (outputToFile == True):
+        FormatOutput.OutputToFile(results, outputFilePath)
 
 
 def AttributeSearchInstructions(tab=''):
