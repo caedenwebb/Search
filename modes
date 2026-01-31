@@ -1,8 +1,0 @@
-Search modes:
-
-    1. Attribute mode (Search attributes of files and directories in a given directory)
-    2. File content mode (Search contents of a given file)
-
-Operation modes:
-    1. Graphics mode (gfxsearch)
-    2. Command mode (search or cmdsearch)
