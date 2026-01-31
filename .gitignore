@@ -7,3 +7,5 @@ __pycache__/
 example search for date-created.txt
 testdatafiles/
 ignore/
+.gitattributes
+.gitignore
