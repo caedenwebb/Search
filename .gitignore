@@ -6,3 +6,4 @@ dist/
 __pycache__/
 example search for date-created.txt
 testdatafiles/
+ignore/
